@@ -5,7 +5,8 @@ from tango_disco.models import Recording
 class Performer(models.Model):
 	firstName = models.CharField(max_length=30)
 	lastName = models.CharField(max_length=30)
-	code = models.CharField(max_length=10, null=True, blank=True)
+	simplifiedName = models.CharField(max_length=60)
+	code = models.CharField(max_length=10, null=True, blank=True, unique=True)
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		return self.firstName +' '+ self.lastName
@@ -41,7 +42,7 @@ class Performance(models.Model):
     )
 	couples = models.ManyToManyField(Couple)
 	recordings = models.ManyToManyField(Recording, null=True, blank=True)
-	youtubeId = models.CharField(max_length=30)
+	youtubeId = models.CharField(max_length=30, unique=True)
 	event = models.ForeignKey(DanceEvent, null=True, blank=True)
 	performance_type = models.CharField(max_length=1, choices=PERFORMANCE_TYPES)
 	performance_date = models.DateField(null=True, blank=True)

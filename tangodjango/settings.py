@@ -61,17 +61,17 @@ WSGI_APPLICATION = 'tangodjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'tangovideoindex',
-#         'USER': 'tvi_user',
-#         'PASSWORD': '123456789a',
-#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-#         'PORT': '5432',
-#     }
+DATABASES = {
+   'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'tangovideoindex',
+        'USER': 'tvi_user',
+        'PASSWORD': '123456789a',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '5432',
+    }
 
-# }
+}
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -98,7 +98,7 @@ USE_TZ = True
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+#DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
