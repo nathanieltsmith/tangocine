@@ -47,7 +47,7 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -61,13 +61,26 @@ WSGI_APPLICATION = 'tangodjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# DATABASES = {
+#    'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'tangovideoindex',
+#         'USER': 'tvi_user',
+#         'PASSWORD': '123456789a',
+#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#         'PORT': '5432',
+#     }
+
+# }
+
+
 DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tangovideoindex',
-        'USER': 'tvi_user',
-        'PASSWORD': '123456789a',
-        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'NAME': 'da8bcb54r4dm8m',
+        'USER': 'sffubtwptonnbx',
+        'PASSWORD': 'W24O03Ys-56WCv2pePoDYvA-3D',
+        'HOST': 'ec2-184-72-238-68.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
         'PORT': '5432',
     }
 
@@ -97,7 +110,7 @@ USE_L10N = True
 USE_TZ = True
 
 # Parse database configuration from $DATABASE_URL
-import dj_database_url
+#import dj_database_url
 #DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
