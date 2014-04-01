@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'tangodjango.wsgi.application'
 DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        # 'NAME': 'da8bcb54r4dm8m',
-        # 'USER': 'sffubtwptonnbx',
-        # 'PASSWORD': 'W24O03Ys-56WCv2pePoDYvA-3D',
-        # 'HOST': 'ec2-184-72-238-68.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
-        # 'PORT': '5432',
+        'NAME': 'da8bcb54r4dm8m',
+        'USER': 'sffubtwptonnbx',
+        'PASSWORD': 'W24O03Ys-56WCv2pePoDYvA-3D',
+        'HOST': 'ec2-184-72-238-68.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'PORT': '5432',
     }
 
 }
@@ -112,7 +112,7 @@ USE_TZ = True
 # Parse database configuration from $DATABASE_URL
 #import dj_database_url
 import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
+#DATABASES['default'] =  dj_database_url.config()
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
