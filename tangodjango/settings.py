@@ -37,8 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'south',
-    'tango_disco',
-   'tango_perfs',
+    #'tango_disco',
+   #'tango_perfs',
      'grappelli',
    #'autocomplete_light',
    'foundation'
