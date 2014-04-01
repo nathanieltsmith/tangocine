@@ -4,12 +4,38 @@ from tango_disco.models import Recording
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from random import shuffle
+from unidecode import unidecode
 
 # Create your views here.
 from django.http import HttpResponse
 
 def index(request):
+	performer1= [request.GET.get('performer1')] if isinstance(request.GET.get('performer1'), basestring) else request.GET.getlist('performer1')
+	performer2= [request.GET.get('performer2')] if isinstance(request.GET.get('performer2'), basestring) else request.GET.getlist('performer2')
+	genres = [request.GET.get('genre')] if isinstance(request.GET.get('genre'), basestring) else request.GET.get('genre')
+	orchestra_leaders = [request.GET.get('orc')] if isinstance(request.GET.get('orc'), basestring) else request.GET.get('orc')
+	songs = [request.GET.get('song')] if isinstance(request.GET.get('song'), basestring) else request.GET.get('song')
+
 	latest_perf_list = Performance.objects.order_by('-created_date')
+	performers = performer1+performer2
+	if (performers):
+		for performer in performers:
+			print performer + '!!'
+			if (performer):
+				latest_perf_list = latest_perf_list.filter(couples__performers__simplifiedName__startswith=unidecode(performer).lower())
+	if (genres):
+		for genre in genres:
+			if (genre):
+				latest_perf_list = latest_perf_list.filter(recordings__genre__name=genre)
+	if (orchestra_leaders):
+		for leader in orchestra_leaders:
+			if (leader):
+				latest_perf_list = latest_perf_list.filter(recordings__orchestra__ocode=leader)
+	if (songs):
+		for song in songs:
+			if (song):
+				latest_perf_list = latest_perf_list.filter(recordings__song__id=song)
+
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	paginator = Paginator(latest_perf_list, 10)
 	page = request.GET.get('page')
@@ -66,7 +92,7 @@ def getPerformer(firstName, lastName):
 		return p[0]
 	else:
 		code = firstName.replace(" ", "") + lastName[0]
-		p = Performer(firstName=firstName, lastName=lastName, code=code.lower()[:10])
+		p = Performer(firstName=firstName, lastName=lastName, code=unidecode(code).lower()[:10])
 		p.save()
 		return p
 

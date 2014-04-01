@@ -5,11 +5,23 @@ from tango_disco.models import Recording
 class Performer(models.Model):
 	firstName = models.CharField(max_length=30)
 	lastName = models.CharField(max_length=30)
-	simplifiedName = models.CharField(max_length=60)
+	simplifiedName = models.CharField(max_length=60, null=True, blank=True)
 	code = models.CharField(max_length=10, null=True, blank=True, unique=True)
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		return self.firstName +' '+ self.lastName
+
+	def merge(self, performer):
+		for couple in Couple.objects.filter(performers=performer):
+			couple.performers.remove(performer)
+			couple.performers.add(self)
+			couple.save()
+			performer.delete()
+
+	# def save(self, *args, **kwargs):
+	# 	do_something()
+	# 	super(Performer, self).save(*args, **kwargs) # Call the "real" save() method.
+	# 	do_something_else()
 
 class Couple(models.Model):
 	performers = models.ManyToManyField(Performer)

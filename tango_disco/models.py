@@ -3,6 +3,7 @@ from django.db import models
 class Musician(models.Model):
 	firstName = models.CharField(max_length=200)
 	lastName = models.CharField(max_length=200)
+	simplifiedName = models.CharField(max_length=400, null=True, blank=True)
 
 	def __unicode__(self):
 		return self.lastName + ', ' + self.firstName
@@ -28,11 +29,19 @@ class Genre(models.Model):
 # Create your models here.
 class Song(models.Model):
 	title = models.CharField(max_length=300, unique=True)
+	simplifiedTitle = models.CharField(max_length=300, unique=True, null=True, blank=True)
 	composer = models.ManyToManyField(Musician, null=True, blank=True)
 	lyricist = models.ManyToManyField(Musician,related_name='composer', null=True, blank=True)
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		return self.title
+
+	def merge(self, song):
+		for recording in Recording.objects.filter(song=song):
+			recording.song = song
+			recording.save()
+			song.delete()
+
 
 class Orchestra(models.Model):
 	leader = models.ForeignKey(Musician)
