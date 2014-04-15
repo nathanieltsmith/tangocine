@@ -1,4 +1,5 @@
 from django.db import models
+from unidecode import unidecode
 
 class Musician(models.Model):
 	firstName = models.CharField(max_length=200)
@@ -41,6 +42,10 @@ class Song(models.Model):
 			recording.song = song
 			recording.save()
 			song.delete()
+	def save(self, *args, **kwargs):
+		self.simplifiedTitle = unidecode(self.title).lower()
+		super(Song, self).save(*args, **kwargs) # Call the "real" save() method.
+		
 
 
 class Orchestra(models.Model):
@@ -50,6 +55,14 @@ class Orchestra(models.Model):
 	def __unicode__(self):              # __unicode__ on Python 2
 		return self.name
 
+	def performanceCount(self):
+		from tango_perfs.models import Performance
+		return len(Performance.objects.filter(recordings__orchestra=self))
+
+	performanceCount.number = True
+	performanceCount.short_description = 'Total Performances'
+
+
 class Recording(models.Model):
 	song = models.ForeignKey(Song)
 	orchestra = models.ForeignKey(Orchestra)
@@ -58,9 +71,14 @@ class Recording(models.Model):
 	recorded = models.DateField(null=True, blank = True)
 	discNo = models.CharField(max_length=20, null=True, blank=True)
 	matrixNo = models.CharField(max_length=20, null=True, blank=True)
+	itunesId = models.CharField(max_length=100, null=True, blank=True)
 
 	def __unicode__(self):              # __unicode__ on Python 2
-		return self.song.title + ' (' + self.orchestra.name + ', ' + self.recorded.strftime('%Y') + ')'
+		try:
+			return self.song.title + ' (' + self.orchestra.name + ', ' + self.recorded.strftime('%Y') + ')'
+		except Exception, e:
+			return self.song.title + ' (' + self.orchestra.name + ')'
+		
 
 class PlayedOn(models.Model):
 	musician = models.ForeignKey(Musician)

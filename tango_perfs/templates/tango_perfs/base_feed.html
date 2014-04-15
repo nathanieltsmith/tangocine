@@ -1,0 +1,446 @@
+{% load static %}
+{% load foundation_tags %}
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %}{% endblock meta %}
+    {% block base_title %}
+    <title>{% block title %}Tango Cine | Argentine Tango Videos and Performances{% endblock title %}</title>
+    {% endblock base_title %}
+
+    {# Base Foundation CSS #}
+    {% block foundation_css %}
+    {% foundation_css "normalize" %}
+    {% foundation_css "foundation.min" %}
+    {% endblock foundation_css %}  
+    
+    {# Custom CSS #}
+    {% block css %}{% endblock css %}
+
+    {# Override if you need another version of modernizr #}
+    {% block foundation_modernizer %}
+    {% foundation_vendor "modernizr" %}
+    {% endblock foundation_modernizer %}
+
+    {# Custom head JS #}
+    {% block head_js %}{% endblock head_js %}
+<style>
+.image { 
+   position: relative; 
+   width: 100%;  for IE 6 
+   padding-bottom:25px;
+}
+img.ytthumb {
+  height:360px;
+  width:480px;
+}
+img.side-profile-link {
+  height:100px;
+  width:100px;
+}
+h3 { 
+   position: absolute; 
+   top: 200px; 
+   left: 0; 
+   width: 100%; 
+}
+
+
+h3 span { 
+   color: white; 
+   font: bold 24px/45px Helvetica, Sans-Serif; 
+   letter-spacing: -1px;  
+   background: rgb(0, 0, 0); /* fallback color */
+   background: rgba(0, 0, 0, 0.7);
+   padding: 10px; 
+}
+h3 span.spacer {
+   padding:0 5px;
+}
+
+.image h5 { 
+  
+   top: 0px; 
+   left: 0; 
+   width: 100%; 
+}
+
+.top-bar .name h1 a {
+font-weight: normal;
+color: #fff;
+width: 100%;
+display: block;
+padding: 0 20px;
+font-size: 40px;
+}
+
+.top-bar {
+  padding-bottom: 32px;
+  padding-top:0px;
+}
+.image h5 span { 
+    color: #fff !important;
+    font-size: 13px;
+    font-style: italic;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 9px;
+    background-color: rgba(103,103,103,0.6);
+    display: block;
+    width: 100px !important;
+    line-height: 18px;
+}
+
+.website-title h1{
+    padding-left: 3%;
+    padding-top: 2%;
+}
+
+.content {
+  padding-top: 50px;
+}
+
+#ac-container {
+    display: block; 
+    position:relative
+} 
+.ui-autocomplete {
+    position: absolute;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px; height: 0; overflow: hidden;
+}
+ 
+.video-container iframe,
+.video-container object,
+.video-container embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.event-page-title h2{
+    text-align: center;
+}
+</style>
+
+</head>
+
+<body {% block body_attr %}{% endblock body_attr %}>
+
+    {# Main content goes here #}
+    {% block base_body %}{% endblock base_body %}
+<div class="fixed">
+<nav class="top-bar" data-topbar>
+  <ul class="title-area">
+    <li class="name">
+      <h1><a href="/">Tango Cine</a></h1>
+    </li>
+    <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+  </ul>
+
+  <section class="top-bar-section">
+    <!-- Right Nav Section -->
+    <ul class="left">
+      <li id='search-button'><a href='#'>Search</a></li>
+      <li class="has-dropdown">
+        <a href="#">Add Videos</a>
+        <ul class="dropdown">
+          <li><a href="#">From Youtube</a></li>
+          <li><a href="#">Upload</a></li>
+        </ul>
+      </li>
+    </ul>
+
+    <!-- Left Nav Section -->
+    <ul class="right">
+      {% if not user.is_authenticated %}
+<li><a href="{% url 'signup' %}" class="btn btn-default navbar-btn">Register</a></li>
+<li><a href="{% url 'login' %}" class="btn btn-default navbar-btn">Login</a></li>
+{% else %}
+<li><a href="{% url 'logout' %}" class="btn btn-default navbar-btn">Logout</a></li>
+{% endif %}
+<!--       <li><a href="/accounts/login">Login/Create Account</a></li>
+      <li><a href="{% url 'avatar_change' %}">Change your avatar</a></li> -->
+    </ul>
+  </section>
+</nav>
+    <!-- Header and Nav -->
+
+  <div class="row">
+<div class="large-12 panel columns search-panel" style="display:none">
+        <form method="get" action="/prefilter" accept-charset="UTF-8">
+  <div class="large-6 columns">
+    <div class="row">
+      <div class="large-6 columns">Dancer: <input type="text" name="performer1"></div>
+      <div class="large-6 columns">Dancing with: <input type="text" name="performer2"></div>
+    </div>
+    <div class="row">
+      <div class="large-6 columns">Orchestra: 
+          <select name="orc">
+            <option value = "">All Orchestras</option>  
+            <option value="biagi">Biagi</option>
+            <option value="calo">Calo</option>
+            <option value="canaro">Canaro</option>
+            <option value="darienzo">D'Agostino</option>
+            <option value="darienzo">D'Arienzo</option>
+            <option value="deangelis">De Angelis</option>
+            <option value="decaro">De Caro</option>
+            <option value="demare">Demare</option>
+            <option value="disarli">Di Sarli</option>
+            <option value="donato">Donato</option>
+            <option value="fresedo">Fresedo</option>
+            <option value="gobbi">Gobbi</option>
+            <option value="laurenz">Laurenz</option>
+            <option value="lomuto">Lomuto</option>
+            <option value="malerba">Malerba</option>
+            <option value="pugliese">Pugliese</option>
+            <option value="tanturi">Tanturi</option>
+            <option value="troilo">Troilo</option>
+            <option value="varel">Varela</option>
+        </select>
+      </div>
+      <div class="large-6 columns">
+        Genre:
+        <select name="genre">
+           <option value = "">All</option>  
+          <option value="Tango">Tango</option>
+          <option value="Milonga">Milonga</option>
+          <option value="Vals">Vals</option>
+        </select>
+      </div>
+    </div>
+
+</div>
+<div class="large-6 column">
+<div class="row">
+  <div class="large-6 columns">
+     <div class="ui-widget ui-front">
+        <label for="song">Song: </label>
+      <input name="song" id="song">
+      <div id='ac-container'></div>
+  </div>
+  </div>
+  <div class="large-6 columns">Sort by: 
+    <select name="sort">
+      <option value="-hotness">Trending</option>
+      <option value="-youtubeUploadDate">Newest to Youtube</option>
+      <option value="-created_date">Newest to TVI</option>
+      <option value="-totalViews">Most Viewed</option>
+      <option value="?">Random</option>
+    </select>
+  </div>
+</div>
+
+<div class="row">
+  <div class="large-2 columns">
+    <input type="submit" class='radius button' value="Filter" >
+  </div>
+</div>
+</div>
+</form>
+
+</div>
+  </div>
+  </div>
+  <!-- End Header and Nav -->
+
+  <div class="content">
+  {% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="alert-box alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+  <div class="large-12">{% block info_panel %}{% endblock %}</div>
+  <div class="row">
+ <!-- Nav Sidebar -->
+    <!-- This is source ordered to be pulled to the left on larger screens -->
+
+    <div class="large-3 medium-3 columns hide-for-small">
+   
+{% block left_sidebar %}
+  {% if events %}
+    <div class="row">
+      <div class="panel">
+
+        <h4>Recent Events</h4>
+          <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
+                {% for event in events %}
+          <section class="section">
+            <h5 class="title"><a href="/event/{{event.id}}">{{event.name}}</a></h5>
+          </section>
+    {% endfor %}
+        </div>
+ 
+      </div>
+    </div>
+    {% endif %}
+      {% if performers %}
+   <div class="row">
+
+  
+  
+    <h4><center>Popular Performers</center></h4>
+    {% for performer in performers %}
+     <div class="large-6 medium-12 hide-for-small columns"><div class='image'><a href="/performer/{{performer.code}}"><img class='side-profile-link' src="http://www.edrants.com/wp-content/uploads/2009/09/placeholder.jpg"><h5><span>{{performer.firstName}} {{performer.lastName}}</span></h5></a></div></div>
+    {% endfor %}
+
+
+</div>
+{% endif %}
+    </div>
+    {% endblock %}
+    <!-- Main Feed -->
+    <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
+
+    <div class="large-6 medium-7 columns">
+ {% block feed %}
+      <!-- Feed Entry -->
+{% if perf_list %}
+
+    {% for perf in perf_list %}
+      <div class="row">
+  
+        <div class="large-12 columns">
+<div class="image">
+<a href="/p/{{perf.youtubeId}}">
+   <h3>  <span> {{perf.couples.first}} <span class='spacer'></span><br><span class='spacer'></span>
+     dance to {{perf.recordings.first.song.title}}</span></h3>
+      <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/{{perf.youtubeId}}" frameborder="0" allowfullscreen></iframe> -->
+        <img class="ytthumb" src="{{perf.thumbnailUrl}}"></a>
+</div>
+        </div>
+      </div>
+          {% endfor %}
+              <div class="pagination  large-8 columns">
+    <span class="step-links">
+        {% if perf_list.has_previous %}
+            <a href="?page={{ latest_perf_list.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ perf_list.number }} of {{ perf_list.paginator.num_pages }}.
+        </span>
+
+        {% if perf_list.has_next %}
+            <a href="?page={{ latest_perf_list.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+  </div>
+
+{% else %}
+    <p>No Performances are available.</p>
+{% endif %}
+      <!-- End Feed Entry -->
+ 
+
+ 
+
+     {% endblock %}
+
+         </div>
+    <!-- Right Sidebar -->
+    <!-- On small devices this column is hidden -->
+    <aside class="large-3 medium-2 columns hide-for-small">
+  {% block right_sidebar %}
+      <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
+      <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
+  {% endblock %} 
+    </aside>
+ 
+  </div>
+</div> <!-- Content -->
+ 
+
+  <!-- Footer -->
+ 
+  <footer class="row">
+    <div class="large-12 columns">
+      <hr />
+      <div class="row">
+        <div class="large-5 columns">
+          <p>© Copyright no one at all. Go to town.</p>
+        </div>
+        <div class="large-7 columns">
+          <ul class="inline-list right">
+            <li><a href="#">Section 1</a></li>
+            <li><a href="#">Section 2</a></li>
+            <li><a href="#">Section 3</a></li>
+            <li><a href="#">Section 4</a></li>
+            <li><a href="#">Section 5</a></li>
+            <li><a href="#">Section 6</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+  </footer>
+
+
+    {# Override if you need another version of jQuery #}
+    {% block foundation_jquery %}
+    {% foundation_vendor "jquery" %}
+    {% endblock foundation_jquery %}
+
+    {# Foundation JS #}
+    {% block foundation_js %}
+    {% foundation_js %}
+    {% endblock foundation_js %}
+
+    {# Custom JS #}
+    {% block body_js %}{% endblock body_js %}
+
+    {# Init Foundation #}
+    {% block foundation_js_init %}
+    <script>
+        $(document).foundation();
+    </script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+    <script>
+      $(document).ready(function(){
+
+        $( "#search-button" ).click(function() {
+          event.preventDefault();
+          if ($( "#search-button" ).hasClass('active')){
+             $(".search-panel").slideUp();
+          } else {
+            $(".search-panel").slideDown();
+          }
+          $( "#search-button" ).toggleClass( 'active' )
+        
+         
+
+      });
+    });
+
+    $(function() {
+      $("#song").autocomplete({
+        appendTo: "#ac-container",    
+        source: "/api/get_songs/",
+        minLength: 2,
+      });
+    });
+
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-50017440-1', 'tangocine.com');
+  ga('send', 'pageview');
+
+  </script>
+    {% endblock foundation_js_init %}
+</body>
+</html>

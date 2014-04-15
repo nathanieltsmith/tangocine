@@ -1,0 +1,17 @@
+{% extends "tango_perfs/base_feed.html" %}
+{% block title %}{{ viewedEvent.name }} {{perf.couples.first}} dance to {{perf.recordings.first}} on Tango Cine | Argentine Tango Videos{% endblock %}
+
+{% block info_panel%}
+<div class="event-page-title"><h2>{{perf.couples.first}} dance to {{perf.recordings.first}}</h2></div>
+{% endblock %}
+
+{% block feed %}
+      <div class="row">
+  
+        <div class="large-12 columns">
+        <div class="video-container">
+        <iframe width="560" height="315" src="//www.youtube.com/embed/{{perf.youtubeId}}" frameborder="0" allowfullscreen></iframe> 
+        </div>
+        </div>
+      </div>
+{% endblock %}

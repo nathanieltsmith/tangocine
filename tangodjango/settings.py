@@ -17,7 +17,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'l!r_l*m=8ra!&)0hcigvb6i(lelaalee*8vdu2!4352ij^3guq'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,13 +41,18 @@ INSTALLED_APPS = (
    'tango_perfs',
      'grappelli',
    #'autocomplete_light',
-   'foundation'
+   'foundation',
+   'avatar',
+   'crispy_forms',
+   'crispy_forms_foundation',
+   'braces'
+   #'avatar_crop'
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+   # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -61,30 +66,30 @@ WSGI_APPLICATION = 'tangodjango.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
-# DATABASES = {
-#    'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'tangovideoindex',
-#         'USER': 'tvi_user',
-#         'PASSWORD': '123456789a',
-#         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-#         'PORT': '5432',
-#     }
-
-# }
-
-
 DATABASES = {
    'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'da8bcb54r4dm8m',
-        'USER': 'sffubtwptonnbx',
-        'PASSWORD': 'W24O03Ys-56WCv2pePoDYvA-3D',
-        'HOST': 'ec2-184-72-238-68.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
+        'NAME': 'tangovideoindex',
+        'USER': 'tvi_user',
+        'PASSWORD': '123456789a',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
         'PORT': '5432',
     }
 
 }
+
+
+# DATABASES = {
+#    'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'da8bcb54r4dm8m',
+#         'USER': 'sffubtwptonnbx',
+#         'PASSWORD': 'W24O03Ys-56WCv2pePoDYvA-3D',
+#         'HOST': 'ec2-184-72-238-68.compute-1.amazonaws.com',   # Or an IP Address that your DB is hosted on
+#         'PORT': '5432',
+#     }
+
+# }
 
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -94,6 +99,7 @@ STATICFILES_FINDERS = (
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages",
 )
 
 # Internationalization
@@ -120,12 +126,20 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Allow all host headers
 ALLOWED_HOSTS = ['*']
 
+CRISPY_TEMPLATE_PACK = 'foundation-5'
+
 # Static asset configuration
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
+MEDIA_ROOT = 'tangodjango/media/'
+MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
+AVATAR_STORAGE_DIR = 'avatars/'
+AVATAR_CROP_MIN_SIZE = 8
+AUTO_GENERATE_AVATAR_SIZES = 100
+

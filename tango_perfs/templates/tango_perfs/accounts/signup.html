@@ -1,0 +1,10 @@
+{% extends "tango_perfs/base_feed.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Register | {{ block.super }}{% endblock %}
+{% block info_panel%}
+<div class="event-page-title"><h2>Create an account</h2></div>
+{% endblock %}
+
+{% block feed %}
+{% crispy form %}
+{% endblock %}
