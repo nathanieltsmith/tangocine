@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block meta %}{% endblock meta %}
     {% block base_title %}
-    <title>{% block title %}Tango Cine | Argentine Tango Videos and Performances{% endblock title %}</title>
+    <title>{% block title %}Tango Video Index|Argentine Tango Videos and Performances{% endblock title %}</title>
     {% endblock base_title %}
 
     {# Base Foundation CSS #}
@@ -26,7 +26,7 @@
 
     {# Custom head JS #}
     {% block head_js %}{% endblock head_js %}
-<style>
+  <style>
 .image { 
    position: relative; 
    width: 100%;  for IE 6 
@@ -110,31 +110,11 @@ font-size: 40px;
 .ui-autocomplete {
     position: absolute;
 }
-
-.video-container {
-    position: relative;
-    padding-bottom: 56.25%;
-    padding-top: 30px; height: 0; overflow: hidden;
-}
- 
-.video-container iframe,
-.video-container object,
-.video-container embed {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-.event-page-title h2{
-    text-align: center;
-}
 </style>
 
 </head>
 
 <body {% block body_attr %}{% endblock body_attr %}>
-
     {# Main content goes here #}
     {% block base_body %}{% endblock base_body %}
 <div class="fixed">
@@ -153,22 +133,15 @@ font-size: 40px;
       <li class="has-dropdown">
         <a href="#">Add Videos</a>
         <ul class="dropdown">
-          <li><a href="#">From Youtube (Coming soon...)</a></li>
-          <li><a href="#">Upload (Coming soon...)</a></li>
+          <li><a href="#">From Youtube</a></li>
+          <li><a href="#">Upload</a></li>
         </ul>
       </li>
     </ul>
 
     <!-- Left Nav Section -->
     <ul class="right">
-      {% if not user.is_authenticated %}
-<li><a href="{% url 'signup' %}" class="btn btn-default navbar-btn">Register</a></li>
-<li><a href="{% url 'login' %}" class="btn btn-default navbar-btn">Login</a></li>
-{% else %}
-<li><a href="{% url 'logout' %}" class="btn btn-default navbar-btn">Logout</a></li>
-{% endif %}
-<!--       <li><a href="/accounts/login">Login/Create Account</a></li>
-      <li><a href="{% url 'avatar_change' %}">Change your avatar</a></li> -->
+      <li><a href="#">Login/Create Account</a></li>
     </ul>
   </section>
 </nav>
@@ -253,22 +226,14 @@ font-size: 40px;
   <!-- End Header and Nav -->
 
   <div class="content">
-  {% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="alert-box alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
   <div class="large-12">{% block info_panel %}{% endblock %}</div>
   <div class="row">
  <!-- Nav Sidebar -->
     <!-- This is source ordered to be pulled to the left on larger screens -->
 
-    <div class="large-3 medium-3 columns hide-for-small">
+    <div class="large-3 medium-3 columns ">
    
-{% block left_sidebar %}
-  {% if events %}
+{% block right_sidebar %}
     <div class="row">
       <div class="panel">
 
@@ -283,20 +248,21 @@ font-size: 40px;
  
       </div>
     </div>
-    {% endif %}
-      {% if performers %}
    <div class="row">
 
-  
+    {% if performers %}
   
     <h4><center>Popular Performers</center></h4>
     {% for performer in performers %}
      <div class="large-6 medium-12 hide-for-small columns"><div class='image'><a href="/performer/{{performer.code}}"><img class='side-profile-link' src="http://www.edrants.com/wp-content/uploads/2009/09/placeholder.jpg"><h5><span>{{performer.firstName}} {{performer.lastName}}</span></h5></a></div></div>
     {% endfor %}
-
+   
+{% else %}
+    <p>No Performers are available.</p>
+{% endif %}
 
 </div>
-{% endif %}
+
     </div>
     {% endblock %}
     <!-- Main Feed -->
@@ -321,22 +287,6 @@ font-size: 40px;
         </div>
       </div>
           {% endfor %}
-              <div class="pagination  large-8 columns">
-    <span class="step-links">
-        {% if perf_list.has_previous %}
-            <a href="?page={{ latest_perf_list.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ perf_list.number }} of {{ perf_list.paginator.num_pages }}.
-        </span>
-
-        {% if perf_list.has_next %}
-            <a href="?page={{ latest_perf_list.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-  </div>
-
 {% else %}
     <p>No Performances are available.</p>
 {% endif %}
@@ -344,14 +294,12 @@ font-size: 40px;
  
 
  
-
+    </div>
      {% endblock %}
-
-         </div>
     <!-- Right Sidebar -->
     <!-- On small devices this column is hidden -->
     <aside class="large-3 medium-2 columns hide-for-small">
-  {% block right_sidebar %}
+  {% block left_sidebar %}
       <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
       <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
   {% endblock %} 
@@ -410,7 +358,7 @@ font-size: 40px;
     <script>
       $(document).ready(function(){
 
-        $( "#search-button" ).click(function(event) {
+        $( "#search-button" ).click(function() {
           event.preventDefault();
           if ($( "#search-button" ).hasClass('active')){
              $(".search-panel").slideUp();
@@ -432,13 +380,6 @@ font-size: 40px;
       });
     });
 
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-50017440-1', 'tangocine.com');
-  ga('send', 'pageview');
 
   </script>
     {% endblock foundation_js_init %}
