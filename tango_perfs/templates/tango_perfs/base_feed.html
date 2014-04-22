@@ -24,6 +24,8 @@
     {% foundation_vendor "modernizr" %}
     {% endblock foundation_modernizer %}
 
+    {% block og-properties %}{% endblock og-properties %}
+
     {# Custom head JS #}
     {% block head_js %}{% endblock head_js %}
 <style>
@@ -103,10 +105,11 @@ font-size: 40px;
   padding-top: 50px;
 }
 
-#ac-container {
+.ac-container {
     display: block; 
     position:relative
 } 
+
 .ui-autocomplete {
     position: absolute;
 }
@@ -179,8 +182,24 @@ font-size: 40px;
         <form method="get" action="/prefilter" accept-charset="UTF-8">
   <div class="large-6 columns">
     <div class="row">
+
+        <div class="large-6 columns">
+     <div class="ui-widget ui-front">
+        <label for="song">Dancer: </label>
+      <input name="performer1" id="performer1">
+      <div id='perf1-ac-container' class='ac-container'></div>
+  </div>
+  </div>
+
+          <div class="large-6 columns">
+     <div class="ui-widget ui-front">
+        <label for="song">Dancing with: </label>
+      <input name="performer2" id="performer2">
+      <div id='perf2-ac-container' class='ac-container'></div>
+  </div>
+  </div><!-- 
       <div class="large-6 columns">Dancer: <input type="text" name="performer1"></div>
-      <div class="large-6 columns">Dancing with: <input type="text" name="performer2"></div>
+      <div class="large-6 columns">Dancing with: <input type="text" name="performer2"></div> -->
     </div>
     <div class="row">
       <div class="large-6 columns">Orchestra: 
@@ -225,14 +244,14 @@ font-size: 40px;
      <div class="ui-widget ui-front">
         <label for="song">Song: </label>
       <input name="song" id="song">
-      <div id='ac-container'></div>
+      <div id='song-ac-container' class='ac-container'></div>
   </div>
   </div>
   <div class="large-6 columns">Sort by: 
     <select name="sort">
       <option value="-hotness">Trending</option>
       <option value="-youtubeUploadDate">Newest to Youtube</option>
-      <option value="-created_date">Newest to TVI</option>
+      <option value="-created_date">Newest to Tango Cine</option>
       <option value="-totalViews">Most Viewed</option>
       <option value="?">Random</option>
     </select>
@@ -352,8 +371,16 @@ font-size: 40px;
     <!-- On small devices this column is hidden -->
     <aside class="large-3 medium-2 columns hide-for-small">
   {% block right_sidebar %}
-      <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
-      <p><img src="http://placehold.it/300x440&text=[ad]" /></p>
+<div class="panel">
+  With Tango Cine you can:
+  <ul>
+  <li> Monitor recent tango videos and see what's trending</li>
+  <li> Search for tango videos by song, orchestra, performer and more</li>
+  <li> Get updates about the performers you care about</li>
+  </ul>
+
+  Like this website?  <a href="#">Click here to support us</a>
+</div>
   {% endblock %} 
     </aside>
  
@@ -368,16 +395,13 @@ font-size: 40px;
       <hr />
       <div class="row">
         <div class="large-5 columns">
-          <p>© Copyright no one at all. Go to town.</p>
+          <p>Made with love in Seattle</p>
         </div>
         <div class="large-7 columns">
           <ul class="inline-list right">
-            <li><a href="#">Section 1</a></li>
-            <li><a href="#">Section 2</a></li>
-            <li><a href="#">Section 3</a></li>
-            <li><a href="#">Section 4</a></li>
-            <li><a href="#">Section 5</a></li>
-            <li><a href="#">Section 6</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Site Map</a></li>
           </ul>
         </div>
       </div>
@@ -426,8 +450,24 @@ font-size: 40px;
 
     $(function() {
       $("#song").autocomplete({
-        appendTo: "#ac-container",    
+        appendTo: "#song-ac-container",    
         source: "/api/get_songs/",
+        minLength: 2,
+      });
+    });
+
+    $(function() {
+      $("#performer1").autocomplete({
+        appendTo: "#perf1-ac-container",    
+        source: "/api/get_performers/",
+        minLength: 2,
+      });
+    });
+
+    $(function() {
+      $("#performer2").autocomplete({
+        appendTo: "#perf2-ac-container",    
+        source: "/api/get_performers/",
         minLength: 2,
       });
     });
@@ -442,5 +482,8 @@ font-size: 40px;
 
   </script>
     {% endblock foundation_js_init %}
+
+    {% block post_jquery_load %}
+    {% endblock post_jquery_load %}
 </body>
 </html>

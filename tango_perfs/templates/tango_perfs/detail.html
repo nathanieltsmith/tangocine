@@ -1,6 +1,35 @@
 {% extends "tango_perfs/base_feed.html" %}
 {% block title %}{{ viewedEvent.name }} {{perf.couples.first}} dance to {{perf.recordings.first}} on Tango Cine | Argentine Tango Videos{% endblock %}
 
+{% block og-properties %}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Tango Cine">
+<meta property="og:url" content="http://www.tangocine.com/p/{{perf.youtubeId}}">
+<meta property="og:title" content="{{perf.couples.first}} dance to {{perf.recordings.first}}">
+<meta property="og:image" content="http://i1.ytimg.com/vi/{{perf.youtubeId}}/maxresdefault.jpg">
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="720" />
+{% endblock og-properties %}
+
+{% block base_body %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=509524769083436";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+    <link itemprop="thumbnailUrl" href="http://i1.ytimg.com/vi/{{perf.youtubeId}}/maxresdefault.jpg">
+    <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
+      <link itemprop="url" href="http://i1.ytimg.com/vi/{{perf.youtubeId}}/maxresdefault.jpg">
+      <meta itemprop="width" content="1280">
+      <meta itemprop="height" content="720">
+    </span>
+
+{% endblock base_body %}
+
 {% block info_panel%}
 <div class="event-page-title"><h2>{{perf.couples.first}} dance to {{perf.recordings.first}}</h2></div>
 {% endblock %}
@@ -14,4 +43,18 @@
         </div>
         </div>
       </div>
+      <div class="detail-info large-12 columns panel">
+      {% for dancer in dancers %}
+      <a href="/performer/{{dancer.code}}"> More information and performances by {{dancer.firstName}} {{dancer.lastName}} </a><br> 
+      {% endfor %}
+      {% for orc in orchestras %}
+      Orchestra: {{orc.name}}<br>
+      {% if orc.singer %}
+      Vocals: {{orc.singer}}<br>
+      {% endif %}
+      <a href="/filter/all/all/{{orc.code}}/all/all/-hotness/">More performances to {{orc.name}}</a>
+      {% endfor %}
+
+      <div class="fb-share-button" data-href="http://www.tangocine.com/p/{{perf.youtubeId}}" data-type="button_count"></div>
+      </div> 
 {% endblock %}

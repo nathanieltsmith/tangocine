@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from tango_perfs.models import Performance, Performer, Couple, DanceEvent
-from tango_disco.models import Recording, Song
+from tango_disco.models import Recording, Song, PlayedOn
 from django.contrib.auth.models import User
 
 
@@ -224,10 +224,27 @@ def detail(request, id):
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	perf = Performance.objects.get(youtubeId=id)
 	recording = perf.recordings.first()
+	orchestras = []
+	for rec in perf.recordings.all():
+		print rec.orchestra.name + ' ' + rec.orchestra.ocode
+		singerOb = PlayedOn.objects.filter(recording=perf.recordings.first())
+		if (singerOb):
+			musician = singerOb[0].musician
+			singerName = musician.firstName +' '+ musician.lastName
+		else:
+			singerName = ""
+		orchestras += [{"name":rec.orchestra.name, "code":rec.orchestra.ocode, "singer":singerName}]
+	dancers = []
+	for couple in perf.couples.all():
+		for performer in couple.performers.all():
+			dancers += [performer]
+	print str(dancers)
 	context = RequestContext(request, {
 		'events' : events,
+		'dancers': dancers,
 		'perf': perf,
 		'performers' : performers,
+		'orchestras' : orchestras
 	})
 	template = loader.get_template('tango_perfs/detail.html')
 	return HttpResponse(template.render(context))
@@ -287,6 +304,34 @@ def get_songs(request):
 			song_json['value'] = song.simplifiedTitle
 			results.append(song_json)
 		data = json.dumps(results)
+	else:
+		data = 'fail'
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
+
+
+def get_performers(request):
+	print 'getting performers'
+	if request.is_ajax():
+		q = request.GET.get('term', '')
+		simplifiedName = Performer.objects.filter(simplifiedName__istartswith = q )[:10]
+		lastName = Performer.objects.filter(lastName__istartswith = q )[:10]
+		results = []
+		print 'finished queries'
+		for perf in simplifiedName:
+			perf_json = {}
+			perf_json['id'] = perf.code
+			perf_json['label'] = perf.firstName + ' ' + perf.lastName
+			perf_json['value'] = perf.firstName + ' ' + perf.lastName
+			results.append(perf_json)
+		for perf in lastName:
+			perf_json = {}
+			perf_json['id'] = perf.code
+			perf_json['label'] = perf.firstName + ' ' + perf.lastName
+			perf_json['value'] = perf.firstName + ' ' + perf.lastName
+			results.append(perf_json)
+		data = json.dumps(results)
+		print data
 	else:
 		data = 'fail'
 	mimetype = 'application/json'

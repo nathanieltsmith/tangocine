@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
@@ -73,7 +75,7 @@ def ascii_lower(text):
 # do a youtube search for the couple's name
 # for each video
 i = 0
-DEVELOPER_KEY = "AIzaSyDrA7m_-GdUADsKq2bmwMhQlMNbIDSQpcU"
+DEVELOPER_KEY = settings.GOOGLE_DEVELOPER_KEY
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
@@ -217,7 +219,7 @@ def comments_generator(client, video_id):
 
 def getVideoMetaData():
 	client = service.YouTubeService()
-	client.ClientLogin('nathanieltsmith@gmail.com', 'mi-42gak35')
+	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
 	for perf in Performance.objects.filter(youtubeUploadDate=None):
 		perf.previousTotalViews = int(perf.totalViews)
 		try:
@@ -236,7 +238,7 @@ def getVideoMetaData():
 def updateHotness():
 	total=0
 	client = service.YouTubeService()
-	client.ClientLogin('nathanieltsmith@gmail.com', 'xxxx')
+	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
 	for perf in Performance.objects.all():
 		perf.previousTotalViews = int(perf.totalViews)
 		try:
@@ -255,8 +257,8 @@ def updateHotness():
 
 
 
-scanAllCouples(480)
-getVideoMetaData()
+#scanAllCouples(480)
+#getVideoMetaData()
 updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database

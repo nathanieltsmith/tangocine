@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 import json
 
-from django.core.exceptions import ImproperlyConfiguredException
+from django.core.exceptions import ImproperlyConfigured
 
-with open('secrets.json') as f:
+with open("tangodjango/secrets.json") as f:
     secrets = json.loads(f.read())
 
 def get_secret(setting, secrets=secrets):
@@ -40,7 +40,7 @@ DEBUG = True
 TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'authtools.User'
 
 # Application definition
 
@@ -54,13 +54,14 @@ INSTALLED_APPS = (
     'south',
     'tango_disco',
    'tango_perfs',
-     'grappelli',
+    #'grappelli',
    #'autocomplete_light',
    'foundation',
    'avatar',
    'crispy_forms',
    'crispy_forms_foundation',
-   'braces'
+   'braces',
+   'authtools'
    #'avatar_crop'
 )
 
@@ -148,4 +149,5 @@ AVATAR_CROP_MIN_SIZE = 8
 AUTO_GENERATE_AVATAR_SIZES = 100
 GOOGLE_USERNAME= get_secret('GOOGLE_USERNAME')
 GOOGLE_PASSWORD= get_secret('GOOGLE_PASSWORD')
+GOOGLE_DEVELOPER_KEY = get_secret('GOOGLE_DEVELOPER_KEY')
 

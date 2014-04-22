@@ -19,6 +19,7 @@ YOUTUBE_API_VERSION = "v3"
 class Performer(models.Model):
 	firstName = models.CharField(max_length=30)
 	lastName = models.CharField(max_length=30)
+	fullName = models.CharField(max_length=100, default='x')
 	simplifiedName = models.CharField(max_length=60, null=True, blank=True)
 	code = models.CharField(max_length=10, null=True, blank=True, unique=True)
 
