@@ -115,7 +115,7 @@ def youtube_search(query, pageToken=None):
 
 def scanAllCouples(num):
 	client = service.YouTubeService()
-	client.ClientLogin('nathanieltsmith@gmail.com', 'mi-42gak35')
+	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
 	for couple in Couple.objects.all()[num:]:
 		scanCouple(couple, client)
 
@@ -123,7 +123,7 @@ def scanAllCouples(num):
 def scanCouple(couple, client=None):
 	if (not client):
 		client = service.YouTubeService()
-		client.ClientLogin('nathanieltsmith@gmail.com', 'mi-42gak35')
+		client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
 	names = [[x.firstName, x.lastName] for x in couple.performers.all()]
 	searchStrings = []
 	if (len(Couple.objects.filter(performers__firstName=names[0][0]).filter(performers__firstName=names[1][0])) > 1):
@@ -257,8 +257,8 @@ def updateHotness():
 
 
 
-#scanAllCouples(480)
-#getVideoMetaData()
+scanAllCouples(0)
+getVideoMetaData()
 updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database

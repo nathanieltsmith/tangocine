@@ -22,6 +22,7 @@ class Performer(models.Model):
 	fullName = models.CharField(max_length=100, default='x')
 	simplifiedName = models.CharField(max_length=60, null=True, blank=True)
 	code = models.CharField(max_length=10, null=True, blank=True, unique=True)
+	totalFollowers = models.IntegerField(default=0)
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		return self.firstName +' '+ self.lastName
@@ -165,6 +166,7 @@ class Performance(models.Model):
 	performance_date = models.DateField(null=True, blank=True)
 	youtubeUploadDate = models.DateField(null=True, blank=True)
 	created_date = models.DateTimeField(auto_now_add=True, editable=False)
+	active = models.BooleanField(default=True)
 	def __unicode__(self):
 		try:
 			return self.couples.first().__unicode__() + ': ' + self.recordings.first().__unicode__()
@@ -173,6 +175,8 @@ class Performance(models.Model):
 	def save(self, *args, **kwargs):
 		self.thumbnailUrl = "https://i1.ytimg.com/vi/"+ self.youtubeId+"/0.jpg"
 		super(Performance, self).save(*args, **kwargs) # Call the "real" save() method.
-		#if(len(self.performers.all()) > 1):
-		#	self.scanForVideos()
+
+	def inactivate(modeladmin, request, queryset):
+		queryset.update(active=False)
+
 
