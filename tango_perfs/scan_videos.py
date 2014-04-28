@@ -239,7 +239,7 @@ def updateHotness():
 	total=0
 	client = service.YouTubeService()
 	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
-	for perf in Performance.objects.all():
+	for perf in Performance.objects.filter(active=True):
 		perf.previousTotalViews = int(perf.totalViews)
 		try:
 			time.sleep(1)
@@ -257,7 +257,7 @@ def updateHotness():
 
 
 
-scanAllCouples(0)
+#scanAllCouples(0)
 getVideoMetaData()
 updateHotness()
 # def scanVideo(videoText)

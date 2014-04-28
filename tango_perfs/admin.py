@@ -7,13 +7,11 @@ def deactivate(modeladmin, request, queryset):
     queryset.update(active=False)
 deactivate.short_description = "Deactivate this performance"
 
-admin.site.register(Article, ArticleAdmin)
-
 class PerformerAdmin(admin.ModelAdmin):
-	list_display = ['firstName', 'lastName', 'numPerfs', 'listPartners']
+	list_display = ['fullName', 'numPerfs', 'listPartners']
 
 class PerformanceAdmin(admin.ModelAdmin):
-	search_fields = ['couples__performers__firstName', 'couples__performers__lastName']
+	search_fields = ['couples__performers__fullName']
 	actions = [deactivate]
 admin.site.register(Performer, PerformerAdmin)
 

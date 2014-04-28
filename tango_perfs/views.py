@@ -72,7 +72,7 @@ def index(request):
 	orchestra_leaders = [request.GET.get('orc')] if isinstance(request.GET.get('orc'), basestring) else request.GET.get('orc')
 	songs = [request.GET.get('song')] if isinstance(request.GET.get('song'), basestring) else request.GET.get('song')
 	sort = request.GET.get('sort') if request.GET.get('sort') else '-hotness';
-	latest_perf_list = Performance.objects.order_by(sort)
+	latest_perf_list = Performance.objects.filter(active=True).order_by(sort)
 	total_perfs = len(latest_perf_list)
 	performers = performer1+performer2
 	if (performers):
@@ -110,7 +110,8 @@ def index(request):
 		'perf_list': perfs,
 		'performers' : performers,
 		'total_perfs' : total_perfs,
-		'events' : events
+		'events' : events,
+		'trending' : True
 	})
 	return HttpResponse(template.render(context))
 
@@ -125,7 +126,7 @@ def prefilter(request):
 	#return HttpResponseRedirect("/filter/%s/%s/%s/%s/%s" %(p1,p2,orc,genre,sort))
 
 def filter(request, performer1='all', performer2='all', orchestra='all', genre='all', sort_method='-hotness', song='all'):
-	latest_perf_list = Performance.objects.order_by(sort_method)
+	latest_perf_list = Performance.objects.filter(active=True).order_by(sort_method)
 	total_perfs = len(latest_perf_list)
 	print performer1
 	print performer2
@@ -147,6 +148,9 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 	events = DanceEvent.objects.all().order_by('-date')
 	paginator = Paginator(latest_perf_list, 20)
 	page = request.GET.get('page')
+	newest = True if sort_method == '-created_date' else False
+	trending = True if sort_method == '-hotness' else False
+	personalized = True if sort_method == '?' else False
 	try:
 		perfs = paginator.page(page)
 	except PageNotAnInteger:
@@ -160,16 +164,20 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 		'perf_list': perfs,
 		'performers' : performers,
 		'total_perfs' : total_perfs,
-		'events' : events
+		'events' : events,
+		'newest' : newest,
+		'trending' : trending,
+		'personalized' : personalized
+
 	})
 	return HttpResponse(template.render(context))
 
 def addperf(request):
 
-	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('song')).lower()).filter(orchestra__ocode = request.POST.get('ocode'))
+	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('add-song')).lower()).filter(orchestra__ocode = request.POST.get('ocode'))
 	if (not rec):
 		return HttpResponse("Recording not found")
-	couple = getCouple(request.POST.get('lfname'), request.POST.get('llname'), request.POST.get('ffname'), request.POST.get('flname'))
+	couple = getCouple(request.POST.get('add-performer1'), request.POST.get('add-performer2'))
 	if (not couple):
 		return HttpResponse("Couple creation error")
 	performance = Performance(youtubeId=request.POST.get('youtubeid'), performance_type='P')
@@ -179,17 +187,18 @@ def addperf(request):
 	performance.couples.add(couple)
 	performance.recordings.add(rec[0])
 	performance.save()
-	return HttpResponse("Success")
+	messages.add_message(request, messages.INFO, 'Video was successfully added.  Thanks!')
+	return redirect('/addform/')
 
 
 # lfn = "lead first name" fln= "follow last name" etc
-def getCouple(lfn, lln, ffn, fln):
-	couple = Couple.objects.filter(performers__simplifiedName=unidecode(lfn + ' ' +lln).lower()).filter(performers__simplifiedName=unidecode(ffn + ' ' +fln).lower())
+def getCouple(dancer1, dancer2):
+	couple = Couple.objects.filter(performers__simplifiedName=unidecode(dancer1).lower()).filter(performers__simplifiedName=unidecode(dancer2).lower())
 	if (couple):
 		return couple[0]
 	else:
-		lead = getPerformer(lfn, lln)
-		follow = getPerformer(ffn, fln)
+		lead = getPerformer(dancer1)
+		follow = getPerformer(dancer2)
 		couple = Couple()
 		couple.save()
 		couple.performers.add(lead)
@@ -197,13 +206,12 @@ def getCouple(lfn, lln, ffn, fln):
 		couple.save()
 		return couple
 
-def getPerformer(firstName, lastName):
-	p = Performer.objects.filter(simplifiedName=unidecode(firstName+' '+lastName).lower())
+def getPerformer(fullName):
+	p = Performer.objects.filter(simplifiedName=unidecode(fullName).lower())
 	if (p):
 		return p[0]
 	else:
-		code = firstName + lastName
-		p = Performer(firstName=firstName, lastName=lastName, code=unidecode(code).lower().replace(" ", "")[:10])
+		p = Performer(fullName=fullName, firstName='x', lastName='x', code=unidecode(fullName).lower().replace(" ", "")[:10])
 		p.save()
 		return p
 
@@ -253,7 +261,7 @@ def performer(request, performer_code):
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	events = DanceEvent.objects.all().order_by('-date')
 
-	latest_perf_list = Performance.objects.filter(couples__performers__code=performer_code).order_by('hotness')
+	latest_perf_list = Performance.objects.filter(couples__performers__code=performer_code, active=True).order_by('hotness')
 	paginator = Paginator(latest_perf_list, 10)
 	page = request.GET.get('page')
 	try:
@@ -268,13 +276,14 @@ def performer(request, performer_code):
 	context = RequestContext(request, {
 		'perf_list': perfs,
 		'performers' : performers,
-		'events' : events
+		'events' : events,
+		'trending' : '1'
 	})
 	return HttpResponse(template.render(context))
 
 def event(request, event_id):
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
-	perfs = Performance.objects.filter(event__id=event_id).order_by('-totalViews')
+	perfs = Performance.objects.filter(event__id=event_id, active=True).order_by('-totalViews')
 	viewedEvent = DanceEvent.objects.get(id=event_id)
 	events = DanceEvent.objects.all().order_by('-date')
 	template = loader.get_template('tango_perfs/event.html')
@@ -311,24 +320,16 @@ def get_songs(request):
 
 
 def get_performers(request):
-	print 'getting performers'
 	if request.is_ajax():
 		q = request.GET.get('term', '')
-		simplifiedName = Performer.objects.filter(simplifiedName__istartswith = q )[:10]
-		lastName = Performer.objects.filter(lastName__istartswith = q )[:10]
+		simplifiedName = Performer.objects.filter(simplifiedName__icontains = q )[:20]
 		results = []
 		print 'finished queries'
 		for perf in simplifiedName:
 			perf_json = {}
 			perf_json['id'] = perf.code
-			perf_json['label'] = perf.firstName + ' ' + perf.lastName
-			perf_json['value'] = perf.firstName + ' ' + perf.lastName
-			results.append(perf_json)
-		for perf in lastName:
-			perf_json = {}
-			perf_json['id'] = perf.code
-			perf_json['label'] = perf.firstName + ' ' + perf.lastName
-			perf_json['value'] = perf.firstName + ' ' + perf.lastName
+			perf_json['label'] = perf.fullName
+			perf_json['value'] = perf.fullName
 			results.append(perf_json)
 		data = json.dumps(results)
 		print data

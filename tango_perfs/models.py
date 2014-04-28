@@ -25,7 +25,7 @@ class Performer(models.Model):
 	totalFollowers = models.IntegerField(default=0)
 
 	def __unicode__(self):              # __unicode__ on Python 2
-		return self.firstName +' '+ self.lastName
+		return self.fullName
 
 	def merge(self, performer):
 		for couple in Couple.objects.filter(performers=performer):
@@ -42,11 +42,11 @@ class Performer(models.Model):
 		for couple in Couple.objects.filter(performers=self):
 			for perf in couple.performers.all():
 				if (perf != self):
-					partners += perf.firstName + ' ' + perf.lastName +', '
+					partners += perf.fullName
 		return partners[:-2]
 
 	def save(self, *args, **kwargs):
-		self.simplifiedName = unidecode(self.firstName + ' ' + self.lastName).lower()
+		self.simplifiedName = unidecode(self.fullName).lower()
 		super(Performer, self).save(*args, **kwargs) # Call the "real" save() method.
 
 
@@ -57,7 +57,7 @@ class Couple(models.Model):
 			if self.performers.first().lastName == self.performers.last().lastName:
 				return self.performers.first().firstName+ ' and ' + self.performers.last().firstName + ' '+ self.performers.first().lastName
 			else:
-				return self.performers.first().firstName+ ' '+ self.performers.first().lastName+ ' and ' + self.performers.last().firstName + ' '+ self.performers.last().lastName
+				return self.performers.first().fullName+  ' and ' + self.performers.last().fullName
 		except:
 			return 'blah'
 
@@ -169,14 +169,15 @@ class Performance(models.Model):
 	active = models.BooleanField(default=True)
 	def __unicode__(self):
 		try:
-			return self.couples.first().__unicode__() + ': ' + self.recordings.first().__unicode__()
+			resp = self.couples.first().__unicode__() + ': ' + self.recordings.first().__unicode__()
+			if self.active:
+				return resp
+			else:
+			 return '[DISABLED] ' + resp
 		except Exception:
 			return 'error'  
 	def save(self, *args, **kwargs):
 		self.thumbnailUrl = "https://i1.ytimg.com/vi/"+ self.youtubeId+"/0.jpg"
 		super(Performance, self).save(*args, **kwargs) # Call the "real" save() method.
-
-	def inactivate(modeladmin, request, queryset):
-		queryset.update(active=False)
 
 

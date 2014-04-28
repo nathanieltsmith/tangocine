@@ -14,7 +14,7 @@ class UserProfile(models.Model):
 class PerformerUserProfile(models.Model):
 	user = models.ForeignKey(User, unique=True)
 	confirmed = models.BooleanField(default=False)
-	showLikedVideos = models.IntegerField(default=True)
+	showLikedVideos = models.BooleanField(default=True)
 	english_bio = models.TextField(max_length=900, null=True, blank=True)
 	spanish_bio = models.TextField(max_length=900, null=True, blank=True)
 	facebook_link = models.URLField(max_length=100, null=True, blank=True)

@@ -167,7 +167,7 @@ def addOrchestra(first, last, name, ocode):
 		o.save()
 
 
-parseTangoInfo('https://tango.info/performances/FrancCanar')
+#parseTangoInfo('https://tango.info/performances/FrancCanar')
 
 
 tangoinfoprefix = 'https://tango.info/performances/'
@@ -197,7 +197,8 @@ tangoinfoUrls = [
 #('AngelOrtiz', u'Ciriaco', u'Ortiz', u'Orquesta Ciriaco Ortiz', 'ortiz'),
 #('xgrlsprvnc', 'Los', 'Provincianos', 'Los Provincianos', 'provincianos'),
 #('HugoaDiaza', 'Hugo', "Diaz", "Hugo Diaz", 'hugodiaz'),
-('JuancCacer', 'Juan Carlos', u'Cáceres', u'Juan Carlos Cáceres', 'caceres')
+#('JuancCacer', 'Juan Carlos', u'Cáceres', u'Juan Carlos Cáceres', 'caceres'),
+('AngelDagos', 'Angel', "D'Agostino", "Orquesta Angel D'Agostino",'dagostino')
 
 ]
 
@@ -218,9 +219,11 @@ for url in tangoinfoUrls:
 
 
 
-# letters = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(' ')
-# #letters = "O".split(' ')
-# orcs = [#("Osvaldo%20Pugliese", "28", "Osvaldo", "Pugliese"), 
+letters = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(' ')
+#
+orcs = [
+		#("%C1ngel%20DAgostino", "12", "Angel", "D'Agostino")
+		#("Osvaldo%20Pugliese", "28", "Osvaldo", "Pugliese"), 
 # 		#("Rodolfo%20Biagi","104", "Rodolfo", "Biagi"), 
 # 		#("Orquesta%20Miguel%20Cal%F3", "8", "Miguel", "Calo"),
 # 		#("Carlos%20Di%20Sarli", "17", "Carlos", "Di Sarli"),
@@ -232,23 +235,23 @@ for url in tangoinfoUrls:
 # 		#("Orquesta%20Ricardo%20Tanturi", "31","Ricardo", "Tanturi"),
 # 		("An%EDbal%20Troilo","32","Anibal","Troilo"),
 # 		#("Orquesta%20Alfredo%20De%20Angelis", "14", "Alfredo", "De Angelis")
-# 		]
-# ocode = 1
-# for orc in orcs:
-# 	for letter in letters:
-# 		for nav in range(1, 21):
-# 			#time.sleep(5)
-# 			for song in parseTodoDisco(url % (orc[1],orc[0],nav,letter)):
-# 				addOrchestra(orc[2], orc[3], song['orchestra'], str(ocode))
-# 				ocode += 1
-# 				lyricista = song['lyricist'] if 'lyricist' in song.keys()  else {}
-# 				s = addSong(song['title'], song['composer'], lyricista)
-# 				mat = '' if not 'matrix'in song.keys() else song['matrix'] 
-# 				lab = '' if not 'label' in song.keys() else song['label']
-# 				disc = ''  if not 'disc' in song.keys() else song['disc']
-# 				try:
-# 					r = addRecording(s,song['date'] ,song['orchestra'],mat, disc ,song['genre'],lab )
-# 				except Exception as e:
-# 					print "exception: " + str(song)
-# 				if ('singer' in song.keys() and (song['singer']['last'] != 'Instrumental')):
-# 					addSinger(r, song['singer']['first'], song['singer']['last'])
+		]
+ocode = 1
+for orc in orcs:
+	for letter in letters:
+		for nav in range(1, 21):
+			#time.sleep(5)
+			for song in parseTodoDisco(url % (orc[1],orc[0],nav,letter)):
+				addOrchestra(orc[2], orc[3], song['orchestra'], str(ocode))
+				ocode += 1
+				lyricista = song['lyricist'] if 'lyricist' in song.keys()  else {}
+				s = addSong(song['title'], song['composer'], lyricista)
+				mat = '' if not 'matrix'in song.keys() else song['matrix'] 
+				lab = '' if not 'label' in song.keys() else song['label']
+				disc = ''  if not 'disc' in song.keys() else song['disc']
+				try:
+					r = addRecording(s,song['date'] ,song['orchestra'],mat, disc ,song['genre'],lab )
+				except Exception as e:
+					print "exception: " + str(song)
+				if ('singer' in song.keys() and (song['singer']['last'] != 'Instrumental')):
+					addSinger(r, song['singer']['first'], song['singer']['last'])

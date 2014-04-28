@@ -1,5 +1,6 @@
 venv
 *.pyc
 secrets.json
+~secrets.json
 staticfiles
 tangodjango/media

@@ -45,7 +45,7 @@
       </div>
       <div class="detail-info large-12 columns panel">
       {% for dancer in dancers %}
-      <a href="/performer/{{dancer.code}}"> More information and performances by {{dancer.firstName}} {{dancer.lastName}} </a><br> 
+      <a href="/performer/{{dancer.code}}"> More information and performances by {{dancer.fullName}} </a><br> 
       {% endfor %}
       {% for orc in orchestras %}
       Orchestra: {{orc.name}}<br>

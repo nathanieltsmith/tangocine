@@ -153,13 +153,10 @@ font-size: 40px;
     <!-- Right Nav Section -->
     <ul class="left">
       <li id='search-button'><a href='#'>Search</a></li>
-      <li class="has-dropdown">
-        <a href="#">Add Videos</a>
-        <ul class="dropdown">
-          <li><a href="#">From Youtube (Coming soon...)</a></li>
-          <li><a href="#">Upload (Coming soon...)</a></li>
-        </ul>
-      </li>
+      <li {% if trending %}class="active"{% endif %}><a href='/'>Trending</a></li>
+      <li {% if newest %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/-created_date/'>Newest</a></li>
+      <li {% if personalized %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/%3F/'>Personalized</a></li>
+
     </ul>
 
     <!-- Left Nav Section -->
@@ -168,6 +165,13 @@ font-size: 40px;
 <li><a href="{% url 'signup' %}" class="btn btn-default navbar-btn">Register</a></li>
 <li><a href="{% url 'login' %}" class="btn btn-default navbar-btn">Login</a></li>
 {% else %}
+      <li class="has-dropdown">
+        <a href="#">Add Videos</a>
+        <ul class="dropdown">
+          <li><a href="/addform/">From Youtube</a></li>
+          <li><a href="#">Upload (Coming soon...)</a></li>
+        </ul>
+      </li>
 <li><a href="{% url 'logout' %}" class="btn btn-default navbar-btn">Logout</a></li>
 {% endif %}
 <!--       <li><a href="/accounts/login">Login/Create Account</a></li>
@@ -310,7 +314,7 @@ font-size: 40px;
   
     <h4><center>Popular Performers</center></h4>
     {% for performer in performers %}
-     <div class="large-6 medium-12 hide-for-small columns"><div class='image'><a href="/performer/{{performer.code}}"><img class='side-profile-link' src="http://www.edrants.com/wp-content/uploads/2009/09/placeholder.jpg"><h5><span>{{performer.firstName}} {{performer.lastName}}</span></h5></a></div></div>
+     <div class="large-6 medium-12 hide-for-small columns"><div class='image'><a href="/performer/{{performer.code}}"><img class='side-profile-link' src="http://www.edrants.com/wp-content/uploads/2009/09/placeholder.jpg"><h5><span>{{performer.fullName}}</span></h5></a></div></div>
     {% endfor %}
 
 
@@ -343,7 +347,7 @@ font-size: 40px;
               <div class="pagination  large-8 columns">
     <span class="step-links">
         {% if perf_list.has_previous %}
-            <a href="?page={{ latest_perf_list.previous_page_number }}">previous</a>
+            <a href="?page={{ perf_list.previous_page_number }}">previous</a>
         {% endif %}
 
         <span class="current">
@@ -351,7 +355,7 @@ font-size: 40px;
         </span>
 
         {% if perf_list.has_next %}
-            <a href="?page={{ latest_perf_list.next_page_number }}">next</a>
+            <a href="?page={{ perf_list.next_page_number }}">next</a>
         {% endif %}
     </span>
   </div>
