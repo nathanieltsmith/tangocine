@@ -338,3 +338,33 @@ def get_performers(request):
 	mimetype = 'application/json'
 	return HttpResponse(data, mimetype)
 
+def get_orchestras(request):
+	if request.is_ajax():
+		song = Song.objects.get(simplifiedTitle=request.GET.get('song', ''))
+		orchestras = []
+			orc_dict = {'title': rec.orchestra.name, 'value': rec.orchestra.ocode}
+			if orc_dict not in orchestras:
+				orchestra.append(orc_dict)
+		data = json.dumps(orchestra)
+	else:
+		data = 'fail'
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
+
+def get_years(RequestContext):
+	if request.is_ajax():
+		song = Song.objects.get(simplifiedTitle=request.GET.get('song', ''))
+		orchestra = Orchestra.get(ocode=request.GET.get('orc', ''))
+		years = []
+		for rec in Recording.objects.filter(song=song, orchestra=orchestra):
+			if rec.recorded:
+				years.append({"title": rec.recorded.strftime('%Y'), "value": rec.recorded.strftime('%Y'))
+			else:
+				years.append({"title": "year unknown", "value":"unknown"})
+		data = json.dumps(years)
+	else:
+		data = 'fail'
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
+
+		

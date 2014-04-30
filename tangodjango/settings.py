@@ -23,7 +23,7 @@ def get_secret(setting, secrets=secrets):
         return secrets[setting]
     except KeyError:
         error_msg = "Set the {0} environment variable".format(setting)
-        raise ImproperlyCongfigured(error_msg)
+        raise ImproperlyConfigured(error_msg)
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -169,6 +169,8 @@ GOOGLE_DEVELOPER_KEY = get_secret('GOOGLE_DEVELOPER_KEY')
 LOGIN_REDIRECT_URL = '/'
 
 # Allauth settings
+ACCOUNT_EMAIL_REQUIRED=True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 ACCOUNT_AUTHENTICATION_METHOD='email'
 ACCOUNT_USERNAME_REQUIRED=False
 SOCIALACCOUNT_QUERY_EMAIL = True

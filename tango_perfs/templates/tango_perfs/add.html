@@ -28,7 +28,10 @@
 </div>
 </div>
   <div class="large-6 columns">
-Orchestra: <input type="text" name="ocode" value="pugliese"><br>
+Orchestra: <input type="select" name="ocode" id="orc"><br>
+</div>
+  <div class="large-6 columns">
+Year: <input type="select" name="year" id="rec_year"><br>
 </div>
   <div class="large-12 columns">
 Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtubeId}}"><br>
@@ -57,6 +60,12 @@ $(function() {
     minLength: 2,
     appendTo: "#perf2-add-ac-container", 
   });
+  $("#add-song").change(
+    alert('song changed'))
+  $("#orc").change(
+    alert('Orchestra Changed')
+  )
+
 });
 </script>
 {% endblock post_jquery_load %}
