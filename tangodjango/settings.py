@@ -51,6 +51,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'south',
     'tango_disco',
    'tango_perfs',
@@ -61,7 +62,11 @@ INSTALLED_APPS = (
    'crispy_forms',
    'crispy_forms_foundation',
    'braces',
-   'authtools'
+   'authtools',
+   'allauth',
+   'allauth.account',
+    'allauth.socialaccount',
+  'allauth.socialaccount.providers.facebook',
    #'avatar_crop'
 )
 
@@ -72,12 +77,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 )
 
 ROOT_URLCONF = 'tangodjango.urls'
 
 WSGI_APPLICATION = 'tangodjango.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -105,6 +110,15 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.request",
     "django.contrib.messages.context_processors.messages",
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
+)
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend"
 )
 
 # Internationalization
@@ -149,5 +163,16 @@ AVATAR_CROP_MIN_SIZE = 8
 AUTO_GENERATE_AVATAR_SIZES = 100
 GOOGLE_USERNAME= get_secret('GOOGLE_USERNAME')
 GOOGLE_PASSWORD= get_secret('GOOGLE_PASSWORD')
+FACEBOOK_APP_ID = get_secret('FACEBOOK_APP_ID')
+FACEBOOK_APP_SECRET = get_secret('FACEBOOK_APP_SECRET')
 GOOGLE_DEVELOPER_KEY = get_secret('GOOGLE_DEVELOPER_KEY')
+LOGIN_REDIRECT_URL = '/'
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': ['email', 'publish_stream'],
+        'METHOD': 'js_sdk'  # instead of 'oauth2'
+    }
+}
 
+SITE_ID = 2

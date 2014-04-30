@@ -19,9 +19,9 @@ urlpatterns = patterns('',
     url(r'^prefilter/$', views.prefilter, name='prefilter'),
 	url(r'^api/get_songs/', views.get_songs, name='get_songs'),
     url(r'^api/get_performers/', views.get_performers, name='get_performers'),
-    url(r'^accounts/register/$', views.SignUpView.as_view(), name='signup'),
-    url(r'^accounts/login/$', views.LoginView.as_view(), name='login'),
-    url(r'^accounts/logout/$', views.LogOutView.as_view(), name='logout'),
+    url(r'^accounts2/register/$', views.SignUpView.as_view(), name='signup'),
+    url(r'^accounts2/login/$', views.LoginView.as_view(), name='login'),
+    url(r'^accounts2/logout/$', views.LogOutView.as_view(), name='logout'),
    # url(r'^', views.index, name='index')
 )
 

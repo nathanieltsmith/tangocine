@@ -11,8 +11,9 @@ class Migration(SchemaMigration):
         # Adding model 'Musician'
         db.create_table(u'tango_disco_musician', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('firstName', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('lastName', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('firstName', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('lastName', self.gf('django.db.models.fields.CharField')(max_length=200)),
+            ('simplifiedName', self.gf('django.db.models.fields.CharField')(max_length=400, null=True, blank=True)),
         ))
         db.send_create_signal(u'tango_disco', ['Musician'])
 
@@ -26,7 +27,7 @@ class Migration(SchemaMigration):
         # Adding model 'RecordLabel'
         db.create_table(u'tango_disco_recordlabel', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('name', self.gf('django.db.models.fields.CharField')(max_length=50)),
         ))
         db.send_create_signal(u'tango_disco', ['RecordLabel'])
 
@@ -41,6 +42,7 @@ class Migration(SchemaMigration):
         db.create_table(u'tango_disco_song', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('title', self.gf('django.db.models.fields.CharField')(unique=True, max_length=300)),
+            ('simplifiedTitle', self.gf('django.db.models.fields.CharField')(max_length=300, unique=True, null=True, blank=True)),
         ))
         db.send_create_signal(u'tango_disco', ['Song'])
 
@@ -81,6 +83,7 @@ class Migration(SchemaMigration):
             ('recorded', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
             ('discNo', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
             ('matrixNo', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
+            ('itunesId', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
         ))
         db.send_create_signal(u'tango_disco', ['Recording'])
 
@@ -134,9 +137,10 @@ class Migration(SchemaMigration):
         },
         u'tango_disco.musician': {
             'Meta': {'object_name': 'Musician'},
-            'firstName': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'firstName': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'simplifiedName': ('django.db.models.fields.CharField', [], {'max_length': '400', 'null': 'True', 'blank': 'True'})
         },
         u'tango_disco.musicianrole': {
             'Meta': {'object_name': 'MusicianRole'},
@@ -162,6 +166,7 @@ class Migration(SchemaMigration):
             'discNo': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'genre': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_disco.Genre']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'itunesId': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'label': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_disco.RecordLabel']", 'null': 'True', 'blank': 'True'}),
             'matrixNo': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'orchestra': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_disco.Orchestra']"}),
@@ -171,13 +176,14 @@ class Migration(SchemaMigration):
         u'tango_disco.recordlabel': {
             'Meta': {'object_name': 'RecordLabel'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         u'tango_disco.song': {
             'Meta': {'object_name': 'Song'},
             'composer': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['tango_disco.Musician']", 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lyricist': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'composer'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['tango_disco.Musician']"}),
+            'simplifiedTitle': ('django.db.models.fields.CharField', [], {'max_length': '300', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '300'})
         }
     }

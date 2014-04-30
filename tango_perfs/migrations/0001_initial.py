@@ -13,6 +13,10 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('firstName', self.gf('django.db.models.fields.CharField')(max_length=30)),
             ('lastName', self.gf('django.db.models.fields.CharField')(max_length=30)),
+            ('fullName', self.gf('django.db.models.fields.CharField')(default='x', max_length=100)),
+            ('simplifiedName', self.gf('django.db.models.fields.CharField')(max_length=60, null=True, blank=True)),
+            ('code', self.gf('django.db.models.fields.CharField')(max_length=10, unique=True, null=True, blank=True)),
+            ('totalFollowers', self.gf('django.db.models.fields.IntegerField')(default=0)),
         ))
         db.send_create_signal(u'tango_perfs', ['Performer'])
 
@@ -50,9 +54,17 @@ class Migration(SchemaMigration):
         # Adding model 'Performance'
         db.create_table(u'tango_perfs_performance', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('youtubeId', self.gf('django.db.models.fields.CharField')(max_length=30)),
-            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['tango_perfs.DanceEvent'])),
+            ('youtubeId', self.gf('django.db.models.fields.CharField')(unique=True, max_length=30)),
+            ('thumbnailUrl', self.gf('django.db.models.fields.CharField')(default='http://terryshoemaker.files.wordpress.com/2013/03/placeholder1.jpg', max_length=100)),
+            ('totalViews', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('previousTotalViews', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('hotness', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('event', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['tango_perfs.DanceEvent'], null=True, blank=True)),
             ('performance_type', self.gf('django.db.models.fields.CharField')(max_length=1)),
+            ('performance_date', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
+            ('youtubeUploadDate', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
+            ('created_date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+            ('active', self.gf('django.db.models.fields.BooleanField')(default=True)),
         ))
         db.send_create_signal(u'tango_perfs', ['Performance'])
 
@@ -109,9 +121,10 @@ class Migration(SchemaMigration):
         },
         u'tango_disco.musician': {
             'Meta': {'object_name': 'Musician'},
-            'firstName': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'firstName': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
+            'simplifiedName': ('django.db.models.fields.CharField', [], {'max_length': '400', 'null': 'True', 'blank': 'True'})
         },
         u'tango_disco.orchestra': {
             'Meta': {'object_name': 'Orchestra'},
@@ -125,6 +138,7 @@ class Migration(SchemaMigration):
             'discNo': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'genre': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_disco.Genre']"}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'itunesId': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'label': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_disco.RecordLabel']", 'null': 'True', 'blank': 'True'}),
             'matrixNo': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'orchestra': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_disco.Orchestra']"}),
@@ -134,13 +148,14 @@ class Migration(SchemaMigration):
         u'tango_disco.recordlabel': {
             'Meta': {'object_name': 'RecordLabel'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         },
         u'tango_disco.song': {
             'Meta': {'object_name': 'Song'},
             'composer': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['tango_disco.Musician']", 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'lyricist': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'composer'", 'null': 'True', 'symmetrical': 'False', 'to': u"orm['tango_disco.Musician']"}),
+            'simplifiedTitle': ('django.db.models.fields.CharField', [], {'max_length': '300', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'title': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '300'})
         },
         u'tango_perfs.couple': {
@@ -162,18 +177,30 @@ class Migration(SchemaMigration):
         },
         u'tango_perfs.performance': {
             'Meta': {'object_name': 'Performance'},
+            'active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'couples': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['tango_perfs.Couple']", 'symmetrical': 'False'}),
-            'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_perfs.DanceEvent']"}),
+            'created_date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'event': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['tango_perfs.DanceEvent']", 'null': 'True', 'blank': 'True'}),
+            'hotness': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'performance_date': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'}),
             'performance_type': ('django.db.models.fields.CharField', [], {'max_length': '1'}),
-            'recordings': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['tango_disco.Recording']", 'symmetrical': 'False'}),
-            'youtubeId': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+            'previousTotalViews': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'recordings': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'to': u"orm['tango_disco.Recording']", 'null': 'True', 'blank': 'True'}),
+            'thumbnailUrl': ('django.db.models.fields.CharField', [], {'default': "'http://terryshoemaker.files.wordpress.com/2013/03/placeholder1.jpg'", 'max_length': '100'}),
+            'totalViews': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'youtubeId': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'}),
+            'youtubeUploadDate': ('django.db.models.fields.DateField', [], {'null': 'True', 'blank': 'True'})
         },
         u'tango_perfs.performer': {
             'Meta': {'object_name': 'Performer'},
+            'code': ('django.db.models.fields.CharField', [], {'max_length': '10', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
             'firstName': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'fullName': ('django.db.models.fields.CharField', [], {'default': "'x'", 'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '30'})
+            'lastName': ('django.db.models.fields.CharField', [], {'max_length': '30'}),
+            'simplifiedName': ('django.db.models.fields.CharField', [], {'max_length': '60', 'null': 'True', 'blank': 'True'}),
+            'totalFollowers': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         }
     }
 
