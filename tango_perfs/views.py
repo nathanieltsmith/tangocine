@@ -358,7 +358,7 @@ def get_years(RequestContext):
 		years = []
 		for rec in Recording.objects.filter(song=song, orchestra=orchestra):
 			if rec.recorded:
-				years.append({"title": rec.recorded.strftime('%Y'), "value": rec.recorded.strftime('%Y'))
+				years.append({"title": rec.recorded.strftime('%Y'), "value": rec.recorded.strftime('%Y')})
 			else:
 				years.append({"title": "year unknown", "value":"unknown"})
 		data = json.dumps(years)
