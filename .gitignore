@@ -4,3 +4,5 @@ secrets.json
 ~secrets.json
 staticfiles
 tangodjango/media
+tc2.json
+tc.json
