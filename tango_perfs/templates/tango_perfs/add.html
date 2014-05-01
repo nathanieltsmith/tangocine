@@ -61,7 +61,8 @@ $(function() {
             console.log(key);
             console.log(data[key]);
             console.log(data[key].value)
-              $("#orc").append("<option value='"+key.value+"'>"+key.title+"</option>");
+            console.log(data[key].title)
+              $("#orc").append("<option value='"+data[key].value+"'>"+data[key].title+"</option>");
             }
         
       }); 
