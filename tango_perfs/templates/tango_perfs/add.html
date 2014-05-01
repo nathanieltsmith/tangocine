@@ -51,7 +51,7 @@ $(function() {
     source: "/api/get_songs/",
     minLength: 2,
     appendTo: "#song-add-ac-container", 
-    change: function() {
+    select: function() {
               url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song').val());
               console.log(url);
               $.getJSON(url, function(data){
@@ -60,8 +60,8 @@ $(function() {
           for(key in data){
             console.log(key);
             console.log(data[key]);
-            console.log(data[key].value)
-            console.log(data[key].title)
+            console.log(data[key].value);
+            console.log(data[key].title);
               $("#orc").append("<option value='"+data[key].value+"'>"+data[key].title+"</option>");
             }
         
