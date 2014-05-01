@@ -36,7 +36,7 @@ Year: <select name="year" id="rec_year"></select><br>
 </div>
 </div>
   <div class="large-12 columns">
-Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtubeId}}"><br>
+Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtubeId}}"><div id='yt-alert'></div><br>
 </div>
 <input class="button" type="submit" value="Add Video!">
 </div>
@@ -123,7 +123,10 @@ $(function() {
   $.getJSON('/api/video_added/'+ video_id, function(data){
       console.log(data[0]);
       if (data[0] === 'failure'){
+        $("#yt-alert").html('video is not currently added');
         $("#youtubeid").val(video_id);
+      } else {
+         $("#yt-alert").html('This video has already been added');
       }
   });
 
