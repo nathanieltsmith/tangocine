@@ -49,6 +49,9 @@ $(function() {
     source: "/api/get_songs/",
     minLength: 2,
     appendTo: "#song-add-ac-container", 
+    change: function() {
+          alert('changed for reals');
+      }
   });
     $("#add-performer1").autocomplete({
     source: "/api/get_performers/",
@@ -60,12 +63,12 @@ $(function() {
     minLength: 2,
     appendTo: "#perf2-add-ac-container", 
   });
-  var add_song = $("#add-song").autocomplete({ 
-      change: function() {
-          alert('changed for reals');
-      }
-  });
-   add_song.autocomplete('option','change').call(add_song);
+  // var add_song = $("#add-song").autocomplete({ 
+  //     change: function() {
+  //         alert('changed for reals');
+  //     }
+  // });
+  // add_song.autocomplete('option','change').call(add_song);
   $("#add-song").change(function(){
     alert('song changed');
   });
