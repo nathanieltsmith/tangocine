@@ -349,7 +349,7 @@ def get_orchestras(request):
 	mimetype = 'application/json'
 	return HttpResponse(data, mimetype)
 
-def get_years(RequestContext):
+def get_years(request):
 	#if request.is_ajax():
 	song = Song.objects.get(simplifiedTitle=request.GET.get('song', ''))
 	orchestra = Orchestra.objects.get(ocode=request.GET.get('orc', ''))
