@@ -53,8 +53,14 @@ $(function() {
               $.getJSON(url, function(data){
                 $("#rec_year").html("");
                 console.log(data);
+              selected = ''
               for(key in data){
-                $("#rec_year").append("<option value='"+data[key].value+"'>"+data[key].title+"</option>");
+                if (selected){
+                  selected = '';
+                } else {
+                  selected = 'selected';
+                }
+                $("#rec_year").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
               }
           });
         };
