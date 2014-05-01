@@ -2,7 +2,11 @@
 
 {% block feed %}
 <form method="post" action="/addperf/" accept-charset="UTF-8">
-
+  <div class="row">
+  <div class="large-12 columns">
+Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtubeId}}"><div id='yt-alert'></div><br>
+</div>
+</div>
     <div class="row">
 
         <div class="large-6 columns">
@@ -35,9 +39,7 @@ Orchestra: <select name="ocode" id="orc"></select><br>
 Year: <select name="year" id="rec_year"></select><br>
 </div>
 </div>
-  <div class="large-12 columns">
-Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtubeId}}"><div id='yt-alert'></div><br>
-</div>
+
 <input class="button" type="submit" value="Add Video!">
 </div>
 
