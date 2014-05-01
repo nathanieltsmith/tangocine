@@ -48,8 +48,13 @@ Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtube
 <script>
 $(function() {
   update_year = function() {
-              url = "/api/get_years?song="+encodeURIComponent($('#add-song').val()) + '&orc=' + encodeURIComponent($('#orc').val());
-              console.log(url);
+    ocode = $('#orc').val();
+    if (!ocode){
+      ocode = $(#orc).find("option:first").attr("selected", true).val()
+    }
+              url = "/api/get_years?song="+encodeURIComponent($('#add-song').val()) + '&orc=' + 
+              encodeURIComponent(ocode);
+
               $.getJSON(url, function(data){
                 $("#rec_year").html("");
                 console.log(data);
@@ -60,7 +65,7 @@ $(function() {
                 } else {
                   selected = 'selected';
                 }
-                console.log("selected: " + selected)
+                
                 $("#rec_year").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
               }
           });
