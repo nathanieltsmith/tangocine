@@ -115,7 +115,7 @@ $(function() {
           video_id = video_id.substring(0, ampersandPosition);
       }
       console.log(video_id);
-  $.getJSON('api/video_added/'+ video_id, function(data){
+  $.getJSON('/api/video_added/'+ video_id, function(data){
       console.log(data);
   });
 
