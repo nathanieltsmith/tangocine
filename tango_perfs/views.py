@@ -217,10 +217,6 @@ def getPerformer(fullName):
 		return p
 
 def addPerformance(request, youtubeId=""):
-	try:
-		Performance.objects.get(youtubeId=youtubeId)
-		return HttpResponse("This performance has already been added")
-	except Exception, e:
 		context = RequestContext(request, {
 			'youtubeId': youtubeId,
 			
