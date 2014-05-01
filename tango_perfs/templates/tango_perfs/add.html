@@ -48,11 +48,9 @@ Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtube
 <script>
 $(function() {
   update_year = function(song, orc) {
-    ocode = $('#orc').val();
-
               url = "/api/get_years?song="+encodeURIComponent(song) + '&orc=' + 
               encodeURIComponent(orc);
-
+              console.log(url)
               $.getJSON(url, function(data){
                 $("#rec_year").html("");
                 console.log(data);
