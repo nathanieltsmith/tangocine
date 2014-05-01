@@ -343,9 +343,10 @@ def get_orchestras(request):
 	#if request.is_ajax():
 	song = Song.objects.get(simplifiedTitle=unquote(request.GET.get('song', '')))
 	orchestras = []
-	orc_dict = {'title': rec.orchestra.name, 'value': rec.orchestra.ocode}
-	if orc_dict not in orchestras:
-		orchestra.append(orc_dict)
+	for rec in Recording.objects.filter(song=song)
+		orc_dict = {'title': rec.orchestra.name, 'value': rec.orchestra.ocode}
+		if orc_dict not in orchestras:
+			orchestra.append(orc_dict)
 	data = json.dumps(orchestra)
 	#else:
 	#	data = 'fail'
