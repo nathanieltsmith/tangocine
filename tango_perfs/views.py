@@ -367,4 +367,14 @@ def get_years(request):
 	mimetype = 'application/json'
 	return HttpResponse(data, mimetype)
 
+def video_added(request, youtubeId):
+	mimetype = 'application/json'
+	try:
+		Performance.objects.get(youtubeId=youtubeId);
+		return HttpResponse(json.dumps(['success']), mimetype)
+	except Exception as e:
+		return HttpResponse(json.dumps(['failure']), mimetype)
+
+	
+
 		

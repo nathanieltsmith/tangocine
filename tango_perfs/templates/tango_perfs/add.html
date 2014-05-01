@@ -107,7 +107,19 @@ $(function() {
   // add_song.autocomplete('option','change').call(add_song);
 
   $("#orc").change(function(){update_year($('#add-song').val(), $('#orc').val())});
+  $("#youtubeid").change(function(){
+        url = $("#youtubeid").val();
+        var video_id = url.split('v=')[1];
+        var ampersandPosition = video_id.indexOf('&');
+        if(ampersandPosition != -1) {
+          video_id = video_id.substring(0, ampersandPosition);
+      }
+      console.log(video_id);
+  $.getJSON('api/video_added/'+ video_id, function(data){
+      console.log(data);
+  });
 
+  });
 });
 </script>
 {% endblock post_jquery_load %}
