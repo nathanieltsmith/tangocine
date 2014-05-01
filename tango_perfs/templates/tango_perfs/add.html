@@ -60,6 +60,7 @@ $(function() {
                 } else {
                   selected = 'selected';
                 }
+                console.log("selected: " + selected)
                 $("#rec_year").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
               }
           });
