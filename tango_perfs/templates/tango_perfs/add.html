@@ -56,10 +56,11 @@ $(function() {
               console.log(url);
               $.getJSON(url, function(data){
             $("#orc").html("");
-        for(key in data)
-            $("#orc").append("<option value='"+data[key].value+"'>"+data[key].title+"</option>");
+            console.log(data);
+          for(key in data)
+              $("#orc").append("<option value='"+key.value+"'>"+key.title+"</option>");
         
-   }); 
+      }); 
           $('#orc-fields').slideDown();
       }
   });
