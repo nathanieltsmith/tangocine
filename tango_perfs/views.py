@@ -354,7 +354,7 @@ def get_years(request):
 	song = Song.objects.get(simplifiedTitle=request.GET.get('song', ''))
 	orchestra = Orchestra.objects.get(ocode=request.GET.get('orc', ''))
 	years = []
-	for rec in Recording.objects.filter(song=song, orchestra=orchestra).order_by('date'):
+	for rec in Recording.objects.filter(song=song, orchestra=orchestra).order_by('recorded'):
 		if rec.recorded:
 			year_dict = {"title": rec.recorded.strftime('%Y'), "value": rec.recorded.strftime('%Y')}
 			if year_dict not in years:
