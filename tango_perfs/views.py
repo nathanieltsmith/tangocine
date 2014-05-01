@@ -16,6 +16,7 @@ from django.core.urlresolvers import reverse_lazy
 
 from .forms import RegistrationForm, LoginForm
 
+from urllib import unquote
 from braces import views
 from random import shuffle
 from unidecode import unidecode
@@ -340,7 +341,7 @@ def get_performers(request):
 
 def get_orchestras(request):
 	if request.is_ajax():
-		song = Song.objects.get(simplifiedTitle=request.GET.get('song', ''))
+		song = Song.objects.get(simplifiedTitle=unquote(request.GET.get('song', '')))
 		orchestras = []
 		orc_dict = {'title': rec.orchestra.name, 'value': rec.orchestra.ocode}
 		if orc_dict not in orchestras:
