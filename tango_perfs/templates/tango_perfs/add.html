@@ -57,8 +57,12 @@ $(function() {
               $.getJSON(url, function(data){
             $("#orc").html("");
             console.log(data);
-          for(key in data)
+          for(key in data){
+            console.log(key);
+            console.log(data[key]);
+            console.log(data[key].value)
               $("#orc").append("<option value='"+key.value+"'>"+key.title+"</option>");
+            }
         
       }); 
           $('#orc-fields').slideDown();
