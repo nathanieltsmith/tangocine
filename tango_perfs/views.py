@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 
 from tango_perfs.models import Performance, Performer, Couple, DanceEvent
-from tango_disco.models import Recording, Song, PlayedOn
+from tango_disco.models import Recording, Song, PlayedOn, Orchestra
 from django.contrib.auth.models import User
 
 
