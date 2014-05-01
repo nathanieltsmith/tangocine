@@ -20,18 +20,20 @@
       <div id='perf2-add-ac-container' class='ac-container'></div>
   </div>
   </div>
-  <div class="large-6 columns">
+  <div class="large-12 columns">
  <div class="ui-widget">
   <label for="song">Song: </label>
   <input name="add-song" id="add-song">
    <div id='song-add-ac-container' class='ac-container'></div>
 </div>
 </div>
+<div id='orc-fields' style="display:none">
   <div class="large-6 columns">
-Orchestra: <input type="select" name="ocode" id="orc"><br>
+Orchestra: <input type="select" name="ocode" id="orc"></select><br>
 </div>
   <div class="large-6 columns">
-Year: <input type="select" name="year" id="rec_year"><br>
+Year: <input type="select" name="year" id="rec_year"></select><br>
+</div>
 </div>
   <div class="large-12 columns">
 Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtubeId}}"><br>
@@ -51,6 +53,7 @@ $(function() {
     appendTo: "#song-add-ac-container", 
     change: function() {
           alert('changed for reals');
+          $(#orc-fields).slideDown()
       }
   });
     $("#add-performer1").autocomplete({
