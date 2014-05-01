@@ -52,7 +52,14 @@ $(function() {
     minLength: 2,
     appendTo: "#song-add-ac-container", 
     change: function() {
-          alert('changed for reals');
+              url = "/api/get_orchestras?song="+urlencode(#add-song).value
+              console.log(url)
+              $.getJSON(url, function(data){
+            $("#orc").html("");
+        for(key in data)
+            $("#orc").append("<option value='"+data[key].value+"'>"+data[key].title+"</option>");
+        
+   }); 
           $('#orc-fields').slideDown();
       }
   });
