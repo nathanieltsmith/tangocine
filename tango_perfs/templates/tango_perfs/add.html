@@ -50,7 +50,7 @@ $(function() {
   update_year = function() {
     ocode = $('#orc').val();
     if (!ocode){
-      ocode = $(#orc).find("option:first").attr("selected", true).val()
+      ocode = $('#orc').find("option:first").attr("selected", true).val();
     }
               url = "/api/get_years?song="+encodeURIComponent($('#add-song').val()) + '&orc=' + 
               encodeURIComponent(ocode);
