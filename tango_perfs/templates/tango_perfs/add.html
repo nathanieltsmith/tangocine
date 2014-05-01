@@ -47,13 +47,11 @@ Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtube
 {% block post_jquery_load %}
 <script>
 $(function() {
-  update_year = function() {
+  update_year = function(song, orc) {
     ocode = $('#orc').val();
-    if (!ocode){
-      ocode = $("#orc option").filter(":selected").val();
-    }
-              url = "/api/get_years?song="+encodeURIComponent($('#add-song').val()) + '&orc=' + 
-              encodeURIComponent(ocode);
+
+              url = "/api/get_years?song="+encodeURIComponent(song) + '&orc=' + 
+              encodeURIComponent(orc);
 
               $.getJSON(url, function(data){
                 $("#rec_year").html("");
@@ -80,16 +78,20 @@ $(function() {
               $.getJSON(url, function(data){
             $("#orc").html("");
             console.log(data);
-          selected = 'selected';
+          first=1;
           for(key in data){
                 console.log("selected: " + selected)
               $("#orc").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+              if (first){
+                orc = data[key].value;
+              }
+                  first = 0;
                   selected = '';
             }
         
       }); 
-          console.log($('#orc').val());
-          update_year();
+
+          update_year($('#add-song').val(), orc);
           $('#orc-fields').slideDown();
       }
   });
@@ -110,7 +112,7 @@ $(function() {
   // });
   // add_song.autocomplete('option','change').call(add_song);
 
-  $("#orc").change(update_year);
+  $("#orc").change(function(){update_year($('#add-song').val(), $('#orc').val())});
 
 });
 </script>
