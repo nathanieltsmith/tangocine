@@ -47,6 +47,17 @@ Youtube Url: <input type="text" id='youtubeid' name="youtubeid" value="{{youtube
 {% block post_jquery_load %}
 <script>
 $(function() {
+  update_year = function() {
+              url = "/api/get_years?song="+encodeURIComponent($('#add-song').val()) + '&orc=' + encodeURIComponent($('#orc').val());
+              console.log(url);
+              $.getJSON(url, function(data){
+                $("#rec_year").html("");
+                console.log(data);
+              for(key in data){
+                $("#rec_year").append("<option value='"+data[key].value+"'>"+data[key].title+"</option>");
+              }
+          });
+        };
   $("#add-song").autocomplete({
     source: "/api/get_songs/",
     minLength: 2,
@@ -58,14 +69,11 @@ $(function() {
             $("#orc").html("");
             console.log(data);
           for(key in data){
-            console.log(key);
-            console.log(data[key]);
-            console.log(data[key].value);
-            console.log(data[key].title);
               $("#orc").append("<option value='"+data[key].value+"'>"+data[key].title+"</option>");
             }
         
       }); 
+          update_year();
           $('#orc-fields').slideDown();
       }
   });
@@ -85,12 +93,8 @@ $(function() {
   //     }
   // });
   // add_song.autocomplete('option','change').call(add_song);
-  $("#add-song").change(function(){
-    alert('song changed');
-  });
-  $("#orc").change(function(){
-    alert('Orchestra Changed');
-  });
+
+  $("#orc").change(update_year);
 
 });
 </script>
