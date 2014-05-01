@@ -56,15 +56,10 @@ $(function() {
               $.getJSON(url, function(data){
                 $("#rec_year").html("");
                 console.log(data);
-              selected = ''
+              selected = 'selected="selected"'
               for(key in data){
-                if (selected){
-                  selected = '';
-                } else {
-                  selected = 'selected="selected"';
-                }
-                
                 $("#rec_year").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+                selected="";
               }
           });
         };
@@ -79,6 +74,7 @@ $(function() {
             $("#orc").html("");
             console.log(data);
           first=1;
+          selected='selected="selected"';
           for(key in data){
                 console.log("selected: " + selected)
               $("#orc").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
