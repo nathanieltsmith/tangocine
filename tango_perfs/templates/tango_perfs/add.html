@@ -75,15 +75,11 @@ $(function() {
               $.getJSON(url, function(data){
             $("#orc").html("");
             console.log(data);
-          selected = '';
+          selected = 'selected';
           for(key in data){
-                if (selected){
-                  selected = '';
-                } else {
-                  selected = 'selected';
-                }
                 console.log("selected: " + selected)
               $("#orc").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+                  selected = '';
             }
         
       }); 
