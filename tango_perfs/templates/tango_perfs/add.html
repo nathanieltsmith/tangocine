@@ -52,7 +52,7 @@ $(function() {
     minLength: 2,
     appendTo: "#song-add-ac-container", 
     change: function() {
-              url = "/api/get_orchestras?song="+encodeURIComponent(('#add-song').value);
+              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song').value);
               console.log(url);
               $.getJSON(url, function(data){
             $("#orc").html("");
