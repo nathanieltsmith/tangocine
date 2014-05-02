@@ -126,9 +126,11 @@ $(function() {
       console.log(data[0]);
       if (data[0] === 'failure'){
         $("#yt-alert").html('video is not currently added');
+        $("#yt-alert").addClass('alert-box success radius');
         $("#youtubeid").val(video_id);
       } else {
          $("#yt-alert").html('This video has already been added');
+         $("#yt-alert").addClass('alert-box alert radius');
       }
   });
 
