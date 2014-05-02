@@ -231,7 +231,7 @@ def detail(request, id):
 	recording = perf.recordings.first()
 	orchestras = []
 	for rec in perf.recordings.all():
-		print rec.orchestra.name + ' ' + rec.orchestra.ocode
+		#print rec.orchestra.name + ' ' + rec.orchestra.ocode
 		singerOb = PlayedOn.objects.filter(recording=perf.recordings.first())
 		if (singerOb):
 			musician = singerOb[0].musician
@@ -243,7 +243,7 @@ def detail(request, id):
 	for couple in perf.couples.all():
 		for performer in couple.performers.all():
 			dancers += [performer]
-	print str(dancers)
+	#print str(dancers)
 	context = RequestContext(request, {
 		'events' : events,
 		'dancers': dancers,
