@@ -54,12 +54,12 @@ class Couple(models.Model):
 	performers = models.ManyToManyField(Performer)
 	def __unicode__(self):              # __unicode__ on Python 2
 		try: 
-			if self.performers.first().lastName == self.performers.last().lastName:
-				return self.performers.first().firstName+ ' and ' + self.performers.last().firstName + ' '+ self.performers.first().lastName
+			if self.performers.first().fullName.split(' ')[-1] == self.performers.last().fullName.split(' ')[-1]:
+				return self.performers.first().fullName+ ' and ' + self.performers.last().firstName + ' '+ self.performers.first().fullName
 			else:
 				return self.performers.first().fullName+  ' and ' + self.performers.last().fullName
 		except:
-			return 'blah'
+			return 'Unknown Dancers'
 
 	def scanForVideos(self):
 		names = [[x.firstName, x.lastName] for x in self.performers.all()]
