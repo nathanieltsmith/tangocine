@@ -2,14 +2,17 @@
 {% block title %}{{ viewedEvent.name }} {{perf.couples.first}} dance to {{perf.recordings.first}} on Tango Cine | Argentine Tango Videos{% endblock %}
 
 {% block og-properties %}
-<meta property="og:type" content="website" />
 <meta property="og:site_name" content="Tango Cine">
 <meta property="og:url" content="http://www.tangocine.com/p/{{perf.youtubeId}}">
-<meta property="og:title" content="{{perf.couples.first}} dance to {{perf.recordings.first}}">
-<meta property="og:image" content="http://i1.ytimg.com/vi/{{perf.youtubeId}}/maxresdefault.jpg">
-<meta property="og:image:type" content="image/jpeg" />
-<meta property="og:image:width" content="1280" />
-<meta property="og:image:height" content="720" />
+<meta property="og:title" content="Performance by {{perf.couples.first}}">
+<meta property="og:description" content="{{perf.couples.first}} dance to {{perf.recordings.first}}">
+<meta property="og:image" content="http://i1.ytimg.com/vi/{{perf.youtubeId}}/hqdefault.jpg">
+<meta property="og:type" content="video">
+<meta property="og:video" content="http://www.youtube.com/v/37a45nlKCIc?autohide=1&amp;version=3">
+<meta property="og:video:type" content="application/x-shockwave-flash">
+<meta property="og:video:width" content="480">
+<meta property="og:video:height" content="360">
+
 {% endblock og-properties %}
 
 {% block left_sidebar %}
