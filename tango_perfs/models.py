@@ -54,8 +54,10 @@ class Couple(models.Model):
 	performers = models.ManyToManyField(Performer)
 	def __unicode__(self):              # __unicode__ on Python 2
 		try: 
-			if self.performers.first().fullName.split(' ')[-1] == self.performers.last().fullName.split(' ')[-1]:
-				return self.performers.first().fullName+ ' and ' + self.performers.last().firstName + ' '+ self.performers.first().fullName
+			if self.performers.first().fullName == self.performers.last().fullName:
+				return self.performers.first().fullName
+			elif self.performers.first().fullName.split(' ')[-1] == self.performers.last().fullName.split(' ')[-1]:
+				return self.performers.first().fullName+ ' and ' + self.performers.last().fullName
 			else:
 				return self.performers.first().fullName+  ' and ' + self.performers.last().fullName
 		except:

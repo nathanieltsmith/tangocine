@@ -257,7 +257,7 @@ def updateHotness():
 
 
 
-#scanAllCouples(0)
+scanAllCouples(0)
 getVideoMetaData()
 updateHotness()
 # def scanVideo(videoText)

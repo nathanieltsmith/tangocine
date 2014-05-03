@@ -175,7 +175,7 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 
 def addperf(request):
 
-	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('add-song')).lower()).filter(orchestra__ocode = request.POST.get('ocode'))
+	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('add-song')).lower()).filter(orchestra__ocode = request.POST.get('ocode')).filter(recorded__year=request.POST.get('year'))
 	if (not rec):
 		return HttpResponse("Recording not found")
 	couple = getCouple(request.POST.get('add-performer1'), request.POST.get('add-performer2'))

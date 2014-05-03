@@ -288,9 +288,10 @@ font-size: 40px;
  <!-- Nav Sidebar -->
     <!-- This is source ordered to be pulled to the left on larger screens -->
 
-    <div class="large-3 medium-3 columns hide-for-small">
+
    
 {% block left_sidebar %}
+    <div class="large-3 medium-2 columns hide-for-small">
   {% if events %}
     <div class="row">
       <div class="panel">
@@ -325,8 +326,9 @@ font-size: 40px;
     <!-- Main Feed -->
     <!-- This has been source ordered to come first in the markup (and on small devices) but to be to the right of the nav on larger screens -->
 
-    <div class="large-6 medium-7 columns">
+
  {% block feed %}
+     <div class="large-7 medium-6 columns">
       <!-- Feed Entry -->
 {% if perf_list %}
 
@@ -367,10 +369,10 @@ font-size: 40px;
  
 
  
-
+         </div>
      {% endblock %}
 
-         </div>
+
     <!-- Right Sidebar -->
     <!-- On small devices this column is hidden -->
     <aside class="large-3 medium-2 columns hide-for-small">
