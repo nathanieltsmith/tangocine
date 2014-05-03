@@ -328,7 +328,7 @@ font-size: 40px;
 
 
  {% block feed %}
-     <div class="large-7 medium-6 columns">
+     <div class="large-6 medium-8 columns">
       <!-- Feed Entry -->
 {% if perf_list %}
 
@@ -346,7 +346,7 @@ font-size: 40px;
         </div>
       </div>
           {% endfor %}
-              <div class="pagination  large-8 columns">
+              <div class="pagination large-8 columns">
     <span class="step-links">
         {% if perf_list.has_previous %}
             <a href="?page={{ perf_list.previous_page_number }}">previous</a>
