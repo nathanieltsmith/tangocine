@@ -2,8 +2,9 @@
 {% block title %}{{ viewedEvent.name }} {{perf.couples.first}} dance to {{perf.recordings.first}} on Tango Cine | Argentine Tango Videos{% endblock %}
 
 {% block og-properties %}
+<meta property="og:type" content="video" />
 <meta property="og:site_name" content="Tango Cine">
-<meta property="og:url" content="http://www.tangocine.com/p/{{perf.youtubeId}}">
+<meta property="og:url" content="http://www.tangocine.com/p/{{perf.youtubeId}}/">
 <meta property="og:title" content="Performance by {{perf.couples.first}}">
 <meta property="og:description" content="{{perf.couples.first}} dance to {{perf.recordings.first}}">
 <meta property="og:image" content="http://i1.ytimg.com/vi/{{perf.youtubeId}}/hqdefault.jpg">
@@ -27,7 +28,7 @@
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=509524769083436";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-    <link itemprop="thumbnailUrl" href="{{perf.thumbnailUrl}}">
+    <link itemprop="thumbnailUrl" href="http://i1.ytimg.com/vi/{{perf.youtubeId}}/maxresdefault.jpg">
     <span itemprop="thumbnail" itemscope itemtype="http://schema.org/ImageObject">
       <link itemprop="url" href="http://i1.ytimg.com/vi/{{perf.youtubeId}}/maxresdefault.jpg">
       <meta itemprop="width" content="1280">
