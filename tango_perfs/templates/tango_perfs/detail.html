@@ -66,3 +66,32 @@
     </div>
     </div>
 {% endblock %}
+
+  {% block right_sidebar %}
+    <aside class="large-4 medium-4 columns ">
+
+<div class="panel">
+  Related Videos:
+{% if suggestions %}
+
+    {% for suggestion in suggestions %}
+      <div class="row">
+  
+        <div class="large-12 columns">
+<div class="image">
+<a href="/p/{{suggestion.youtubeId}}">
+   <h5>  <span> {{suggestion.couples.first}} dance to {{suggestion.recordings.first.song.title}}</span></h5>
+      <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/{{suggestion.youtubeId}}" frameborder="0" allowfullscreen></iframe> -->
+        <img class="ytthumb-suggest" src="{{suggestion.thumbnailUrl}}"></a>
+</div>
+        </div>
+      </div>
+          {% endfor %}
+
+{% else %}
+    <p>No Performances are available.</p>
+{% endif %}
+</div>
+
+    </aside>
+   {% endblock %} 

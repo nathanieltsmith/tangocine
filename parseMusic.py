@@ -186,7 +186,7 @@ tangoinfoUrls = [
 # ('xgrvictora', u'Orquesta Típica', u'Víctor',u'Orquesta Típica Víctor', 'otv'),
 # ('JuanfMagli', u'Juan Félix', u'Maglio', u'Orquesta Juan Maglio', 'maglio'),
 # ('SalusVarel', u'Héctor', u'Varela', u'Orquesta Héctor Varela', 'varela'),
-# ('EdgarDonat', u'Edgardo', u'Donato', u'Orquesta Edgardo Donato', 'donato'),
+ ('EdgarDonat', u'Edgardo', u'Donato', u'Orquesta Edgardo Donato', 'donato'),
 # ('ArmanPuntu', u'Armando', u'Pontier', u'Orquesta Armando Pontier', 'pontier'),
 # ('MigueVilla', u'Miguel', u'Villasboas', u'Orquesta Miguel Villasboas', 'villaboas'),
 # ('HoracSalga', u'Horacio', u'Salgán', u'Horacio Salgán', 'salgan'),
@@ -198,7 +198,7 @@ tangoinfoUrls = [
 #('xgrlsprvnc', 'Los', 'Provincianos', 'Los Provincianos', 'provincianos'),
 #('HugoaDiaza', 'Hugo', "Diaz", "Hugo Diaz", 'hugodiaz'),
 #('JuancCacer', 'Juan Carlos', u'Cáceres', u'Juan Carlos Cáceres', 'caceres'),
-('AngelDagos', 'Angel', "D'Agostino", "Orquesta Angel D'Agostino",'dagostino')
+#('AngelDagos', 'Angel', "D'Agostino", "Orquesta Angel D'Agostino",'dagostino')
 
 ]
 

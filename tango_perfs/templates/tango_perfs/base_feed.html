@@ -38,6 +38,10 @@ img.ytthumb {
   height:360px;
   width:480px;
 }
+img.ytthumb-suggest {
+  height:180px;
+  width:240px;
+}
 img.side-profile-link {
   height:100px;
   width:100px;
@@ -374,9 +378,10 @@ font-size: 40px;
 
 
     <!-- Right Sidebar -->
-    <!-- On small devices this column is hidden -->
-    <aside class="large-3 medium-2 columns hide-for-small">
+    <!-- On small devices this zcolumn is hidden -->
   {% block right_sidebar %}
+    <aside class="large-3 medium-2 columns hide-for-small">
+
 <div class="panel">
   With Tango Cine you can:
   <ul>
@@ -387,9 +392,9 @@ font-size: 40px;
 
   Like this website?  <a href="#">Click here to support us</a>
 </div>
-  {% endblock %} 
+
     </aside>
- 
+   {% endblock %} 
   </div>
 </div> <!-- Content -->
  

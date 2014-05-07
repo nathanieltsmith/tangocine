@@ -13,6 +13,7 @@ from django.views import generic
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
+from django.db.models import Q
 
 from .forms import RegistrationForm, LoginForm
 
@@ -243,13 +244,28 @@ def detail(request, id):
 	for couple in perf.couples.all():
 		for performer in couple.performers.all():
 			dancers += [performer]
-	#print str(dancers)
+	suggestions = []
+	suggestionQuery = None
+	# look up how to do an 'or query'
+	for performer in dancers:
+		if not suggestionQuery:
+			suggestionQuery = Q(couples__performers=performer)
+		else:
+			suggestionQuery = suggestionQuery | Q(couples__performers=performer)
+	for recording in perf.recordings.all():
+		if not suggestionQuery:
+			suggestionQuery = Q(recordings=recording)
+		else:
+			suggestionQuery = suggestionQuery | Q(recordings=recording)
+	suggestions += Performance.objects.exclude(pk=perf.pk).filter(suggestionQuery).order_by('?')[:10]
+			#print str(dancers)
 	context = RequestContext(request, {
 		'events' : events,
 		'dancers': dancers,
 		'perf': perf,
 		'performers' : performers,
-		'orchestras' : orchestras
+		'orchestras' : orchestras,
+		'suggestions' : suggestions
 	})
 	template = loader.get_template('tango_perfs/detail.html')
 	return HttpResponse(template.render(context))
