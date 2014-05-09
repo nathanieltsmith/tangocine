@@ -396,6 +396,7 @@ def video_added(request, youtubeId):
 
 def deactivate(request, youtubeId):
 	try:
+		mimetype = 'application/json'
 		if request.user.is_superuser:
 			p = Performance.objects.get(youtubeId=youtubeId)
 			p.active = False
