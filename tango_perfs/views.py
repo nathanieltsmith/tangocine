@@ -113,7 +113,8 @@ def index(request):
 		'performers' : performers,
 		'total_perfs' : total_perfs,
 		'events' : events,
-		'trending' : True
+		'trending' : True,
+		'superUser' : request.user.is_superuser
 	})
 	return HttpResponse(template.render(context))
 
@@ -169,7 +170,8 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 		'events' : events,
 		'newest' : newest,
 		'trending' : trending,
-		'personalized' : personalized
+		'personalized' : personalized,
+		'superUser' : request.user.is_superuser
 
 	})
 	return HttpResponse(template.render(context))
@@ -265,7 +267,8 @@ def detail(request, id):
 		'perf': perf,
 		'performers' : performers,
 		'orchestras' : orchestras,
-		'suggestions' : suggestions
+		'suggestions' : suggestions,
+		'superUser' : request.user.is_superuser
 	})
 	template = loader.get_template('tango_perfs/detail.html')
 	return HttpResponse(template.render(context))
@@ -391,6 +394,15 @@ def video_added(request, youtubeId):
 	except Exception as e:
 		return HttpResponse(json.dumps(['failure']), mimetype)
 
-	
-
+def deactivate(request, youtubeId):
+	try:
+		if request.user.is_superuser:
+			p = Performance.objects.get(youtubeId=youtubeId)
+			p.active = False
+			p.save()
+			return HttpResponse(json.dumps(['success']), mimetype)
+		else:
+			return HttpResponseRedirect(settings.LOGIN_URL)
+	except Exception as e:
+		return HttpResponse(json.dumps(['failure']), mimetype)
 		

@@ -347,6 +347,11 @@ font-size: 40px;
       <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/{{perf.youtubeId}}" frameborder="0" allowfullscreen></iframe> -->
         <img class="ytthumb" src="{{perf.thumbnailUrl}}"></a>
 </div>
+{% if superUser %}
+  <div class="large-2 columns">
+    <input type="submit" class='radius button banish-button' id={{perf.youtubeId}} value="Banish" >
+  </div>
+{% endif %}
         </div>
       </div>
           {% endfor %}
@@ -456,7 +461,15 @@ font-size: 40px;
         
          
 
+      });  
+        $( ".banish-button" ).click(function() {
+            url = '/api/banish/' + $( this ).attr('id');
+            $.getJSON(url, function(data){
+                console.log(data[0]);
+
       });
+      });
+
     });
 
     $(function() {
