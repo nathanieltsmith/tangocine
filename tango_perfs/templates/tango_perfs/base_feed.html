@@ -463,7 +463,7 @@ font-size: 40px;
 
       });  
         $( ".banish-button" ).click(function() {
-            url = '/api/banish/' + $( this ).attr('id');
+            url = '/deactivate/' + $( this ).attr('id');
             $.getJSON(url, function(data){
                 console.log(data[0]);
 
