@@ -132,6 +132,7 @@ def scanCouple(couple, client=None):
 	for searchString in searchStrings:
 		pageToken = None
 		for x in range(7):
+			time.sleep(1)
 			result = youtube_search(searchString, pageToken)
 			pageToken = result[1]
 			name1 = unidecode(names[0][0]).lower()
@@ -182,7 +183,12 @@ def identifyVideo(video, scanCouple, client):
 						performance.recordings.add(recording)
 						performance.save()
 						return str(performance)
-		return 'performance not found:  ' + largeSearch
+		performance = Performance(youtubeId=video[1], performance_type='P')
+		performance.save()
+		performance.couples.add(scanCouple)
+		performance.recordings.add(Performance.objects.get(song__title="Unknown Song"))
+		performance.save()
+		return str(performance)
 		# for song in Song.objects.all():
 		# 	simpTitle = unidecode(song.title).lower()
 		# 	if (len(simpTitle.split()) > 1 and (not simpTitle in songBlackList)):
