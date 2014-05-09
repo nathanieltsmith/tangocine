@@ -186,7 +186,7 @@ def identifyVideo(video, scanCouple, client):
 		performance = Performance(youtubeId=video[1], performance_type='P')
 		performance.save()
 		performance.couples.add(scanCouple)
-		performance.recordings.add(Performance.objects.get(song__title="Unknown Song"))
+		performance.recordings.add(Recording.objects.get(song__title="Unknown Song"))
 		performance.save()
 		return str(performance)
 		# for song in Song.objects.all():
