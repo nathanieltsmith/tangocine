@@ -259,7 +259,7 @@ def detail(request, id):
 			suggestionQuery = Q(recordings=recording)
 		else:
 			suggestionQuery = suggestionQuery | Q(recordings=recording)
-	suggestions += Performance.objects.exclude(pk=perf.pk, active=False).filter(suggestionQuery).order_by('?')[:10]
+	suggestions += Performance.objects.exclude(pk=perf.pk).exclude(active=False).filter(suggestionQuery).order_by('?')[:10]
 			#print str(dancers)
 	context = RequestContext(request, {
 		'events' : events,
