@@ -124,8 +124,9 @@ def scanCouple(couple, client=None):
 	if (not client):
 		client = service.YouTubeService()
 		client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
-	names = [[x.firstName, x.lastName] for x in couple.performers.all()]
+	names = [[x.fullName.split(' ')[0], x.lastName] for x in couple.performers.all()]
 	searchStrings = []
+	# Check that there are not multiple couples with this name
 	if (len(Couple.objects.filter(performers__firstName=names[0][0]).filter(performers__firstName=names[1][0])) > 1):
 		searchStrings.append(' '.join([' '.join(x) for x in names]))
 	searchStrings.append(' '.join([x[0] for x in names]))
