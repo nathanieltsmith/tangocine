@@ -15,6 +15,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse_lazy
 from django.db.models import Q
 
+from endless_pagination.decorators import page_template
+
 from .forms import RegistrationForm, LoginForm
 
 from urllib import unquote
@@ -273,29 +275,39 @@ def detail(request, id):
 	template = loader.get_template('tango_perfs/detail.html')
 	return HttpResponse(template.render(context))
 
-def performer(request, performer_code):
+#@page_template('tango_perfs/base_feed_page.html') 
+def performer(request, performer_code,  extra_context=None):
+	page_template = 'tango_perfs/base_feed_page.html'
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	events = DanceEvent.objects.all().order_by('-date')
 	performer = Performer.objects.get(code=performer_code)
 	latest_perf_list = Performance.objects.filter(couples__performers__code=performer_code, active=True).order_by('hotness')
-	paginator = Paginator(latest_perf_list, 10)
-	page = request.GET.get('page')
-	try:
-		perfs = paginator.page(page)
-	except PageNotAnInteger:
+	#paginator = Paginator(latest_perf_list, 10)
+	#page = request.GET.get('page')
+	#try:
+	#	perfs = paginator.page(page)
+	#except PageNotAnInteger:
 		# If page is not an integer, deliver first page.
-		perfs = paginator.page(1)
-	except EmptyPage:
+	#	perfs = paginator.page(1)
+	#except EmptyPage:
 		# If page is out of range (e.g. 9999), deliver last page of results.
-		perfs = paginator.page(paginator.num_pages)
-	template = loader.get_template('tango_perfs/performer.html')
+	#	perfs = paginator.page(paginator.num_pages)
 	context = RequestContext(request, {
-		'perf_list': perfs,
+		'perf_list': latest_perf_list,
 		'performers' : performers,
 		'events' : events,
 		'trending' : '1',
-		'performer' : performer
+		'performer' : performer,
+		'page_template': page_template
 	})
+	if request.is_ajax():
+		template = page_template
+	# if extra_context is not None:
+	# 	context.update(extra_context)
+	template = loader.get_template('tango_perfs/performer.html')
+	# if request.is_ajax():
+	# 	template = page_template
+
 	return HttpResponse(template.render(context))
 
 def event(request, event_id):
