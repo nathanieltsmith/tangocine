@@ -14,6 +14,6 @@
 
      {% block foundation_js_init %}
     {{ block.super }}
-    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
-    <script>$.endlessPaginate();</script>
+    <script src="/static/endless_pagination/js/endless-pagination.js"></script>
+    <script>$.endlessPaginate({paginateOnScroll: true});</script>
 {% endblock %}
