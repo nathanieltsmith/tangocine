@@ -119,7 +119,8 @@ def index(request):
 		'total_perfs' : total_perfs,
 		'events' : events,
 		'trending' : True,
-		'superUser' : request.user.is_superuser
+		'superUser' : request.user.is_superuser,
+		'page_template': page_template
 	})
 	return HttpResponse(template.render(context))
 
@@ -179,7 +180,8 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 		'newest' : newest,
 		'trending' : trending,
 		'personalized' : personalized,
-		'superUser' : request.user.is_superuser
+		'superUser' : request.user.is_superuser,
+		'page_template': page_template
 
 	})
 	return HttpResponse(template.render(context))
@@ -302,6 +304,7 @@ def performer(request, performer_code,  extra_context=None):
 	return HttpResponse(template.render(context))
 
 def event(request, event_id):
+	page_template = 'tango_perfs/base_feed_page.html'
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	perfs = Performance.objects.filter(event__id=event_id, active=True).order_by('-totalViews')
 	viewedEvent = DanceEvent.objects.get(id=event_id)
@@ -311,7 +314,8 @@ def event(request, event_id):
 		'perf_list': perfs,
 		'performers' : performers,
 		'viewedEvent' : viewedEvent,
-		'events' : events
+		'events' : events,
+		'page_template': page_template
 	})
 	return HttpResponse(template.render(context))
 
