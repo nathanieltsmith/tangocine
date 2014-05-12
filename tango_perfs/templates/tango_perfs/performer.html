@@ -1,0 +1,19 @@
+{% extends "tango_perfs/base_feed.html" %}
+{% block meta %}
+<meta name="description" content="A comprehensive list of tango videos and performances by {{performer.fullName}}">
+{% endblock meta %}
+{% block base_title %}
+<title>{% block title %}{{performer.fullName}}: Tango Videos and Performances at Tango Cine{% endblock title %}</title>
+{% endblock base_title %}
+
+ {% block feed %}
+     <div class="large-6 medium-8 columns">
+	{% include page_template %}
+     </div>
+     {% endblock %}
+
+     {% block foundation_js_init %}
+    {{ block.super }}
+    <script src="{{ STATIC_URL }}endless_pagination/js/endless-pagination.js"></script>
+    <script>$.endlessPaginate();</script>
+{% endblock %}

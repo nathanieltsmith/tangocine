@@ -1,0 +1,32 @@
+{% load endless %}
+
+{% paginate entries %}
+
+
+
+{% if perf_list %}
+
+    {% for perf in perf_list %}
+      <div class="row">
+  
+        <div class="large-12 columns">
+<div class="image">
+<a href="/p/{{perf.youtubeId}}">
+   <h3>  <span> {{perf.couples.first}} <span class='spacer'></span><br><span class='spacer'></span>
+     dance to {{perf.recordings.first.song.title}}</span></h3>
+      <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/{{perf.youtubeId}}" frameborder="0" allowfullscreen></iframe> -->
+        <img class="ytthumb" src="{{perf.thumbnailUrl}}"></a>
+</div>
+{% if superUser %}
+  <div class="large-2 columns">
+    <input type="submit" class='radius button banish-button' id={{perf.youtubeId}} value="Banish" >
+  </div>
+{% endif %}
+        </div>
+      </div>
+          {% endfor %}
+{% else %}
+    <p>No More Performances are available.</p>
+{% endif %}
+
+{% show_more %}
