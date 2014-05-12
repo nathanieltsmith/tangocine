@@ -3,7 +3,7 @@
 {% paginate perf_list %}
 
 
-{% show_more %}
+
 {% if perf_list %}
 
     {% for perf in perf_list %}
@@ -11,7 +11,7 @@
   
         <div class="large-12 columns">
 <div class="image">
-<a href="/p/{{perf.youtubeId}}">
+<a href="/p/{{perf.youtubeId}}" {% if superUser %} target="_blank" {% endif %}>
    <h3>  <span> {{perf.couples.first}} <span class='spacer'></span><br><span class='spacer'></span>
      dance to {{perf.recordings.first.song.title}}</span></h3>
       <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/{{perf.youtubeId}}" frameborder="0" allowfullscreen></iframe> -->
@@ -45,3 +45,4 @@
 
   </script>
 
+{% show_more %}
