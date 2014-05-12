@@ -276,7 +276,7 @@ def detail(request, id):
 def performer(request, performer_code):
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	events = DanceEvent.objects.all().order_by('-date')
-
+	performer = Performer.objects.get(code=performer_code)
 	latest_perf_list = Performance.objects.filter(couples__performers__code=performer_code, active=True).order_by('hotness')
 	paginator = Paginator(latest_perf_list, 10)
 	page = request.GET.get('page')
@@ -288,12 +288,13 @@ def performer(request, performer_code):
 	except EmptyPage:
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		perfs = paginator.page(paginator.num_pages)
-	template = loader.get_template('tango_perfs/base_feed.html')
+	template = loader.get_template('tango_perfs/performer.html')
 	context = RequestContext(request, {
 		'perf_list': perfs,
 		'performers' : performers,
 		'events' : events,
-		'trending' : '1'
+		'trending' : '1',
+		'performer' : performer
 	})
 	return HttpResponse(template.render(context))
 

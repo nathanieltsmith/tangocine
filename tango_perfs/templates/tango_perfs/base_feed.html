@@ -5,7 +5,9 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    {% block meta %}{% endblock meta %}
+    {% block meta %}
+    <meta name="description" content="Tango Cine is a massive collection of Argentine Tango videos and performances arranged by recording and performer">
+    {% endblock meta %}
     {% block base_title %}
     <title>{% block title %}Tango Cine | Argentine Tango Videos and Performances{% endblock title %}</title>
     {% endblock base_title %}
@@ -159,7 +161,7 @@ font-size: 40px;
       <li id='search-button'><a href='#'>Search</a></li>
       <li {% if trending %}class="active"{% endif %}><a href='/'>Trending</a></li>
       <li {% if newest %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/-created_date/'>Newest</a></li>
-      <li {% if personalized %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/%3F/'>Personalized</a></li>
+     <!-- <li {% if personalized %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/%3F/'>Personalized</a></li>-->
 
     </ul>
 
@@ -395,7 +397,21 @@ font-size: 40px;
   <li> Get updates about the performers you care about</li>
   </ul>
 
-  Like this website?  <a href="#">Click here to support us</a>
+  Want to stay up to date on the website?  'Like' us on Facebook  
+
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=687842737919982&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="fb-like" data-href="https://www.facebook.com/tangocine" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+<br>or follow us on Twitter:
+<a href="https://twitter.com/TangoCine" class="twitter-follow-button" data-show-count="false">Follow @TangoCine</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
 </div>
 
     </aside>
