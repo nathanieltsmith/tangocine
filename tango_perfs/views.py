@@ -302,7 +302,7 @@ def performer(request, performer_code,  extra_context=None):
 	})
 	template = loader.get_template('tango_perfs/performer.html')
 	if request.is_ajax():
-		template = page_template
+		template = loader.get_template(page_template)
 	# if extra_context is not None:
 	# 	context.update(extra_context)
 
