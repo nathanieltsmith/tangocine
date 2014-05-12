@@ -70,6 +70,7 @@ class LogOutView(views.LoginRequiredMixin,
         
 
 def index(request):
+	page_template = 'tango_perfs/base_feed_page.html'
 	performer1= [request.GET.get('performer1')] if isinstance(request.GET.get('performer1'), basestring) else request.GET.getlist('performer1')
 	performer2= [request.GET.get('performer2')] if isinstance(request.GET.get('performer2'), basestring) else request.GET.getlist('performer2')
 	genres = [request.GET.get('genre')] if isinstance(request.GET.get('genre'), basestring) else request.GET.get('genre')
@@ -99,19 +100,21 @@ def index(request):
 
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	events = DanceEvent.objects.all().order_by('-date')
-	paginator = Paginator(latest_perf_list, 20)
-	page = request.GET.get('page')
-	try:
-		perfs = paginator.page(page)
-	except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-		perfs = paginator.page(1)
-	except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-		perfs = paginator.page(paginator.num_pages)
+	# paginator = Paginator(latest_perf_list, 20)
+	# page = request.GET.get('page')
+	# try:
+	# 	perfs = paginator.page(page)
+	# except PageNotAnInteger:
+	# 	# If page is not an integer, deliver first page.
+	# 	perfs = paginator.page(1)
+	# except EmptyPage:
+	# 	# If page is out of range (e.g. 9999), deliver last page of results.
+	# 	perfs = paginator.page(paginator.num_pages)
 	template = loader.get_template('tango_perfs/base_feed.html')
+	if request.is_ajax():
+		template = loader.get_template(page_template)
 	context = RequestContext(request, {
-		'perf_list': perfs,
+		'perf_list': latest_perf_list,
 		'performers' : performers,
 		'total_perfs' : total_perfs,
 		'events' : events,
@@ -131,6 +134,7 @@ def prefilter(request):
 	#return HttpResponseRedirect("/filter/%s/%s/%s/%s/%s" %(p1,p2,orc,genre,sort))
 
 def filter(request, performer1='all', performer2='all', orchestra='all', genre='all', sort_method='-hotness', song='all'):
+	page_template = 'tango_perfs/base_feed_page.html'
 	latest_perf_list = Performance.objects.filter(active=True).order_by(sort_method)
 	total_perfs = len(latest_perf_list)
 	print performer1
@@ -151,22 +155,24 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 		latest_perf_list = latest_perf_list.filter(recordings__orchestra__ocode=orchestra)
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	events = DanceEvent.objects.all().order_by('-date')
-	paginator = Paginator(latest_perf_list, 20)
-	page = request.GET.get('page')
+	# paginator = Paginator(latest_perf_list, 20)
+	# page = request.GET.get('page')
 	newest = True if sort_method == '-created_date' else False
 	trending = True if sort_method == '-hotness' else False
 	personalized = True if sort_method == '?' else False
-	try:
-		perfs = paginator.page(page)
-	except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-		perfs = paginator.page(1)
-	except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-		perfs = paginator.page(paginator.num_pages)
+	# try:
+	# 	perfs = paginator.page(page)
+	# except PageNotAnInteger:
+	# 	# If page is not an integer, deliver first page.
+	# 	perfs = paginator.page(1)
+	# except EmptyPage:
+	# 	# If page is out of range (e.g. 9999), deliver last page of results.
+	# 	perfs = paginator.page(paginator.num_pages)
 	template = loader.get_template('tango_perfs/base_feed.html')
+	if request.is_ajax():
+		template = loader.get_template(page_template)
 	context = RequestContext(request, {
-		'perf_list': perfs,
+		'perf_list': latest_perf_list,
 		'performers' : performers,
 		'total_perfs' : total_perfs,
 		'events' : events,
@@ -282,16 +288,6 @@ def performer(request, performer_code,  extra_context=None):
 	events = DanceEvent.objects.all().order_by('-date')
 	performer = Performer.objects.get(code=performer_code)
 	latest_perf_list = Performance.objects.filter(couples__performers__code=performer_code, active=True).order_by('hotness')
-	#paginator = Paginator(latest_perf_list, 10)
-	#page = request.GET.get('page')
-	#try:
-	#	perfs = paginator.page(page)
-	#except PageNotAnInteger:
-		# If page is not an integer, deliver first page.
-	#	perfs = paginator.page(1)
-	#except EmptyPage:
-		# If page is out of range (e.g. 9999), deliver last page of results.
-	#	perfs = paginator.page(paginator.num_pages)
 	context = RequestContext(request, {
 		'perf_list': latest_perf_list,
 		'performers' : performers,
@@ -303,12 +299,6 @@ def performer(request, performer_code,  extra_context=None):
 	template = loader.get_template('tango_perfs/performer.html')
 	if request.is_ajax():
 		template = loader.get_template(page_template)
-	# if extra_context is not None:
-	# 	context.update(extra_context)
-
-	# if request.is_ajax():
-	# 	template = page_template
-
 	return HttpResponse(template.render(context))
 
 def event(request, event_id):

@@ -335,52 +335,8 @@ font-size: 40px;
 
  {% block feed %}
      <div class="large-6 medium-8 columns">
-      <!-- Feed Entry -->
-{% if perf_list %}
-
-    {% for perf in perf_list %}
-      <div class="row">
-  
-        <div class="large-12 columns">
-<div class="image">
-<a href="/p/{{perf.youtubeId}}">
-   <h3>  <span> {{perf.couples.first}} <span class='spacer'></span><br><span class='spacer'></span>
-     dance to {{perf.recordings.first.song.title}}</span></h3>
-      <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/{{perf.youtubeId}}" frameborder="0" allowfullscreen></iframe> -->
-        <img class="ytthumb" src="{{perf.thumbnailUrl}}"></a>
-</div>
-{% if superUser %}
-  <div class="large-2 columns">
-    <input type="submit" class='radius button banish-button' id={{perf.youtubeId}} value="Banish" >
-  </div>
-{% endif %}
-        </div>
-      </div>
-          {% endfor %}
-              <div class="pagination large-8 columns">
-    <span class="step-links">
-        {% if perf_list.has_previous %}
-            <a href="?page={{ perf_list.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ perf_list.number }} of {{ perf_list.paginator.num_pages }}.
-        </span>
-
-        {% if perf_list.has_next %}
-            <a href="?page={{ perf_list.next_page_number }}">next</a>
-        {% endif %}
-    </span>
-  </div>
-
-{% else %}
-    <p>No Performances are available.</p>
-{% endif %}
-      <!-- End Feed Entry -->
- 
-
- 
-         </div>
+  {% include page_template %}
+     </div>
      {% endblock %}
 
 
@@ -521,6 +477,8 @@ font-size: 40px;
   ga('send', 'pageview');
 
   </script>
+  <script src="/static/endless_pagination/js/endless-pagination.js"></script>
+  <script>$.endlessPaginate({paginateOnScroll: true});</script>
     {% endblock foundation_js_init %}
 
     {% block post_jquery_load %}

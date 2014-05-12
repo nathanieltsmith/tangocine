@@ -6,14 +6,4 @@
 <title>{% block title %}{{performer.fullName}}: Tango Videos and Performances at Tango Cine{% endblock title %}</title>
 {% endblock base_title %}
 
- {% block feed %}
-     <div class="large-6 medium-8 columns">
-	{% include page_template %}
-     </div>
-     {% endblock %}
 
-     {% block foundation_js_init %}
-    {{ block.super }}
-    <script src="/static/endless_pagination/js/endless-pagination.js"></script>
-    <script>$.endlessPaginate({paginateOnScroll: true});</script>
-{% endblock %}
