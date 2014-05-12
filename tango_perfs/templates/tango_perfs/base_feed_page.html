@@ -29,4 +29,20 @@
     <p>No More Performances are available.</p>
 {% endif %}
 
+<script>
+      $(document).ready(function(){
+
+ 
+        $( ".banish-button" ).click(function() {
+            url = '/deactivate/' + $( this ).attr('id');
+            $.getJSON(url, function(data){
+                console.log(data[0]);
+
+      });
+      });
+
+    });
+
+  </script>
+
 {% show_more %}
