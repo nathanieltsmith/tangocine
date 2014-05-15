@@ -171,6 +171,7 @@ font-size: 40px;
 <li><a href="{% url 'signup' %}" class="btn btn-default navbar-btn">Register</a></li>
 <li><a href="{% url 'login' %}" class="btn btn-default navbar-btn">Login</a></li>
 {% else %}
+{% if user.is_superuser%}
       <li class="has-dropdown">
         <a href="#">Add Videos</a>
         <ul class="dropdown">
@@ -178,6 +179,7 @@ font-size: 40px;
           <li><a href="#">Upload (Coming soon...)</a></li>
         </ul>
       </li>
+  {% endif %}
 <li><a href="{% url 'logout' %}" class="btn btn-default navbar-btn">Logout</a></li>
 {% endif %}
 <!--       <li><a href="/accounts/login">Login/Create Account</a></li>

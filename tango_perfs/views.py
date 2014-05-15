@@ -187,21 +187,35 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 	return HttpResponse(template.render(context))
 
 def addperf(request):
-
 	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('add-song')).lower()).filter(orchestra__ocode = request.POST.get('ocode')).filter(recorded__year=request.POST.get('year'))
+	if not request.user.is_superuser():
+		messages.add_message(request, messages.WARN,"This recording has already been added")
+		return redirect('/addform/')
 	if (not rec):
-		return HttpResponse("Recording not found")
+		messages.add_message(request, messages.WARN,"Recording Not Found")
+		return redirect('/addform/')
 	couple = getCouple(request.POST.get('add-performer1'), request.POST.get('add-performer2'))
 	if (not couple):
-		return HttpResponse("Couple creation error")
-	performance = Performance(youtubeId=request.POST.get('youtubeid'), performance_type='P')
-	if (request.POST.get('perf-date')):
-		performance.performance_date = request.POST.get('perf-date')
-	performance.save()
-	performance.couples.add(couple)
-	performance.recordings.add(rec[0])
-	performance.save()
-	messages.add_message(request, messages.INFO, 'Video was successfully added.  Thanks!')
+		messages.add_message(request, messages.WARN,"Couple creation error")
+		return redirect('/addform/')
+	try:
+		p = Performance.objects.get(youtubeId=youtubeId=request.POST.get('youtubeid'))
+		p.couples.remove(p.couples.first())
+		p.recordings.remove(p.recordings.first())
+		p.couples.add(couple)
+		p.recordings.add(rec[0])
+		p.save()
+		messages.add_message(request, messages.INFO, 'Video was successfully modified.  Thanks!')
+	except Exception as e:
+		
+		performance = Performance(youtubeId=request.POST.get('youtubeid'), performance_type='P')
+		if (request.POST.get('perf-date')):
+			performance.performance_date = request.POST.get('perf-date')
+		performance.save()
+		performance.couples.add(couple)
+		performance.recordings.add(rec[0])
+		performance.save()
+		messages.add_message(request, messages.INFO, 'Video was successfully added.  Thanks!')
 	return redirect('/addform/')
 
 
