@@ -188,7 +188,7 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 
 def addperf(request):
 	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('add-song')).lower()).filter(orchestra__ocode = request.POST.get('ocode')).filter(recorded__year=request.POST.get('year'))
-	if not request.user.is_superuser():
+	if not request.user.is_superuser:
 		messages.add_message(request, messages.WARN,"This recording has already been added")
 		return redirect('/addform/')
 	if (not rec):
