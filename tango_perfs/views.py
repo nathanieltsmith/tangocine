@@ -199,7 +199,7 @@ def addperf(request):
 		messages.add_message(request, messages.WARN,"Couple creation error")
 		return redirect('/addform/')
 	try:
-		p = Performance.objects.get(youtubeId=youtubeId=request.POST.get('youtubeid'))
+		p = Performance.objects.get(youtubeId=request.POST.get('youtubeid'))
 		p.couples.remove(p.couples.first())
 		p.recordings.remove(p.recordings.first())
 		p.couples.add(couple)
