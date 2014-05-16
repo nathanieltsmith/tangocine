@@ -79,7 +79,7 @@
         <div class="large-6 columns">
      <div class="ui-widget ui-front">
         <label for="song">Dancer: </label>
-      <input name="add-performer1" id="add-performer1" value="{{dancers.first}}">
+      <input name="add-performer1" id="add-performer1" value="{{dancers[0].fullName}}">
       <div id='perf1-add-ac-container' class='ac-container'></div>
   </div>
   </div>
@@ -87,7 +87,7 @@
           <div class="large-6 columns">
      <div class="ui-widget ui-front">
         <label for="song">Dancing with: </label>
-      <input name="add-performer2" id="add-performer2" value="{{dancers.last}}">
+      <input name="add-performer2" id="add-performer2" value="{{dancers[1].fullName}}">
       <div id='perf2-add-ac-container' class='ac-container'></div>
   </div>
   </div>
@@ -107,7 +107,7 @@ Year: <select name="year" id="rec_year"></select><br>
 </div>
 </div>
 
-<input class="button" type="submit" value="Add Video!">
+<input class="button" type="submit" value="Updated Video!">
 </div>
 
 </form>
