@@ -65,6 +65,54 @@
       </div> 
     </div>
     </div>
+
+    {% if user.is_superuser}
+    <div class="large-12" >
+<form method="post" action="/addperf/" accept-charset="UTF-8">
+  <div class="row">
+  <div class="large-12 columns">
+<input type="hidden" id='youtubeid' name="youtubeid" value="{{perf.youtubeId}}">
+</div>
+</div>
+    <div class="row">
+
+        <div class="large-6 columns">
+     <div class="ui-widget ui-front">
+        <label for="song">Dancer: </label>
+      <input name="add-performer1" id="add-performer1" value="{{dancers.first.fullName}}">
+      <div id='perf1-add-ac-container' class='ac-container'></div>
+  </div>
+  </div>
+
+          <div class="large-6 columns">
+     <div class="ui-widget ui-front">
+        <label for="song">Dancing with: </label>
+      <input name="add-performer2" id="add-performer2" value="dancers.last.fullName">
+      <div id='perf2-add-ac-container' class='ac-container'></div>
+  </div>
+  </div>
+  <div class="large-12 columns">
+ <div class="ui-widget">
+  <label for="song">Song: </label>
+  <input name="add-song" id="add-song">
+   <div id='song-add-ac-container' class='ac-container'></div>
+</div>
+</div>
+<div id='orc-fields' style="display:none">
+  <div class="large-6 columns">
+Orchestra: <select name="ocode" id="orc"></select><br>
+</div>
+  <div class="large-6 columns">
+Year: <select name="year" id="rec_year"></select><br>
+</div>
+</div>
+
+<input class="button" type="submit" value="Add Video!">
+</div>
+
+</form>
+</div>
+    {% endif %}
 {% endblock %}
 
   {% block right_sidebar %}
@@ -95,3 +143,97 @@
 
     </aside>
    {% endblock %} 
+
+
+   {% block post_jquery_load %}
+<script>
+$(function() {
+  update_year = function(song, orc) {
+              url = "/api/get_years?song="+encodeURIComponent(song) + '&orc=' + 
+              encodeURIComponent(orc);
+              console.log(url)
+              $.getJSON(url, function(data){
+                $("#rec_year").html("");
+                console.log(data);
+              selected = 'selected="selected"'
+              for(key in data){
+                $("#rec_year").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+                selected="";
+              }
+          });
+        };
+  $("#add-song").autocomplete({
+    source: "/api/get_songs/",
+    minLength: 2,
+    appendTo: "#song-add-ac-container", 
+    select: function() {
+              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song').val());
+              console.log(url);
+              $.getJSON(url, function(data){
+            $("#orc").html("");
+            console.log(data);
+          first=1;
+          selected='selected="selected"';
+          for(key in data){
+                console.log("selected: " + selected)
+              $("#orc").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+              if (first){
+                orc = data[key].value;
+              }
+                  first = 0;
+                  selected = '';
+            }
+        update_year($('#add-song').val(), orc);
+      }); 
+
+          
+          $('#orc-fields').slideDown();
+      }
+  });
+    $("#add-performer1").autocomplete({
+    source: "/api/get_performers/",
+    minLength: 2,
+    appendTo: "#perf1-add-ac-container", 
+  });
+  $("#add-performer2").autocomplete({
+    source: "/api/get_performers/",
+    minLength: 2,
+    appendTo: "#perf2-add-ac-container", 
+  });
+  // var add_song = $("#add-song").autocomplete({ 
+  //     change: function() {
+  //         alert('changed for reals');
+  //     }
+  // });
+  // add_song.autocomplete('option','change').call(add_song);
+
+  $("#orc").change(function(){update_year($('#add-song').val(), $('#orc').val())});
+  $("#youtubeid").change(function(){
+        url = $("#youtubeid").val();
+        var video_id = url.split('v=');
+        if (video_id.length > 1){
+          video_id = video_id[1];
+        } else {
+          video_id = video_id[0];
+        }
+        var ampersandPosition = video_id.indexOf('&');
+        if(ampersandPosition != -1) {
+          video_id = video_id.substring(0, ampersandPosition);
+      }
+      console.log(video_id);
+  $.getJSON('/api/video_added/'+ video_id, function(data){
+      console.log(data[0]);
+      if (data[0] === 'failure'){
+        $("#yt-alert").html('video is not currently added');
+        $("#yt-alert").addClass('alert-box success radius');
+        $("#youtubeid").val(video_id);
+      } else {
+         $("#yt-alert").html('This video has already been added');
+         $("#yt-alert").addClass('alert-box alert radius');
+      }
+  });
+
+  });
+});
+</script>
+{% endblock post_jquery_load %}
