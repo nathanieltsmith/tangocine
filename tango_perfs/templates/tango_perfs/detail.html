@@ -76,21 +76,20 @@
 </div>
     <div class="row">
 
+
+     {% for dancer in dancers %}
+    {% cycle 'performer1' 'performer2' as performer silent %}
+ 
+
         <div class="large-6 columns">
      <div class="ui-widget ui-front">
         <label for="song">Dancer: </label>
-      <input name="add-performer1" id="add-performer1" value="{{dancers.last.fullName}}">
-      <div id='perf1-add-ac-container' class='ac-container'></div>
+      <input name="{{performer}}" id="add-{{performer}}" value="{{dancer.fullName}}">
+      <div id='{{performer}}-add-ac-container' class='ac-container'></div>
   </div>
   </div>
+{% endfor %} 
 
-          <div class="large-6 columns">
-     <div class="ui-widget ui-front">
-        <label for="song">Dancing with: </label>
-      <input name="add-performer2" id="add-performer2" value="{{dancers.first.fullName}}">
-      <div id='perf2-add-ac-container' class='ac-container'></div>
-  </div>
-  </div>
   <div class="large-12 columns">
  <div class="ui-widget">
   <label for="song">Song: </label>
@@ -193,12 +192,12 @@ $(function() {
     $("#add-performer1").autocomplete({
     source: "/api/get_performers/",
     minLength: 2,
-    appendTo: "#perf1-add-ac-container", 
+    appendTo: "#performer1-add-ac-container", 
   });
   $("#add-performer2").autocomplete({
     source: "/api/get_performers/",
     minLength: 2,
-    appendTo: "#perf2-add-ac-container", 
+    appendTo: "#performer2-add-ac-container", 
   });
   // var add_song = $("#add-song").autocomplete({ 
   //     change: function() {
