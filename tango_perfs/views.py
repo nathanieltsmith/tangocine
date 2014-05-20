@@ -186,6 +186,34 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 	})
 	return HttpResponse(template.render(context))
 
+
+def inactive(request):
+	if request.user.is_superuser:
+		page_template = 'tango_perfs/base_feed_page.html'
+		latest_perf_list = Performance.objects.filter(active=False).order_by('-created_date')
+		performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
+		newest = True 
+		trending = False
+		personalized = False
+		template = loader.get_template('tango_perfs/base_feed.html')
+		if request.is_ajax():
+			template = loader.get_template(page_template)
+		context = RequestContext(request, {
+			'perf_list': latest_perf_list,
+			'performers' : performers,
+			'total_perfs' : total_perfs,
+			'events' : events,
+			'newest' : newest,
+			'trending' : trending,
+			'personalized' : personalized,
+			'superUser' : request.user.is_superuser,
+			'page_template': page_template
+
+		})
+		return HttpResponse(template.render(context))
+	else:
+		return redirect('/')
+
 def addperf(request):
 	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('add-song')).lower()).filter(orchestra__ocode = request.POST.get('ocode')).filter(recorded__year=request.POST.get('year'))
 	if not request.user.is_superuser:
@@ -421,9 +449,12 @@ def deactivate(request, youtubeId):
 		mimetype = 'application/json'
 		if request.user.is_superuser:
 			p = Performance.objects.get(youtubeId=youtubeId)
-			p.active = False
+			if p.active:
+				p.active = False
+			else:
+				p.active = True
 			p.save()
-			return HttpResponse(json.dumps(['success']), mimetype)
+			return HttpResponse(json.dumps([p.active]), mimetype)
 		else:
 			return HttpResponseRedirect(settings.LOGIN_URL)
 	except Exception as e:

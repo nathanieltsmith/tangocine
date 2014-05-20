@@ -136,14 +136,7 @@ def scanRec(recording, client=None):
 	recording.save()
 	return result
 
-client = service.YouTubeService()
-client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
-for recording in Recording.objects.filter(youtubeId=None):
-	try:
-		scanRec(recording, client)
-		time.sleep(.5)
-	except Exception as e:
-		print "video not found"
+
 
 def scanCouple(couple, client=None):
 	if (not client):
@@ -210,7 +203,7 @@ def identifyVideo(video, scanCouple, client):
 						performance.recordings.add(recording)
 						performance.save()
 						return str(performance)
-		performance = Performance(youtubeId=video[1], performance_type='P')
+		performance = Performance(youtubeId=video[1], performance_type='P', active=False)
 		performance.save()
 		performance.couples.add(scanCouple)
 		performance.recordings.add(Recording.objects.get(song__title="Unknown Song"))
@@ -288,13 +281,20 @@ def updateHotness():
 			print str(e)
 	return total
 
+# client = service.YouTubeService()
+# client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
+# for recording in Recording.objects.filter(youtubeId=None):
+# 	try:
+# 		scanRec(recording, client)
+# 		time.sleep(.5)
+# 	except Exception as e:
+# 		print "video not found"
 
 
-
-#scanFromCouples('Martin', 'Maurizio')
+scanFromCouples('El Flaco', 'Lorena')
 #scanAllCouples(0)
-#getVideoMetaData()
-#updateHotness()
+getVideoMetaData()
+updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database
 # 	convert accents and make the text lower case in the title and details
