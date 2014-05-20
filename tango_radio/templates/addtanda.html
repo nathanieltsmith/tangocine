@@ -1,0 +1,242 @@
+<form method="post" accept-charset="UTF-8">
+
+  <div class="large-12 columns">
+ <div class="ui-widget">
+  <label for="song">Song 1: </label>
+  <input name="add-song-1" id="add-song-1">
+   <div id='song-add-ac-container-1' class='ac-container'></div>
+</div>
+</div>
+<div id='orc-fields-1' style="display:none">
+  <div class="large-6 columns">
+Orchestra: <select name="ocode-1" id="orc-1"></select><br>
+</div>
+  <div class="large-6 columns">
+Year: <select name="year-1" id="rec_year-1"></select><br>
+</div>
+</div>
+
+
+  <div class="large-12 columns">
+ <div class="ui-widget">
+  <label for="song">Song 2: </label>
+  <input name="add-song-2" id="add-song-2">
+   <div id='song-add-ac-container-2' class='ac-container'></div>
+</div>
+</div>
+<div id='orc-fields-2' style="display:none">
+  <div class="large-6 columns">
+Orchestra: <select name="ocode-2" id="orc-2"></select><br>
+</div>
+  <div class="large-6 columns">
+Year: <select name="year-2" id="rec_year-2"></select><br>
+</div>
+</div>
+
+
+
+
+  <div class="large-12 columns">
+ <div class="ui-widget">
+  <label for="song">Song 3: </label>
+  <input name="add-song-3" id="add-song-3">
+   <div id='song-add-ac-container-3' class='ac-container'></div>
+</div>
+</div>
+<div id='orc-fields-3' style="display:none">
+  <div class="large-6 columns">
+Orchestra: <select name="ocode-3" id="orc-3"></select><br>
+</div>
+  <div class="large-6 columns">
+Year: <select name="year-3" id="rec_year-3"></select><br>
+</div>
+</div>
+
+
+
+  <div class="large-12 columns">
+ <div class="ui-widget">
+  <label for="song">Song 4: </label>
+  <input name="add-song-4" id="add-song-4">
+   <div id='song-add-ac-container-4' class='ac-container'></div>
+</div>
+</div>
+<div id='orc-fields-4' style="display:none">
+  <div class="large-6 columns">
+Orchestra: <select name="ocode-4" id="orc-4"></select><br>
+</div>
+  <div class="large-6 columns">
+Year: <select name="year-4" id="rec_year-4"></select><br>
+</div>
+</div>
+
+
+
+<input class="button" type="submit" value="Add Video!">
+</div>
+
+</form>
+
+
+    <script src="/static/foundation/js/vendor/jquery.js"></script>
+    
+
+    
+    
+    <script src="/static/foundation/js/foundation.min.js"></script>
+    
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
+</script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
+<script>
+$(function() {
+  update_year = function(song, orc, year_field) {
+              url = "/api/get_years?song="+encodeURIComponent(song) + '&orc=' + 
+              encodeURIComponent(orc);
+              console.log(url)
+              $.getJSON(url, function(data){
+                $(year_field).html("");
+                console.log(data);
+              selected = 'selected="selected"'
+              for(key in data){
+                $(year_field).append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+                selected="";
+              }
+          });
+        };
+
+  $("#add-song-1").autocomplete({
+    source: "/api/get_songs/",
+    minLength: 2,
+    appendTo: "#song-add-ac-container-1", 
+    select: function() {
+              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song-1').val());
+              console.log(url);
+              $.getJSON(url, function(data){
+            $("#orc-1").html("");
+            console.log(data);
+          first=1;
+          selected='selected="selected"';
+          for(key in data){
+                console.log("selected: " + selected)
+              $("#orc-1").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+              if (first){
+                orc = data[key].value;
+              }
+                  first = 0;
+                  selected = '';
+            }
+        update_year($('#add-song-1').val(), orc, '#rec_year-1');
+      }); 
+
+          
+          $('#orc-fields-1').slideDown();
+      }
+  });
+
+
+  $("#add-song-2").autocomplete({
+    source: "/api/get_songs/",
+    minLength: 2,
+    appendTo: "#song-add-ac-container-2" , 
+    select: function() {
+              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song-2').val());
+              console.log(url);
+              $.getJSON(url, function(data){
+            $("#orc-2").html("");
+            console.log(data);
+          first=1;
+          selected='selected="selected"';
+          for(key in data){
+                console.log("selected: " + selected)
+              $("#orc-2").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+              if (first){
+                orc = data[key].value;
+              }
+                  first = 0;
+                  selected = '';
+            }
+        update_year($('#add-song-2').val(), orc, '#rec_year-2');
+      }); 
+
+          
+          $('#orc-fields-2').slideDown();
+      }
+  });
+
+  $("#add-song-3").autocomplete({
+    source: "/api/get_songs/",
+    minLength: 2,
+    appendTo: "#song-add-ac-container-3" , 
+    select: function() {
+              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song-3').val());
+              console.log(url);
+              $.getJSON(url, function(data){
+            $("#orc-3").html("");
+            console.log(data);
+          first=1;
+          selected='selected="selected"';
+          for(key in data){
+                console.log("selected: " + selected)
+              $("#orc-3").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+              if (first){
+                orc = data[key].value;
+              }
+                  first = 0;
+                  selected = '';
+            }
+        update_year($('#add-song-3').val(), orc, '#rec_year-3');
+      }); 
+
+          
+          $('#orc-fields-3').slideDown();
+      }
+  });
+
+  $("#add-song-4").autocomplete({
+    source: "/api/get_songs/",
+    minLength: 2,
+    appendTo: "#song-add-ac-container-4" , 
+    select: function() {
+              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song-4').val());
+              console.log(url);
+              $.getJSON(url, function(data){
+            $("#orc-4").html("");
+            console.log(data);
+          first=1;
+          selected='selected="selected"';
+          for(key in data){
+                console.log("selected: " + selected)
+              $("#orc-4").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+              if (first){
+                orc = data[key].value;
+              }
+                  first = 0;
+                  selected = '';
+            }
+        update_year($('#add-song-4').val(), orc, '#rec_year-4');
+      }); 
+
+          
+          $('#orc-fields-4').slideDown();
+      }
+  });
+
+
+
+
+
+  // var add_song = $("#add-song").autocomplete({ 
+  //     change: function() {
+  //         alert('changed for reals');
+  //     }
+  // });
+  // add_song.autocomplete('option','change').call(add_song);
+
+  $("#orc-1").change(function(){update_year($('#add-song-1').val(), $('#orc-1').val(),'#rec_year-1')});
+  $("#orc-2").change(function(){update_year($('#add-song-2').val(), $('#orc-2').val(),'#rec_year-2')});
+  $("#orc-3").change(function(){update_year($('#add-song-3').val(), $('#orc-3').val(),'#rec_year-3')});
+  $("#orc-4").change(function(){update_year($('#add-song-4').val(), $('#orc-4').val(),'#rec_year-4')});
+});
+</script>
+
+

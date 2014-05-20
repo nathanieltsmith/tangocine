@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'south',
     'tango_disco',
    'tango_perfs',
+   'tango_radio',
     #'grappelli',
    #'autocomplete_light',
    'foundation',

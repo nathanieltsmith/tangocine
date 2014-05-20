@@ -72,6 +72,7 @@ class Recording(models.Model):
 	discNo = models.CharField(max_length=20, null=True, blank=True)
 	matrixNo = models.CharField(max_length=20, null=True, blank=True)
 	itunesId = models.CharField(max_length=100, null=True, blank=True)
+	youtubeId = models.CharField(max_length=20, null=True, blank=True)
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		try:

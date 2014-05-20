@@ -119,6 +119,31 @@ def scanAllCouples(num):
 	for couple in Couple.objects.all()[num:]:
 		scanCouple(couple, client)
 
+def scanFromCouples(dancer1, dancer2):
+	num = Couple.objects.filter(performers__fullName__icontains=dancer1).filter(performers__fullName__icontains=dancer2)[0].pk
+	scanAllCouples(num-10)
+
+def scanRec(recording, client=None):
+	if (not client):
+		client = service.YouTubeService()
+		client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
+	pageToken = None
+	searchString = recording.song.title + ' ' + recording.orchestra.leader.lastName
+	print searchString
+	result = youtube_search(searchString, pageToken)[0][0][1]
+	print result
+	recording.youtubeId = result
+	recording.save()
+	return result
+
+client = service.YouTubeService()
+client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
+for recording in Recording.objects.filter(youtubeId=None):
+	try:
+		scanRec(recording, client)
+		time.sleep(.5)
+	except Exception as e:
+		print "video not found"
 
 def scanCouple(couple, client=None):
 	if (not client):
@@ -127,20 +152,21 @@ def scanCouple(couple, client=None):
 	names = [[x.fullName.split(' ')[0], x.lastName] for x in couple.performers.all()]
 	searchStrings = []
 	# Check that there are not multiple couples with this name
-	if (len(Couple.objects.filter(performers__firstName=names[0][0]).filter(performers__firstName=names[1][0])) > 1):
-		searchStrings.append(' '.join([' '.join(x) for x in names]))
-	searchStrings.append(' '.join([x[0] for x in names]))
-	for searchString in searchStrings:
-		pageToken = None
-		for x in range(7):
-			time.sleep(1)
-			result = youtube_search(searchString, pageToken)
-			pageToken = result[1]
-			name1 = unidecode(names[0][0]).lower()
-			name2 = unidecode(names[1][0]).lower()
-			filteredList = [video for video in result[0] if (name1 in video[0] and name2 in video[0])]
-			for video in filteredList:
-				print identifyVideo(video, couple, client)
+	if len(names) > 1:
+		if (len(Couple.objects.filter(performers__firstName=names[0][0]).filter(performers__firstName=names[1][0])) > 1):
+			searchStrings.append(' '.join([' '.join(x) for x in names]))
+		searchStrings.append(' '.join([x[0] for x in names]))
+		for searchString in searchStrings:
+			pageToken = None
+			for x in range(7):
+				time.sleep(1)
+				result = youtube_search(searchString, pageToken)
+				pageToken = result[1]
+				name1 = unidecode(names[0][0]).lower()
+				name2 = unidecode(names[1][0]).lower()
+				filteredList = [video for video in result[0] if (name1 in video[0] and name2 in video[0])]
+				for video in filteredList:
+					print identifyVideo(video, couple, client)
 
 songBlackList = ['canaro', 'un sueno', 'el campeon','maria cristina','primer beso' 'ana maria','maria','na na', 'una vida','la final', 'en el salon', 'fresedo','te amo', 'mi vida', 'milonga', 'el tango', 'san francisco', 'la tango', 'color tango', 'buenos aires']
 
@@ -264,9 +290,11 @@ def updateHotness():
 
 
 
-scanAllCouples(0)
-getVideoMetaData()
-updateHotness()
+
+#scanFromCouples('Martin', 'Maurizio')
+#scanAllCouples(0)
+#getVideoMetaData()
+#updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database
 # 	convert accents and make the text lower case in the title and details
