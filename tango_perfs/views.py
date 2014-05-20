@@ -192,6 +192,7 @@ def inactive(request):
 		page_template = 'tango_perfs/base_feed_page.html'
 		latest_perf_list = Performance.objects.filter(active=False).order_by('-created_date')
 		performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
+		events = DanceEvent.objects.all().order_by('-date')
 		newest = True 
 		trending = False
 		personalized = False
