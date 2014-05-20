@@ -201,7 +201,6 @@ def inactive(request):
 		context = RequestContext(request, {
 			'perf_list': latest_perf_list,
 			'performers' : performers,
-			'total_perfs' : total_perfs,
 			'events' : events,
 			'newest' : newest,
 			'trending' : trending,
