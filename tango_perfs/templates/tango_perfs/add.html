@@ -1,5 +1,8 @@
 {% extends "tango_perfs/base_feed.html" %}
-
+{% block left_sidebar %}
+{% endblock %}
+{% block right_sidebar %}
+{% endblock %}
 {% block feed %}
 <form method="post" action="/addperf/" accept-charset="UTF-8">
   <div class="row">
@@ -39,7 +42,14 @@ Orchestra: <select name="ocode" id="orc"></select><br>
 Year: <select name="year" id="rec_year"></select><br>
 </div>
 </div>
-
+  <div class="large-12 columns">
+Event: <select name="event" id="event">
+<option value="">Select Event</option>
+  {% for event in events %}
+<option value={{event.pk}}>{{event.name}}</option>
+  {% endfor %}
+</select><br>
+</div>
 <input class="button" type="submit" value="Add Video!">
 </div>
 

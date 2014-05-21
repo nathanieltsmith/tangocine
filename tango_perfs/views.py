@@ -237,6 +237,8 @@ def addperf(request):
 	except Exception as e:
 		
 		performance = Performance(youtubeId=request.POST.get('youtubeid'), performance_type='P')
+		if (request.POST.get('event')):
+			performance.event = Event.objects.get(pk=request.POST.get('event'))
 		if (request.POST.get('perf-date')):
 			performance.performance_date = request.POST.get('perf-date')
 		performance.save()
@@ -274,6 +276,7 @@ def getPerformer(fullName):
 def addPerformance(request, youtubeId=""):
 		context = RequestContext(request, {
 			'youtubeId': youtubeId,
+			'events' : DanceEvent.objects.all()
 			
 		})
 		template = loader.get_template('tango_perfs/add.html')
