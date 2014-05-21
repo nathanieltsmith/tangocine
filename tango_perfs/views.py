@@ -217,14 +217,14 @@ def inactive(request):
 def addperf(request):
 	rec = Recording.objects.filter(song__simplifiedTitle=unidecode(request.POST.get('add-song')).lower()).filter(orchestra__ocode = request.POST.get('ocode')).filter(recorded__year=request.POST.get('year'))
 	if not request.user.is_superuser:
-		messages.add_message(request, messages.WARN,"This recording has already been added")
+		messages.add_message(request, messages.INFO,"This recording has already been added")
 		return redirect('/addform/')
 	if (not rec):
-		messages.add_message(request, messages.WARN,"Recording Not Found")
+		messages.add_message(request, messages.INFO,"Recording Not Found")
 		return redirect('/addform/')
 	couple = getCouple(request.POST.get('add-performer1'), request.POST.get('add-performer2'))
 	if (not couple):
-		messages.add_message(request, messages.WARN,"Couple creation error")
+		messages.add_message(request, messages.INFO,"Couple creation error")
 		return redirect('/addform/')
 	try:
 		p = Performance.objects.get(youtubeId=request.POST.get('youtubeid'))
