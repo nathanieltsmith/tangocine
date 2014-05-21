@@ -233,14 +233,14 @@ def addperf(request):
 		p.couples.add(couple)
 		p.recordings.add(rec[0])
 		if (request.POST.get('event')):
-			performance.event = Event.objects.get(pk=request.POST.get('event'))
+			performance.event = DanceEvent.objects.get(pk=request.POST.get('event'))
 		p.save()
 		messages.add_message(request, messages.INFO, 'Video was successfully modified.  Thanks!')
 	except Exception as e:
 		
 		performance = Performance(youtubeId=request.POST.get('youtubeid'), performance_type='P')
 		if (request.POST.get('event')):
-			performance.event = Event.objects.get(pk=request.POST.get('event'))
+			performance.event = DanceEvent.objects.get(pk=request.POST.get('event'))
 		if (request.POST.get('perf-date')):
 			performance.performance_date = request.POST.get('perf-date')
 		performance.save()
