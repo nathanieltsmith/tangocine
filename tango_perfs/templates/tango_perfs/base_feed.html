@@ -102,6 +102,21 @@ font-size: 40px;
     line-height: 18px;
 }
 
+.image h4 span { 
+    color: #fff !important;
+    font-size: 18px;
+    font-style: italic;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 9px;
+    background-color: rgba(103,103,103,0.6);
+    display: block;
+    width: 250px !important;
+    line-height: 22px;
+}
+
+
 .website-title h1{
     padding-left: 3%;
     padding-top: 2%;
@@ -160,7 +175,7 @@ font-size: 40px;
     <ul class="left">
       <li id='search-button'><a href='#'>Search</a></li>
       <li {% if trending %}class="active"{% endif %}><a href='/'>Trending</a></li>
-      <li {% if newest %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/-created_date/'>Newest</a></li>
+      <li {% if newest %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/-youtubeUploadDate/'>Newest</a></li>
      <!-- <li {% if personalized %}class="active"{% endif %}><a href='/filter/all/all/all/all/all/%3F/'>Personalized</a></li>-->
 
     </ul>
