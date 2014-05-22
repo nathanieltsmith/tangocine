@@ -108,6 +108,7 @@ def youtube_search(query, pageToken=None):
 		return (searchResults, newPageToken)
 	except Exception as e:
 		print 'Google sucks, retrying in 30 seconds'
+		print e
 		time.sleep(30)
 		return youtube_search(query, pageToken)
 
@@ -130,8 +131,9 @@ def scanRec(recording, client=None):
 	pageToken = None
 	searchString = recording.song.title + ' ' + recording.orchestra.leader.lastName
 	print searchString
-	result = youtube_search(searchString, pageToken)[0][0][1]
+	result = youtube_search(searchString, pageToken)
 	print result
+	result = result[0][0][1]
 	recording.youtubeId = result
 	recording.save()
 	return result
@@ -283,7 +285,7 @@ def updateHotness():
 
 # client = service.YouTubeService()
 # client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
-# for recording in Recording.objects.filter(youtubeId=None):
+# for recording in Recording.objects.all()[:5]:
 # 	try:
 # 		scanRec(recording, client)
 # 		time.sleep(.5)
@@ -291,8 +293,10 @@ def updateHotness():
 # 		print "video not found"
 
 
-scanFromCouples('El Flaco', 'Lorena')
-#scanAllCouples(0)
+#scanFromCouples('El Flaco', 'Lorena')
+# getVideoMetaData()
+# updateHotness()
+scanAllCouples(0)
 getVideoMetaData()
 updateHotness()
 # def scanVideo(videoText)

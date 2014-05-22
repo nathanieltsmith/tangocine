@@ -111,6 +111,29 @@ $(function() {
     minLength: 2,
     appendTo: "#perf2-add-ac-container", 
   });
+  $("#add-song").focusout(function() {
+              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song').val());
+              console.log(url);
+              $.getJSON(url, function(data){
+            $("#orc").html("");
+            console.log(data);
+          first=1;
+          selected='selected="selected"';
+          for(key in data){
+                console.log("selected: " + selected)
+              $("#orc").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+              if (first){
+                orc = data[key].value;
+              }
+                  first = 0;
+                  selected = '';
+            }
+        update_year($('#add-song').val(), orc);
+      }); 
+
+          
+          $('#orc-fields').slideDown();
+      });
   // var add_song = $("#add-song").autocomplete({ 
   //     change: function() {
   //         alert('changed for reals');
