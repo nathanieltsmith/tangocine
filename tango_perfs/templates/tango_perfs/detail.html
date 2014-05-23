@@ -161,33 +161,31 @@ $(function() {
               }
           });
         };
+
+  update_orchestra = function() {
+        url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song').val());
+        $.getJSON(url, function(data){
+              $("#orc").html("");
+              first=1;
+              selected='selected="selected"';
+              for(key in data){
+                  console.log("selected: " + selected)
+                  $("#orc").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
+                  if (first){
+                    orc = data[key].value;
+                   }
+                  first = 0;
+                  selected = '';
+              }
+              update_year($('#add-song').val(), orc);
+              $('#orc-fields').slideDown();
+            });
+      };
   $("#add-song").autocomplete({
     source: "/api/get_songs/",
     minLength: 2,
     appendTo: "#song-add-ac-container", 
-    select: function() {
-              url = "/api/get_orchestras?song="+encodeURIComponent($('#add-song').val());
-              console.log(url);
-              $.getJSON(url, function(data){
-            $("#orc").html("");
-            console.log(data);
-          first=1;
-          selected='selected="selected"';
-          for(key in data){
-                console.log("selected: " + selected)
-              $("#orc").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
-              if (first){
-                orc = data[key].value;
-              }
-                  first = 0;
-                  selected = '';
-            }
-        update_year($('#add-song').val(), orc);
-      }); 
-
-          
-          $('#orc-fields').slideDown();
-      }
+    select: update_orchestra
   });
     $("#add-performer1").autocomplete({
     source: "/api/get_performers/",
@@ -207,6 +205,7 @@ $(function() {
   // add_song.autocomplete('option','change').call(add_song);
 
   $("#orc").change(function(){update_year($('#add-song').val(), $('#orc').val())});
+  $("#add-song").focusout(update_orchestra); 
   $("#youtubeid").change(function(){
         url = $("#youtubeid").val();
         var video_id = url.split('v=');

@@ -146,6 +146,10 @@ def scanCouple(couple, client=None):
 		client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
 	names = [[x.fullName.split(' ')[0], x.lastName] for x in couple.performers.all()]
 	searchStrings = []
+	fullname =''
+	for perf in couple.performers.all():
+		fullname += perf.fullName + ' '
+	searchStrings.append(fullname)
 	# Check that there are not multiple couples with this name
 	if len(names) > 1:
 		if (len(Couple.objects.filter(performers__firstName=names[0][0]).filter(performers__firstName=names[1][0])) > 1):
@@ -293,12 +297,12 @@ def updateHotness():
 # 		print "video not found"
 
 
-#scanFromCouples('El Flaco', 'Lorena')
+scanFromCouples('gaia', 'leandro')
 # getVideoMetaData()
 # updateHotness()
-scanAllCouples(0)
+#scanAllCouples(0)
 getVideoMetaData()
-updateHotness()
+#updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database
 # 	convert accents and make the text lower case in the title and details
