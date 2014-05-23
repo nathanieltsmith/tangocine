@@ -125,8 +125,8 @@ def index(request):
 	return HttpResponse(template.render(context))
 
 def prefilter(request):
-	p1 = request.GET.get('performer1').replace(' ', '+') if request.GET.get('performer1') else 'all'
-	p2 = request.GET.get('performer2').replace(' ', '+') if request.GET.get('performer2') else 'all'
+	p1 = unidecode(request.GET.get('performer1').replace(' ', '+')) if request.GET.get('performer1') else 'all'
+	p2 = unidecode(request.GET.get('performer2').replace(' ', '+')) if request.GET.get('performer2') else 'all'
 	genre = request.GET.get('genre') if request.GET.get('genre') else 'all'
 	orc = request.GET.get('orc') if request.GET.get('orc') else 'all'
 	song = request.GET.get('song').replace(' ', '+') if request.GET.get('song') else 'all'
