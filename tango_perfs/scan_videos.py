@@ -156,6 +156,7 @@ def scanCouple(couple, client=None):
 			searchStrings.append(' '.join([' '.join(x) for x in names]))
 		searchStrings.append(' '.join([x[0] for x in names]))
 		for searchString in searchStrings:
+			print "searching: " + searchString
 			pageToken = None
 			for x in range(7):
 				time.sleep(1)
@@ -209,7 +210,7 @@ def identifyVideo(video, scanCouple, client):
 						performance.recordings.add(recording)
 						performance.save()
 						return str(performance)
-		performance = Performance(youtubeId=video[1], performance_type='P', active=False)
+		performance = Performance(youtubeId=video[1], performance_type='P', active=True)
 		performance.save()
 		performance.couples.add(scanCouple)
 		performance.recordings.add(Recording.objects.get(song__title="Unknown Song"))
@@ -296,12 +297,13 @@ def updateHotness():
 # 	except Exception as e:
 # 		print "video not found"
 
-
-scanFromCouples('gaia', 'leandro')
-# getVideoMetaData()
-# updateHotness()
-#scanAllCouples(0)
+#getVideoMetaData()
+#scanFromCouples('korey', 'mila')
 getVideoMetaData()
+#scanAllCouples(0)
+#updateHotness()
+
+#getVideoMetaData()
 #updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database

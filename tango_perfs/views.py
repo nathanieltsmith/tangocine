@@ -154,11 +154,14 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 		latest_perf_list = latest_perf_list.filter(recordings__genre__name=genre)
 	if (orchestra != 'all'):
 		latest_perf_list = latest_perf_list.filter(recordings__orchestra__ocode=orchestra)
+	if sort_method == '-youtubeUploadDate':
+		latest_perf_list = latest_perf_list.exclude(youtubeUploadDate=None)
+
 	performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 	events = DanceEvent.objects.all().order_by('-date')
 	# paginator = Paginator(latest_perf_list, 20)
 	# page = request.GET.get('page')
-	newest = True if sort_method == '-created_date' else False
+	newest = True if sort_method == '-youtubeUploadDate' else False
 	trending = True if sort_method == '-hotness' else False
 	personalized = True if sort_method == '?' else False
 	# try:
