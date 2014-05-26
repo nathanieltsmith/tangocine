@@ -455,14 +455,23 @@ font-size: 40px;
       });  
         $( ".banish-button" ).click(function() {
             url = '/deactivate/' + $( this ).attr('id');
+            $( this ).toggleClass( 'alert' )
+            if ($( this ).val() === 'Banish'){
+              $( this ).val('Activate');
+            } else {
+              $( this ).val('Banish');
+            }
             $.getJSON(url, function(data){
-              console.log(data[0])
+              
                 if (data[0]){
                   console.log('active');
-
+                  
                 } else {
                   console.log('inactive');
+                  
+
                 }
+                
 
       });
       });

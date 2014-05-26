@@ -20,7 +20,7 @@
 </div>
 {% if superUser %}
   <div class="large-2 columns">
-    <input type="submit" class='radius button banish-button {%if perf.active %} active {% endif %}' id={{perf.youtubeId}} {%if perf.active %} value="Banish" {% else %} value="Activate" {% endif %} >
+    <input type="submit" class='radius button banish-button {%if perf.active %} alert {% endif %}' id={{perf.youtubeId}} {%if perf.active %} value="Banish" {% else %} value="Activate" {% endif %} >
   </div>
 {% endif %}
         </div>
@@ -36,14 +36,23 @@
  
         $( ".banish-button" ).click(function() {
             url = '/deactivate/' + $( this ).attr('id');
+            $( this ).toggleClass( 'alert' )
+            if ($(this).val() === 'Banish'){
+              $( this ).val('Activate');
+            } else {
+              $( this ).val('Banish');
+            }
             $.getJSON(url, function(data){
-              console.log(data[0])
+              
                 if (data[0]){
                   console.log('active');
-
+                  
                 } else {
                   console.log('inactive');
+                  
+
                 }
+                
 
       });
       });

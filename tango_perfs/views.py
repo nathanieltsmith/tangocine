@@ -193,7 +193,7 @@ def filter(request, performer1='all', performer2='all', orchestra='all', genre='
 def inactive(request):
 	if request.user.is_superuser:
 		page_template = 'tango_perfs/base_feed_page.html'
-		latest_perf_list = Performance.objects.filter(active=False).order_by('-created_date')
+		latest_perf_list = Performance.objects.all().order_by('-created_date')
 		performers = Performer.objects.exclude(lastName="????").order_by('?')[:20]
 		events = DanceEvent.objects.all().order_by('-date')
 		newest = True 

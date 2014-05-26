@@ -88,6 +88,7 @@ def youtube_search(query, pageToken=None):
 	# specified Freebase topic.
 		if (pageToken):
 			search_response = youtube.search().list(
+				q=query,
 				pageToken=pageToken,
 				type='video',
 				part="id,snippet",
@@ -141,6 +142,7 @@ def scanRec(recording, client=None):
 
 
 def scanCouple(couple, client=None):
+	print couple
 	if (not client):
 		client = service.YouTubeService()
 		client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
@@ -158,17 +160,25 @@ def scanCouple(couple, client=None):
 		for searchString in searchStrings:
 			print "searching: " + searchString
 			pageToken = None
-			for x in range(7):
+			for x in range(15):
 				time.sleep(1)
+				print x
 				result = youtube_search(searchString, pageToken)
 				pageToken = result[1]
 				name1 = unidecode(names[0][0]).lower()
 				name2 = unidecode(names[1][0]).lower()
 				filteredList = [video for video in result[0] if (name1 in video[0] and name2 in video[0])]
 				for video in filteredList:
+					#extractYear(video, couple, client)
 					print identifyVideo(video, couple, client)
 
 songBlackList = ['canaro', 'un sueno', 'el campeon','maria cristina','primer beso' 'ana maria','maria','na na', 'una vida','la final', 'en el salon', 'fresedo','te amo', 'mi vida', 'milonga', 'el tango', 'san francisco', 'la tango', 'color tango', 'buenos aires']
+
+def extractYear(video, couple, client):
+	for year in ['91', '92', '93', '94', '95', '96','97','98','99']:
+		if year in video[0]:
+			print video
+	# largeSearch = video[0]
 
 def identifyVideo(video, scanCouple, client):
 	if (not Performance.objects.filter(youtubeId=video[1])):
@@ -210,7 +220,7 @@ def identifyVideo(video, scanCouple, client):
 						performance.recordings.add(recording)
 						performance.save()
 						return str(performance)
-		performance = Performance(youtubeId=video[1], performance_type='P', active=True)
+		performance = Performance(youtubeId=video[1], performance_type='P', active=False)
 		performance.save()
 		performance.couples.add(scanCouple)
 		performance.recordings.add(Recording.objects.get(song__title="Unknown Song"))
@@ -296,11 +306,11 @@ def updateHotness():
 # 		time.sleep(.5)
 # 	except Exception as e:
 # 		print "video not found"
-
+#scanCouple(Couple.objects.get(performers__fullName__icontains='mariana montes'))
 #getVideoMetaData()
 #scanFromCouples('korey', 'mila')
-getVideoMetaData()
-#scanAllCouples(0)
+#getVideoMetaData()
+scanAllCouples(0)
 #updateHotness()
 
 #getVideoMetaData()
