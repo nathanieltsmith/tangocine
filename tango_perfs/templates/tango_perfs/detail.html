@@ -104,6 +104,9 @@ Orchestra: <select name="ocode" id="orc"></select><br>
   <div class="large-6 columns">
 Year: <select name="year" id="rec_year"></select><br>
 </div>
+<div class="large-6 columns" id="singer">
+
+</div>
 </div>
 
 <input class="button" type="submit" value="Updated Video!">
@@ -159,6 +162,7 @@ $(function() {
                 $("#rec_year").append("<option value='"+data[key].value+"' "+selected+">"+data[key].title+"</option>");
                 selected="";
               }
+              update_singer();
           });
         };
 
@@ -181,6 +185,14 @@ $(function() {
               $('#orc-fields').slideDown();
             });
       };
+  update_singer = function() {
+    console.log('updating singer')
+    url = "/api/get_singer?song="+encodeURIComponent($('#add-song').val())+'&orc=' + encodeURIComponent($('#orc').val()) + '&year=' + encodeURIComponent($('#rec_year').val());
+      $.getJSON(url, function(data){
+        $("#singer").html("Singer: ");
+        $("#singer").append(data[0]);
+      });
+  };
   $("#add-song").autocomplete({
     source: "/api/get_songs/",
     minLength: 2,
@@ -206,6 +218,7 @@ $(function() {
 
   $("#orc").change(function(){update_year($('#add-song').val(), $('#orc').val())});
   $("#add-song").focusout(update_orchestra); 
+  $("#rec_year").change(update_singer); 
   $("#youtubeid").change(function(){
         url = $("#youtubeid").val();
         var video_id = url.split('v=');

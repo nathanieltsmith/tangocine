@@ -444,6 +444,26 @@ def get_years(request):
 	mimetype = 'application/json'
 	return HttpResponse(data, mimetype)
 
+def get_singer(request):
+		#if request.is_ajax():
+	song = Song.objects.get(simplifiedTitle=request.GET.get('song', ''))
+	orchestra = Orchestra.objects.get(ocode=request.GET.get('orc', ''))
+	year = request.GET.get('year','')
+	try: 
+		recording = Recording.objects.get(song=song, orchestra=orchestra, recorded__year=year)
+		pos = PlayedOn.objects.filter(recording=recording)
+		if (pos):
+			result = pos[0].musician.firstName + ' ' + pos[0].musician.lastName
+		else:
+			result = 'instrumental'
+	except Exception:
+		result = 'Error.  Multiple recordings'
+	data = json.dumps([result])
+	#else:
+	#	data = 'fail'
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
+
 def video_added(request, youtubeId):
 	mimetype = 'application/json'
 	try:

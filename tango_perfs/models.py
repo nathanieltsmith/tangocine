@@ -35,7 +35,7 @@ class Performer(models.Model):
 			performer.delete()
 
 	def numPerfs(self):
-		return len(Performance.objects.filter(couples__performers=self))
+		return len(Performance.objects.filter(couples__performers=self, active=True))
 
 	def listPartners(self):
 		partners = ''
