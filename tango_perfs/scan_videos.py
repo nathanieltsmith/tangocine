@@ -89,7 +89,7 @@ def youtube_search(query, pageToken=None):
 		if (pageToken):
 			search_response = youtube.search().list(
 				q=query,
-				publishedAfter='2014-05-24T00:00:00Z',
+				#publishedAfter='2014-05-30T00:00:00Z',
 				pageToken=pageToken,
 				type='video',
 				part="id,snippet",
@@ -98,7 +98,7 @@ def youtube_search(query, pageToken=None):
 		else:
 			search_response = youtube.search().list(
 				q=query,
-				publishedAfter='2014-05-24T00:00:00Z',
+				#publishedAfter='2014-05-30T00:00:00Z',
 				type='video',
 				part="id,snippet",
 				maxResults=50,
@@ -162,7 +162,7 @@ def scanCouple(couple, client=None):
 		for searchString in searchStrings:
 			print "searching: " + searchString
 			pageToken = None
-			for x in range(2):
+			for x in range(15):
 				time.sleep(1)
 				print x
 				result = youtube_search(searchString, pageToken)
@@ -311,10 +311,10 @@ def updateHotness():
 #scanCouple(Couple.objects.get(performers__fullName__icontains='mariana montes'))
 #getVideoMetaData()
 #scanAllCouples(0)
-#scanFromCouples('korey', 'mila')
-getVideoMetaData()
+scanFromCouples('sosa', 'sabri')
+#getVideoMetaData()
 
-updateHotness()
+#updateHotness()
 
 #getVideoMetaData()
 #updateHotness()

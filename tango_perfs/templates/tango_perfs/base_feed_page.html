@@ -13,7 +13,7 @@
 <div class="image">
 <a href="/p/{{perf.youtubeId}}" {% if superUser %} target="_blank" {% endif %}>
    <h4>  <span> {{perf.couples.first}}
-     dance to {{perf.recordings.first.song.title}}
+    {% if perf.recordings.first.song.title != 'Unknown Song' %} dance to {{perf.recordings.first.song.title}}{% endif %}
     {% if perf.youtubeUploadDate %} <br>{{perf.youtubeUploadDate}}{% endif %}</span></h4>
       <!-- <iframe width="560" height="315" src="//www.youtube.com/embed/{{perf.youtubeId}}" frameborder="0" allowfullscreen></iframe> -->
         <img class="ytthumb" src="{{perf.thumbnailUrl}}"></a>
