@@ -89,7 +89,7 @@ def youtube_search(query, pageToken=None):
 		if (pageToken):
 			search_response = youtube.search().list(
 				q=query,
-				#publishedAfter='2014-05-30T00:00:00Z',
+				publishedAfter='2014-05-30T00:00:00Z',
 				pageToken=pageToken,
 				type='video',
 				part="id,snippet",
@@ -98,7 +98,7 @@ def youtube_search(query, pageToken=None):
 		else:
 			search_response = youtube.search().list(
 				q=query,
-				#publishedAfter='2014-05-30T00:00:00Z',
+				publishedAfter='2014-05-30T00:00:00Z',
 				type='video',
 				part="id,snippet",
 				maxResults=50,
@@ -162,7 +162,7 @@ def scanCouple(couple, client=None):
 		for searchString in searchStrings:
 			print "searching: " + searchString
 			pageToken = None
-			for x in range(15):
+			for x in range(2):
 				time.sleep(1)
 				print x
 				result = youtube_search(searchString, pageToken)
@@ -287,14 +287,14 @@ def updateHotness():
 	for perf in Performance.objects.filter(active=True):
 		perf.previousTotalViews = int(perf.totalViews)
 		try:
-			time.sleep(.5)
+			time.sleep(1)
 			entry = client.GetYouTubeVideoEntry(video_id=perf.youtubeId)
 			perf.totalViews = int(entry.statistics.view_count)
 			#perf.youtubeUploadDate = entry.published.text[:10]
 			#perf.thumbnailUrl = entry.media.thumbnail[0].url
 			perf.hotness =  (int(perf.totalViews)-int(perf.previousTotalViews))/(ceil((1.0 + int(perf.totalViews))/10000))
 			total += int(perf.totalViews)-int(perf.previousTotalViews)
-			print total
+			print str(total) + ' ' +perf.youtubeId
 			perf.save()
 		except Exception as e:
 			print str(e)
@@ -310,13 +310,12 @@ def updateHotness():
 # 		print "video not found"
 #scanCouple(Couple.objects.get(performers__fullName__icontains='mariana montes'))
 #getVideoMetaData()
-#scanAllCouples(0)
-scanFromCouples('sosa', 'sabri')
+#
+#scanFromCouples('sosa', 'sabri')
 #getVideoMetaData()
-
-#updateHotness()
-
-#getVideoMetaData()
+updateHotness()
+scanAllCouples(0)
+getVideoMetaData()
 #updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database
