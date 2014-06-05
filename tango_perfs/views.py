@@ -378,7 +378,7 @@ def orchestra(request, orc_id):
 def get_songs(request):
 	if request.is_ajax():
 		q = request.GET.get('term', '')
-		songs = Song.objects.filter(simplifiedTitle__istartswith = q )[:20]
+		songs = Song.objects.filter(simplifiedTitle__icontains = q )[:20]
 		results = []
 		for song in songs:
 			song_json = {}

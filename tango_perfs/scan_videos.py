@@ -262,6 +262,8 @@ def comments_generator(client, video_id):
 #     text = comment.content.text
 #     print("{}: {}".format(author_name, text))
 
+delete_bodies = ['Invalid id', 'Private video', 'Invalid request URI', 'Video not found']
+
 def getVideoMetaData():
 	client = service.YouTubeService()
 	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
@@ -270,14 +272,22 @@ def getVideoMetaData():
 		try:
 			time.sleep(.5)
 			entry = client.GetYouTubeVideoEntry(video_id=perf.youtubeId)
-			perf.totalViews = int(entry.statistics.view_count)
+			if entry.statistics:
+				perf.totalViews = int(entry.statistics.view_count)
+			else:
+				perf.totalViews = 0
 			perf.youtubeUploadDate = entry.published.text[:10]
 			perf.thumbnailUrl = entry.media.thumbnail[0].url
 			perf.hotness = 0
 			print perf.totalViews
 			perf.save()
 		except Exception as e:
-			print str(e)
+			print str(e) +' '+perf.youtubeId
+			for delete_text in delete_bodies:
+				if  delete_text in str(e):
+					print 'deleting video'
+					perf.delete()
+
 
 
 def updateHotness():
@@ -285,19 +295,32 @@ def updateHotness():
 	client = service.YouTubeService()
 	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
 	for perf in Performance.objects.filter(active=True):
+		print 'starting loop'
 		perf.previousTotalViews = int(perf.totalViews)
+		print 290
 		try:
-			time.sleep(1)
+			time.sleep(.5)
+			print perf.youtubeId
+			print 293
 			entry = client.GetYouTubeVideoEntry(video_id=perf.youtubeId)
+			print 295
 			perf.totalViews = int(entry.statistics.view_count)
 			#perf.youtubeUploadDate = entry.published.text[:10]
 			#perf.thumbnailUrl = entry.media.thumbnail[0].url
+			print 299
 			perf.hotness =  (int(perf.totalViews)-int(perf.previousTotalViews))/(ceil((1.0 + int(perf.totalViews))/10000))
+			print 301
 			total += int(perf.totalViews)-int(perf.previousTotalViews)
 			print str(total) + ' ' +perf.youtubeId
+			print 303
 			perf.save()
+			print 305
 		except Exception as e:
-			print str(e)
+			print str(e) +' '+perf.youtubeId
+			for delete_text in delete_bodies:
+				if  delete_text in str(e):
+					print 'deleting video'
+					perf.delete()
 	return total
 
 # client = service.YouTubeService()
@@ -311,9 +334,9 @@ def updateHotness():
 #scanCouple(Couple.objects.get(performers__fullName__icontains='mariana montes'))
 #getVideoMetaData()
 #
-#scanFromCouples('sosa', 'sabri')
+#scanFromCouples('Val', 'chris')
 #getVideoMetaData()
-updateHotness()
+#updateHotness()
 scanAllCouples(0)
 getVideoMetaData()
 #updateHotness()

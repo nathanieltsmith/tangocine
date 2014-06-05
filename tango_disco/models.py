@@ -39,9 +39,9 @@ class Song(models.Model):
 
 	def merge(self, song):
 		for recording in Recording.objects.filter(song=song):
-			recording.song = song
+			recording.song_id = self.pk
 			recording.save()
-			song.delete()
+			#song.delete()
 	def save(self, *args, **kwargs):
 		self.simplifiedTitle = unidecode(self.title).lower()
 		super(Song, self).save(*args, **kwargs) # Call the "real" save() method.
