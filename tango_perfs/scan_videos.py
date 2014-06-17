@@ -78,6 +78,7 @@ i = 0
 DEVELOPER_KEY = settings.GOOGLE_DEVELOPER_KEY
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
+SEARCH_AFTER_DATE = '2014-06-09T00:00:00Z'
 
 def youtube_search(query, pageToken=None):
 	global i
@@ -89,7 +90,7 @@ def youtube_search(query, pageToken=None):
 		if (pageToken):
 			search_response = youtube.search().list(
 				q=query,
-				publishedAfter='2014-05-30T00:00:00Z',
+				publishedAfter=SEARCH_AFTER_DATE,
 				pageToken=pageToken,
 				type='video',
 				part="id,snippet",
@@ -98,7 +99,7 @@ def youtube_search(query, pageToken=None):
 		else:
 			search_response = youtube.search().list(
 				q=query,
-				publishedAfter='2014-05-30T00:00:00Z',
+				publishedAfter=SEARCH_AFTER_DATE,
 				type='video',
 				part="id,snippet",
 				maxResults=50,
@@ -124,8 +125,9 @@ def scanAllCouples(num):
 		scanCouple(couple, client)
 
 def scanFromCouples(dancer1, dancer2):
-	num = Couple.objects.filter(performers__fullName__icontains=dancer1).filter(performers__fullName__icontains=dancer2)[0].pk
-	scanAllCouples(num-10)
+	couple = Couple.objects.filter(performers__fullName__icontains=dancer1).filter(performers__fullName__icontains=dancer2)[0]
+	num = len(Couple.objects.filter(pk__lt=couple.pk))
+	scanAllCouples(num)
 
 def scanRec(recording, client=None):
 	if (not client):
@@ -299,7 +301,7 @@ def updateHotness():
 		perf.previousTotalViews = int(perf.totalViews)
 		print 290
 		try:
-			time.sleep(.5)
+			time.sleep(.75)
 			print perf.youtubeId
 			print 293
 			entry = client.GetYouTubeVideoEntry(video_id=perf.youtubeId)
@@ -317,10 +319,10 @@ def updateHotness():
 			print 305
 		except Exception as e:
 			print str(e) +' '+perf.youtubeId
-			for delete_text in delete_bodies:
-				if  delete_text in str(e):
-					print 'deleting video'
-					perf.delete()
+			# for delete_text in delete_bodies:
+			# 	if  delete_text in str(e):
+			# 		print 'deleting video'
+			# 		perf.delete()
 	return total
 
 # client = service.YouTubeService()
@@ -334,11 +336,14 @@ def updateHotness():
 #scanCouple(Couple.objects.get(performers__fullName__icontains='mariana montes'))
 #getVideoMetaData()
 #
-#scanFromCouples('Val', 'chris')
+
 #getVideoMetaData()
-#updateHotness()
+#scanFromCouples('Vanja', 'Mike')
 scanAllCouples(0)
 getVideoMetaData()
+updateHotness()
+
+#getVideoMetaData()
 #updateHotness()
 # def scanVideo(videoText)
 # if the video is not already in the database
