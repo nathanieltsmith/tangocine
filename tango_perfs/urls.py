@@ -8,7 +8,7 @@ urlpatterns = patterns('',
     url(r'^p/(?P<id>.+)/$', views.detail, name='detail'),
     # ex: /polls/5/results/
     url(r'^performer/(?P<performer_code>[a-zA-Z]+)/$', views.performer, name='performer'),
-    url(r'^filter/(?P<performer1>[+|%|\|-|0-9a-zA-Z]+)/(?P<performer2>[+|%|-|\|0-9a-zA-Z]+)/(?P<orchestra>[a-zA-Z]+)/(?P<song>[+|%|2|0|a-zA-Z]+)/(?P<genre>.+?)/(?P<sort_method>[\-?|_|a-zA-Z]+)/', views.filter, name='filter'),
+    url(r'^filter/(?P<performer1>[+|%|\|\-|0-9a-zA-Z]+)/(?P<performer2>[+|%|\-|\|0-9a-zA-Z]+)/(?P<orchestra>[a-zA-Z]+)/(?P<song>[+|%|2|0|a-zA-Z]+)/(?P<genre>.+?)/(?P<sort_method>[\-?|_|a-zA-Z]+)/', views.filter, name='filter'),
     #url(r'^(?P<couple_id>\d+)/couple/$', views.couple, name='couple'),
     url(r'^event/(?P<event_id>\d+)/$', views.event, name='event'),
    # url(r'^(?P<orc_id>\d+)/orchestra/$', views.orchestra, name='orchestra'),
