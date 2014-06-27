@@ -78,7 +78,7 @@ i = 0
 DEVELOPER_KEY = settings.GOOGLE_DEVELOPER_KEY
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
-SEARCH_AFTER_DATE = '2014-06-09T00:00:00Z'
+SEARCH_AFTER_DATE = '2014-06-15T00:00:00Z'
 
 def youtube_search(query, pageToken=None):
 	global i
@@ -160,7 +160,7 @@ def scanCouple(couple, client=None):
 	if len(names) > 1:
 		if (len(Couple.objects.filter(performers__firstName=names[0][0]).filter(performers__firstName=names[1][0])) > 1):
 			searchStrings.append(' '.join([' '.join(x) for x in names]))
-		searchStrings.append(' '.join([x[0] for x in names]))
+		searchStrings.append(' '.join([firstName(x) for x in names]))
 		for searchString in searchStrings:
 			print "searching: " + searchString
 			pageToken = None
@@ -175,6 +175,12 @@ def scanCouple(couple, client=None):
 				for video in filteredList:
 					#extractYear(video, couple, client)
 					print identifyVideo(video, couple, client)
+
+def firstName(nameArray):
+	if (nameArray[0].lower() == 'el'):
+		return nameArray[0]+' '+nameArray[1]
+	else:
+		return nameArray[0]
 
 songBlackList = ['canaro', 'un sueno', 'el campeon','maria cristina','primer beso' 'ana maria','maria','na na', 'una vida','la final', 'en el salon', 'fresedo','te amo', 'mi vida', 'milonga', 'el tango', 'san francisco', 'la tango', 'color tango', 'buenos aires']
 
@@ -297,26 +303,19 @@ def updateHotness():
 	client = service.YouTubeService()
 	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
 	for perf in Performance.objects.filter(active=True):
-		print 'starting loop'
 		perf.previousTotalViews = int(perf.totalViews)
-		print 290
 		try:
 			time.sleep(.75)
 			print perf.youtubeId
-			print 293
 			entry = client.GetYouTubeVideoEntry(video_id=perf.youtubeId)
-			print 295
 			perf.totalViews = int(entry.statistics.view_count)
 			#perf.youtubeUploadDate = entry.published.text[:10]
 			#perf.thumbnailUrl = entry.media.thumbnail[0].url
-			print 299
 			perf.hotness =  (int(perf.totalViews)-int(perf.previousTotalViews))/(ceil((1.0 + int(perf.totalViews))/10000))
-			print 301
 			total += int(perf.totalViews)-int(perf.previousTotalViews)
 			print str(total) + ' ' +perf.youtubeId
-			print 303
+
 			perf.save()
-			print 305
 		except Exception as e:
 			print str(e) +' '+perf.youtubeId
 			# for delete_text in delete_bodies:
@@ -338,7 +337,7 @@ def updateHotness():
 #
 
 #getVideoMetaData()
-#scanFromCouples('Vanja', 'Mike')
+#scanFromCouples('Aldana', 'Diego')
 scanAllCouples(0)
 getVideoMetaData()
 updateHotness()
