@@ -17,7 +17,7 @@ admin.site.register(Performer, PerformerAdmin)
 
 admin.site.register(DanceEvent)
 admin.site.register(EventSeries)
-admin.site.register(Event)
+
 
 class CoupleAdmin(admin.ModelAdmin):
 	# This will generate a ModelForm
