@@ -78,7 +78,7 @@ i = 0
 DEVELOPER_KEY = settings.GOOGLE_DEVELOPER_KEY
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
-SEARCH_AFTER_DATE = '2014-06-23T00:00:00Z'
+SEARCH_AFTER_DATE = '2014-07-05T00:00:00Z'
 
 def youtube_search(query, pageToken=None):
 	global i
@@ -164,7 +164,7 @@ def scanCouple(couple, client=None):
 		for searchString in searchStrings:
 			print "searching: " + searchString
 			pageToken = None
-			for x in range(2):
+			for x in range(4):
 				time.sleep(1)
 				print x
 				result = youtube_search(searchString, pageToken)
@@ -337,8 +337,8 @@ def updateHotness():
 #
 
 getVideoMetaData()
-#scanFromCouples('stella', 'miguel')
-scanAllCouples(0)
+scanFromCouples('nick', 'diana')
+#scanAllCouples(0)
 getVideoMetaData()
 updateHotness()
 
