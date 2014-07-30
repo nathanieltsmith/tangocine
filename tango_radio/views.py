@@ -1,5 +1,6 @@
 from __future__ import absolute_import
 from django.contrib.auth.models import User
+from django.conf import settings
 from .models import Tanda
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -23,11 +24,33 @@ import json
 
 from django.contrib import messages
 
+from apiclient.discovery import build
+from apiclient.errors import HttpError
+
 
 # Create your views here.
 def radio(request):
+	DEVELOPER_KEY = settings.GOOGLE_DEVELOPER_KEY
+	YOUTUBE_API_SERVICE_NAME = "youtube"
+	YOUTUBE_API_VERSION = "v3"
+	youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+		developerKey=DEVELOPER_KEY)
+	playlists_insert_response = youtube.playlists().insert(
+		part="snippet,status",
+		body=dict(
+			snippet=dict(
+				title="Test Playlist",
+				description="A private playlist created with the YouTube API v3"
+			),
+			status=dict(
+				privacyStatus="private"
+			)
+		)
+	).execute()
+
 	template = loader.get_template('radio.html')
 	context = RequestContext(request, {
+		'playlist_id' : playlists_insert_response["id"];
 		'test' : 'test'
 	})
 	return HttpResponse(template.render(context))
