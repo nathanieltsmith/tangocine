@@ -6,7 +6,7 @@
 <meta property="og:site_name" content="Tango Cine">
 <meta property="og:url" content="http://www.tangocine.com/p/{{perf.youtubeId}}/">
 <meta property="og:title" content="Performance by {{perf.couples.first}}">
-<meta property="og:description" content="{{perf.couples.first}} dance to {{perf.recordings.first}}">
+<meta property="og:description" content="{{perf.couples.first}} {% if suggestion.recordings.first.song.title != 'Unknown Song' %} dance to {{suggestion.recordings.first.song.title}} {% endif %}">
 <meta property="og:image" content="http://i1.ytimg.com/vi/{{perf.youtubeId}}/hqdefault.jpg">
 <meta property="og:type" content="website">
 
@@ -53,14 +53,15 @@
       {% for dancer in dancers %}
       <a href="/performer/{{dancer.code}}"> More information and performances by {{dancer.fullName}} </a><br> 
       {% endfor %}
-      {% for orc in orchestras %}
-      Orchestra: {{orc.name}}<br>
-      {% if orc.singer %}
-      Vocals: {{orc.singer}}<br>
-      {% endif %}
-      <a href="/filter/all/all/{{orc.code}}/all/all/-hotness/">More performances to {{orc.name}}</a>
+      {% if suggestion.recordings.first.song.title != 'Unknown Song' %} 
+        {% for orc in orchestras %}
+        Orchestra: {{orc.name}}<br>
+        {% if orc.singer %}
+          Vocals: {{orc.singer}}<br>
+          {% endif %}
+        <a href="/filter/all/all/{{orc.code}}/all/all/-hotness/">More performances to {{orc.name}}</a>
       {% endfor %}
-
+      {% endif %}
       <div class="fb-share-button" data-href="http://www.tangocine.com/p/{{perf.youtubeId}}" data-type="button_count"></div>
       </div> 
     </div>
