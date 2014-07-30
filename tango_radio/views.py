@@ -50,7 +50,7 @@ def radio(request):
 
 	template = loader.get_template('radio.html')
 	context = RequestContext(request, {
-		'playlist_id' : playlists_insert_response["id"];
+		'playlist_id' : playlists_insert_response["id"],
 		'test' : 'test'
 	})
 	return HttpResponse(template.render(context))
