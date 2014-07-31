@@ -26,32 +26,47 @@ from django.contrib import messages
 
 from apiclient.discovery import build
 from apiclient.errors import HttpError
+from gdata.youtube import service
 
 
 # Create your views here.
 def radio(request):
-	DEVELOPER_KEY = settings.GOOGLE_DEVELOPER_KEY
-	YOUTUBE_API_SERVICE_NAME = "youtube"
-	YOUTUBE_API_VERSION = "v3"
-	youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-		developerKey=DEVELOPER_KEY)
-	playlists_insert_response = youtube.playlists().insert(
-		part="snippet,status",
-		body=dict(
-			snippet=dict(
-				title="Test Playlist",
-				description="A private playlist created with the YouTube API v3"
-			),
-			status=dict(
-				privacyStatus="private"
-			)
-		)
-	).execute()
-
+	# DEVELOPER_KEY = settings.GOOGLE_DEVELOPER_KEY
+	# YOUTUBE_API_SERVICE_NAME = "youtube"
+	# YOUTUBE_API_VERSION = "v3"
+	# youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+	# 	developerKey=DEVELOPER_KEY)
+	# playlists_insert_response = youtube.playlists().insert(
+	# 	part="snippet,status",
+	# 	body=dict(
+	# 		snippet=dict(
+	# 			title="Test Playlist",
+	# 			description="A private playlist created with the YouTube API v3"
+	# 		),
+	# 		status=dict(
+	# 			privacyStatus="private"
+	# 		)
+	# 	)
+	# ).execute()
+	
+	client = service.YouTubeService()
+	client.developer_key = settings.GOOGLE_DEVELOPER_KEY
+	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
+	playlists_insert_response = client.AddPlaylist('Custom Playlist', 'http://www.tangocine.com/radio/tanda')
+	playlist_id = playlists_insert_response.id.text.split('/')[-1]
+	tandas = Tanda.objects.all().order_by('?')[:10]
+	first_song = None
+	for tanda in tandas:
+		if not first_song:
+			first_song = tanda.firstSong.youtubeId
+		client.AddPlaylistVideoEntryToPlaylist(playlist_uri='http://gdata.youtube.com/feeds/api/playlists/'+playlist_id, video_id=tanda.firstSong.youtubeId)
+		client.AddPlaylistVideoEntryToPlaylist(playlist_uri='http://gdata.youtube.com/feeds/api/playlists/'+playlist_id, video_id=tanda.secondSong.youtubeId)
+		client.AddPlaylistVideoEntryToPlaylist(playlist_uri='http://gdata.youtube.com/feeds/api/playlists/'+playlist_id, video_id=tanda.thirdSong.youtubeId)
+		client.AddPlaylistVideoEntryToPlaylist(playlist_uri='http://gdata.youtube.com/feeds/api/playlists/'+playlist_id, video_id=tanda.fourthSong.youtubeId)
 	template = loader.get_template('radio.html')
 	context = RequestContext(request, {
-		'playlist_id' : playlists_insert_response["id"],
-		'test' : 'test'
+		'playlist_id' : playlist_id,
+		'first_song' : first_song
 	})
 	return HttpResponse(template.render(context))
 
