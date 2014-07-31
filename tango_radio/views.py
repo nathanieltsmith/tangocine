@@ -50,8 +50,8 @@ def radio(request):
 	# ).execute()
 	
 	client = service.YouTubeService()
-	client.developer_key = settings.GOOGLE_DEVELOPER_KEY
 	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
+	client.developer_key = settings.GOOGLE_DEVELOPER_KEY
 	playlists_insert_response = client.AddPlaylist('Custom Playlist', 'http://www.tangocine.com/radio/tanda')
 	playlist_id = playlists_insert_response.id.text.split('/')[-1]
 	tandas = Tanda.objects.all().order_by('?')[:10]
