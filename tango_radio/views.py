@@ -54,7 +54,7 @@ def radio(request):
 	client.developer_key = settings.GOOGLE_DEVELOPER_KEY
 	playlists_insert_response = client.AddPlaylist('Custom Playlist', 'http://www.tangocine.com/radio/tanda')
 	playlist_id = playlists_insert_response.id.text.split('/')[-1]
-	tandas = Tanda.objects.all().order_by('?')[:10]
+	tandas = Tanda.objects.all().order_by('?')[:3]
 	first_song = None
 	for tanda in tandas:
 		if not first_song:
