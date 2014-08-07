@@ -100,7 +100,7 @@ def radio_recordings(request):
 	for tanda in tandas:
 		recs + [tanda.firstSong, tanda.secondSong, tanda.thirdSong, tanda.fourthSong]
 	context = RequestContext(request, {
-		'recordings' : 'recs'
+		'recordings' : recs
 	})
 	template = loader.get_template('list_recordings.html')
 	return HttpResponse(template.render(context))
