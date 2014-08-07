@@ -93,3 +93,14 @@ def get_tanda(request):
 	data = json.dumps(response)
 	mimetype = 'application/json'
 	return HttpResponse(data, mimetype)
+
+def radio_recordings(request):
+	tandas = Tanda.objects.all()
+	recs = []
+	for tanda in tandas:
+		recs + [tanda.firstSong, tanda.secondSong, tanda.thirdSong, tanda.fourthSong]
+	context = RequestContext(request, {
+		'recordings' : 'recs'
+	})
+	template = loader.get_template('list_recordings.html')
+	return HttpResponse(template.render(context))

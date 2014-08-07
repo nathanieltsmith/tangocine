@@ -29,3 +29,20 @@ def radio(request):
 		'test' : 'test'
 	})
 	return HttpResponse(template.render(context))
+
+def update_youtube(request):
+#if request.is_ajax():
+	try:
+		song = Recording.objects.get(pk=request.GET.get('recording', ''))
+		youtubeId = request.GET.get('youtube_id', '')
+		song.youtubeId = youtubeId
+		song.save()
+		result = "success" 
+	except Exception e:
+		result = "failure"
+
+	data = json.dumps([result])
+	#else:
+	#	data = 'fail'
+	mimetype = 'application/json'
+	return HttpResponse(data, mimetype)
