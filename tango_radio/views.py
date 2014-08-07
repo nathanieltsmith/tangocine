@@ -98,7 +98,7 @@ def radio_recordings(request):
 	tandas = Tanda.objects.all()
 	recs = []
 	for tanda in tandas:
-		recs + [tanda.firstSong, tanda.secondSong, tanda.thirdSong, tanda.fourthSong]
+		recs = recs + [tanda.firstSong, tanda.secondSong, tanda.thirdSong, tanda.fourthSong]
 	context = RequestContext(request, {
 		'recordings' : recs
 	})
