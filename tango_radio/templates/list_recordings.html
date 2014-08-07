@@ -5,7 +5,7 @@
 
 
 {% for recording in recordings %}
-{{ recording.song.title}} {{recording.orchestra.name}} {{recording.recorded}}<input type="submit" value="Skip Tanda" class='radius button skip-button'  onClick='playSong(" {{recording.youtubeId}}");'><br>
+{{ recording.song.title}} {{recording.orchestra.name}} {{recording.recorded}}<input type="submit" value="Play Song" class='radius button skip-button'  onClick='playSong("{{recording.youtubeId}}");'><br>
 {% endfor %}
 
      <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
