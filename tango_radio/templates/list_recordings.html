@@ -5,9 +5,7 @@
 
 
 {% for recording in recordings %}
-
-<iframe width="560" height="315" src="//www.youtube.com/embed/{{recording.youtubeId}}" frameborder="0" allowfullscreen></iframe> <br>
-
+{{ recording.song.title}} {{recording.orchestra.name}} {{recording.recorded}} {{recording.youtubeId}}<br>
 {% endfor %}
 
   </body>
