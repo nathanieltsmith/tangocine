@@ -56,7 +56,7 @@ def index(request):
 	start_year = [request.GET.get('start')] if isinstance(request.GET.get('start'), basestring) else request.GET.get('start')
 	end_year = [request.GET.get('end')] if isinstance(request.GET.get('end'), basestring) else request.GET.get('end')
 
-	recordings = Recording.objects.all().order_by(recorded)
+	recordings = Recording.objects.all().order_by('recorded')
 	
 	if (genres):
 		for genre in genres:
