@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html>
-  <body>
+{% block left_sidebar %}
+{% endblock left_sidebar %}
 
-
-
+{% block base_body %}
 {% for recording in recordings %}
 {{ recording.song.title}} {{recording.orchestra.name}} {{recording.recorded}}<input type="submit" value="Play Song" class='radius button skip-button'  onClick='playSong("{{recording.youtubeId}}");'><br>
 {% endfor %}
@@ -71,5 +70,4 @@
 		player.loadVideoById(youtubeId, 0, "large");
       }
     </script>
-  </body>
-</html>
+{% endblock base_body %}
