@@ -38,7 +38,7 @@ def update_youtube(request):
 		song.youtubeId = youtubeId
 		song.save()
 		result = "success" 
-	except Exception e:
+	except Exception as e:
 		result = "failure"
 	data = json.dumps([result])
 	#else:
