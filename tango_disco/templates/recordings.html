@@ -5,7 +5,66 @@
 {% endblock left_sidebar %}
 
  {% block feed %}
-  <div class="large-8 medium-8 columns">
+  <div class="large-6 medium-6 columns">
+      <div class="row">    
+              <form method="get" action="/discography" accept-charset="UTF-8">
+
+
+          <div class="row">
+            <div class="large-6 columns">Orchestra: 
+                <select name="orc">
+                  <option value = "">All Orchestras</option>  
+                  <option value="biagi">Biagi</option>
+                  <option value="calo">Calo</option>
+                  <option value="canaro">Canaro</option>
+                  <option value="dagostino">D'Agostino</option>
+                  <option value="darienzo">D'Arienzo</option>
+                  <option value="deangelis">De Angelis</option>
+                  <option value="decaro">De Caro</option>
+                  <option value="demare">Demare</option>
+                  <option value="disarli">Di Sarli</option>
+                  <option value="donato">Donato</option>
+                  <option value="fresedo">Fresedo</option>
+                  <option value="gobbi">Gobbi</option>
+                  <option value="laurenz">Laurenz</option>
+                  <option value="lomuto">Lomuto</option>
+                  <option value="malerba">Malerba</option>
+                  <option value="pugliese">Pugliese</option>
+                  <option value="rodriguez">Rodriguez</option>
+                  <option value="tanturi">Tanturi</option>
+                  <option value="troilo">Troilo</option>
+                  <option value="varel">Varela</option>
+              </select>
+            </div>
+            <div class="large-6 columns">
+              Genre:
+              <select name="genre">
+                 <option value = "">All</option>  
+                <option value="Tango">Tango</option>
+                <option value="Milonga">Milonga</option>
+                <option value="Vals">Vals</option>
+              </select>
+            </div>
+          </div>
+
+      </div>
+      <div class="large-6 column">
+      <div class="row">
+        <div class="large-6 columns">
+           <div class="ui-widget ui-front">
+              <label for="song">Song: </label>
+            <input name="song" id="song">
+            <div id='song-ac-container' class='ac-container'></div>
+        </div>
+        </div>
+      <div class="row">
+        <div class="large-2 columns">
+          <input type="submit" class='radius button' value="Filter" >
+        </div>
+      </div>
+      </div>
+      </form>
+</div>
  <table>
   <thead>
     <tr>
