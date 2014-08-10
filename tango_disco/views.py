@@ -1,6 +1,8 @@
 from __future__ import absolute_import
 from django.contrib.auth.models import User
 
+from tango_disco.models import Recording, Song, PlayedOn, Orchestra
+
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.http import urlquote
