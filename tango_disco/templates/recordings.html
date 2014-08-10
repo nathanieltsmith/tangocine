@@ -5,10 +5,26 @@
 {% endblock left_sidebar %}
 
  {% block feed %}
+ <table>
+  <thead>
+    <tr>
+      <th width="200">Orchestra</th>
+      <th>Title</th>
+      <th width="150">Recorded</th>
+      <th width="150"></th>
+    </tr>
+  </thead>
+  <tbody>
 {% for recording in recordings %}
-{{ recording.song.title}} {{recording.orchestra.name}} {{recording.recorded}}<input type="submit" value="Play Song" class='radius button skip-button'  onClick='playSong("{{recording.youtubeId}}");'><br>
+<tr>
+  <td>{{recording.orchestra.name}}</td>
+  <td>{{ recording.song.title}}</td>
+  <td> {{recording.recorded}}</td>
+  <td><input type="submit" value="Play Song" class='radius button skip-button'  onClick='playSong("{{recording.youtubeId}}");'></td>
+</tr>
 {% endfor %}
-
+</tbody>
+</table>
      <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
    <div id="player"></div>
   <div class="large-2 columns">
