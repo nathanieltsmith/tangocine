@@ -50,11 +50,11 @@ def update_youtube(request):
 
 def index(request):
 	page_template = 'tango_perfs/base_feed_page.html'
-	genres = [request.GET.get('genre')] if isinstance(request.GET.get('genre'), basestring) else request.GET.get('genre')
-	orchestra_leaders = [request.GET.get('orc')] if isinstance(request.GET.get('orc'), basestring) else request.GET.get('orc')
-	songs = [request.GET.get('song')] if isinstance(request.GET.get('song'), basestring) else request.GET.get('song')
-	start_year = [request.GET.get('start')] if isinstance(request.GET.get('start'), basestring) else request.GET.get('start')
-	end_year = [request.GET.get('end')] if isinstance(request.GET.get('end'), basestring) else request.GET.get('end')
+	genres = [request.POST.get('genre')] if isinstance(request.POST.get('genre'), basestring) else request.POST.get('genre')
+	orchestra_leaders = [request.POST.get('orc')] if isinstance(request.POST.get('orc'), basestring) else request.POST.get('orc')
+	songs = [request.POST.get('song')] if isinstance(request.POST.get('song'), basestring) else request.POST.get('song')
+	start_year = [request.POST.get('start')] if isinstance(request.POST.get('start'), basestring) else request.POST.get('start')
+	end_year = [request.POST.get('end')] if isinstance(request.POST.get('end'), basestring) else request.POST.get('end')
 
 	recordings = Recording.objects.filter(recorded__gt='1927-01-01').filter(recorded__lt='1959-01-01').order_by('recorded')
 	
