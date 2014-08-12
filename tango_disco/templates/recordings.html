@@ -60,7 +60,7 @@
 
       </form>
 </div>
- <table>
+ <table id="disco-table" class="tablesorter">
   <thead>
     <tr>
       <th width="200">Orchestra</th>
@@ -72,8 +72,8 @@
   <tbody>
 {% for recording in recordings %}
 <tr>
-  <td>{{recording.orchestra.name}}</td>
-  <td>{{ recording.song.title}}</td>
+  <td>{{recording.orchestra.leader}}</td>
+  <td>{{recording.song.title}}</td>
   <td> {{recording.recorded}}</td>
   <td><input type="submit" value="Play Song" class='radius button skip-button'  onClick='playSong("{{recording.youtubeId}}");'></td>
 </tr>
@@ -145,3 +145,14 @@
     </script>
   </div>
 {% endblock feed %}
+
+
+{% block post_jquery_load %}
+<script type="text/javascript" src="/static/js/jquery.tablesorter.js"></script> 
+$(document).ready(function() 
+    { 
+        $("#disco-table").tablesorter(); 
+    } 
+); 
+{% endblock post_jquery_load %}
+
