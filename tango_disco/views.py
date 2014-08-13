@@ -88,6 +88,6 @@ def index(request):
 	template = loader.get_template('recordings.html')
 
 	context = RequestContext(request, {
-		'recordings' : recordings
+		'recordings' : recordings[:20]
 	})
 	return HttpResponse(template.render(context))
