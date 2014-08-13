@@ -63,7 +63,7 @@ def index(request):
 	if (end_year[0]):
 		recordings = recordings.filter(recorded__lt=end_year[0]+'-12-31')
 	if (singer[0]):
-		recordings = recordings.filter(singer__icontains=singer)
+		recordings = recordings.filter(singer__icontains=singer[0])
 	if (genres):
 		for genre in genres:
 			if (genre):
