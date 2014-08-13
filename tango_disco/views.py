@@ -58,11 +58,11 @@ def index(request):
 	end_year = [request.POST.get('ending-year')] if isinstance(request.POST.get('ending-year'), basestring) else request.POST.get('ending-year')
 
 	recordings = Recording.objects.select_related('genre__name').filter(recorded__gt='1927-01-01').filter(recorded__lt='1959-01-01').order_by('recorded')
-	if (start_year[0]):
+	if (start_year and start_year[0]):
 		recordings = recordings.filter(recorded__gt=start_year[0]+'-01-01')
-	if (end_year[0]):
+	if (end_year and end_year[0]):
 		recordings = recordings.filter(recorded__lt=end_year[0]+'-12-31')
-	if (singer[0]):
+	if (singer and singer[0]):
 		recordings = recordings.filter(singer__icontains=singer[0])
 	if (genres):
 		for genre in genres:
