@@ -73,6 +73,7 @@ class Recording(models.Model):
 	matrixNo = models.CharField(max_length=20, null=True, blank=True)
 	itunesId = models.CharField(max_length=100, null=True, blank=True)
 	youtubeId = models.CharField(max_length=20, null=True, blank=True)
+	singer = models.CharField(max_length=300, unique=False, default='Instrumental')
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		try:
