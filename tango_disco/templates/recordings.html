@@ -149,11 +149,13 @@
 
 {% block post_jquery_load %}
 <script type="text/javascript" src="/media/js/jquery.tablesorter.js"></script> 
+<script type="text/javascript">
 $(document).ready(function() 
     { 
         console.log('tablesorter');
         $("#disco-table").tablesorter(); 
     } 
 ); 
+</script>
 {% endblock post_jquery_load %}
 
