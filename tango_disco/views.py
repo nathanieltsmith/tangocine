@@ -56,7 +56,7 @@ def index(request):
 	start_year = [request.POST.get('start')] if isinstance(request.POST.get('start'), basestring) else request.POST.get('start')
 	end_year = [request.POST.get('end')] if isinstance(request.POST.get('end'), basestring) else request.POST.get('end')
 
-	recordings = Recording.objects.filter(recorded__gt='1927-01-01').filter(recorded__lt='1959-01-01').order_by('recorded')
+	recordings = Recording.objects.select_related('genre').filter(recorded__gt='1927-01-01').filter(recorded__lt='1959-01-01').order_by('recorded')
 	
 	if (genres):
 		for genre in genres:
