@@ -69,7 +69,7 @@ def index(request):
 	if (songs):
 		for song in songs:
 			if (song):
-				recordings = recordings.filter(recordings__song__id=song)
+				recordings = recordings.filter(song__id=song)
 
 
 
