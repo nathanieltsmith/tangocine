@@ -91,7 +91,8 @@ def index(request):
 	# except EmptyPage:
 	# 	# If page is out of range (e.g. 9999), deliver last page of results.
 	# 	perfs = paginator.page(paginator.num_pages)
-	firstVideo = recordings[0].youtubeId
+	
+	firstVideo = recordings[0].youtubeId if recordings else ""
 	template = loader.get_template('recordings.html')
 
 	context = RequestContext(request, {
