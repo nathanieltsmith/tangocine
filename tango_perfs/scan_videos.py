@@ -1,5 +1,5 @@
 from django.conf import settings
-
+from subprocess import call
 from apiclient.discovery import build
 from apiclient.errors import HttpError
 from oauth2client.tools import argparser
@@ -58,6 +58,32 @@ def itunesLookup():
 									print e
 				else:
 					print recording.orchestra.name + ' recorded '+ recording.song.title + ' multiple times'
+					for rec in Recording.objects.filter(song=recording.song, orchestra=recording.orchestra):
+						print rec.recorded
+					searchTerm = recording.orchestra.leader.lastName + ' ' + ascii_lower(recording.song.title)
+					searchTerm = searchTerm.replace(' ', '+')
+					print searchTerm
+					url = "https://itunes.apple.com/search?term=" + unidecode(searchTerm)
+					response = urllib2.urlopen(url)
+					jsonResp = json.loads(response.read())
+					print jsonResp
+					print "1"
+					if (jsonResp['resultCount'] >= 1):
+						print "2"
+						for result in jsonResp['results']:
+							if ((ascii_lower(recording.orchestra.leader.lastName) in ascii_lower(result['artistName'])) and 
+							(ascii_lower(recording.orchestra.leader.firstName) in ascii_lower(result['artistName']))):
+								print "3"
+								print 'found: '+ result['artistName'] + ' - ' + result['trackName']
+								print 'for: '+ recording.orchestra.leader.lastName + ' - ' + recording.song.simplifiedTitle
+								answer = raw_input('Approve?: ')
+								if (answer != 'n'):
+									call(["wget", result['previewUrl']])
+									call(["afplay", result['previewUrl'].split('/')[-1]])
+									raw_input('What Year?: ')
+									recording.itunesId =  result['trackId']
+									recording.save()
+									break
 			else:
 				print recording.orchestra.name + ' '+ recording.song.title + ' id already exists'
 		except Exception as e:
@@ -68,7 +94,7 @@ def ascii_lower(text):
 	#print text 
 	return unidecode(text).lower()
 
-
+itunesLookup()
 #itunesLookup()
 
 # get the couple object for the performers in question
@@ -336,11 +362,11 @@ def updateHotness():
 #getVideoMetaData()
 #
 
-getVideoMetaData()
+#getVideoMetaData()
 #scanFromCouples('nick', 'diana')
-scanAllCouples(0)
-getVideoMetaData()
-updateHotness()
+#scanAllCouples(0)
+#getVideoMetaData()
+#updateHotness()
 
 #getVideoMetaData()
 #updateHotness()
