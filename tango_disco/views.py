@@ -95,7 +95,7 @@ def index(request):
 	template = loader.get_template('recordings.html')
 
 	context = RequestContext(request, {
-		'recordings' : recordings[:200]
+		'recordings' : recordings[:200],
 		'firstVideo' : firstVideo
 	})
 	return HttpResponse(template.render(context))
