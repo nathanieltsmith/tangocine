@@ -153,7 +153,7 @@ CRISPY_TEMPLATE_PACK = 'foundation-5'
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = get_secret("STATIC_ROOT")
-STATIC_URL = '/staticfiles/'
+STATIC_URL = '/static/'
 MEDIA_ROOT = get_secret("MEDIA_ROOT")
 MEDIA_URL = '/media/'
 
