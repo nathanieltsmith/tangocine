@@ -167,8 +167,8 @@ $(document).ready(function()
  
           // Get some values from elements on the page:
           var $form = $( this ),
-          orc_term = $form.find( "input[name='filter_orc']" ).val(),
-          genre_term = $form.find( "input[name='filter_genre']" ).val(),
+          orc_term = $form.find( "select[name='filter_orc']" ).val(),
+          genre_term = $form.find( "select[name='filter_genre']" ).val(),
           song_term = $form.find( "input[name='filter_song']" ).val(),
           singer_term = $form.find( "input[name='filter_singer']" ).val(),
           starting_term = $form.find( "input[name='filter_starting_year']" ).val(),
