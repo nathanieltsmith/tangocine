@@ -174,7 +174,6 @@ $(document).ready(function()
           starting_term = $form.find( "input[name='starting_year']" ).val(),
           ending_term = $form.find( "input[name='ending_year']" ).val(),
           url = $form.attr( "action" );
-          console.log(term);
           // Send the data using post
           var posting = $.post( url, { orc: orc_term, genre: genre_term, song: song_term, starting_year:starting_term, ending_year: ending_term } );
  
