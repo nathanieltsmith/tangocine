@@ -1,0 +1,193 @@
+{% extends "base_feed.html" %}
+{% block title %}Discography{% endblock %}
+
+{% block left_sidebar %}
+{% endblock left_sidebar %}
+
+ {% block feed %}
+  <div class="large-6 medium-6 columns">
+      <div class="row">    
+              <form method="post" id='filter-form' action="/api/get_recordings" accept-charset="UTF-8">
+
+
+         
+            <div class="large-4 columns">Orchestra: 
+                <select name="orc">
+                  <option value = "">All Orchestras</option>  
+                  <option value="biagi">Biagi</option>
+                  <option value="calo">Calo</option>
+                  <option value="canaro">Canaro</option>
+                  <option value="dagostino">D'Agostino</option>
+                  <option value="darienzo">D'Arienzo</option>
+                  <option value="deangelis">De Angelis</option>
+                  <option value="decaro">De Caro</option>
+                  <option value="demare">Demare</option>
+                  <option value="disarli">Di Sarli</option>
+                  <option value="donato">Donato</option>
+                  <option value="fresedo">Fresedo</option>
+                  <option value="gobbi">Gobbi</option>
+                  <option value="laurenz">Laurenz</option>
+                  <option value="lomuto">Lomuto</option>
+                  <option value="malerba">Malerba</option>
+                  <option value="pugliese">Pugliese</option>
+                  <option value="rodriguez">Rodriguez</option>
+                  <option value="tanturi">Tanturi</option>
+                  <option value="troilo">Troilo</option>
+                  <option value="varel">Varela</option>
+              </select>
+            </div>
+            <div class="large-4 columns">Orchestra: 
+              Genre:
+              <select name="genre">
+                 <option value = "">All</option>  
+                <option value="Tango">Tango</option>
+                <option value="Milonga">Milonga</option>
+                <option value="Vals">Vals</option>
+              </select>
+  </div>
+  <div class="row">
+  <div class="large-4 columns">
+           <div class="ui-widget ui-front">
+              <label for="song">Song: </label>
+            <input name="song" id="disco-song">
+            <div id='disco-song-ac-container' class='ac-container'></div>
+        </div>
+</div>
+</div>
+<div class="row">
+      <div class="large-4 columns">
+           <div class="ui-widget ui-front">
+              <label for="singer">Singer: </label>
+            <input name="singer" id="singer">
+            <div id='disco-singer-ac-container' class='ac-container'></div>
+        </div>
+      </div>
+          <div class="large-4 columns">
+           <div class="ui-widget ui-front">
+              <label for="song">Beginning Year: </label>
+            <input name="starting-year" id="starting-year">
+            <div id='disco-starting-year' class='ac-container'></div>
+        </div>
+      </div>
+          <div class="large-4 columns">
+           <div class="ui-widget ui-front">
+              <label for="sending-year">Ending Year: </label>
+            <input name="ending-year" id="ending-year">
+            <div id='disco-ending-year' class='ac-container'></div>
+        </div>
+
+</div>
+</div>
+<div class="large-2 columns">
+<div class="row">
+          <input id='filter-button' type="submit" class='radius button' value="Filter" >
+</div>
+</div>
+ 
+
+      </form>
+</div>
+<div id='recording-table'></div>
+     <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+   <div id="player"></div>
+  <div class="large-2 columns">
+    
+  </div>
+    
+    
+    <script src="/static/foundation/js/vendor/jquery.js"></script>
+    <script>
+      // 2. This code loads the IFrame Player API code asynchronously.
+      var tag = document.createElement('script');
+      var tanda = ['oMryLzqDfCM'] //'9nIT1WFfzJc' ,'xHIxxBdcnwE'];
+      var current_song = 0;
+      tag.src = "https://www.youtube.com/iframe_api";
+      var firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+      // 3. This function creates an <iframe> (and YouTube player)
+      //    after the API code downloads.
+      var player;
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player('player', {
+          height: '390',
+          width: '640',
+          videoId: "",
+          events: {
+            //'onReady': onPlayerReady,
+            //'onStateChange': onPlayerStateChange
+          }
+        });
+      }
+
+      // 4. The API will call this function when the video player is ready.
+      function onPlayerReady(event) {
+        event.target.playVideo();
+      }
+
+      // 5. The API calls this function when the player's state changes.
+      //    The function indicates that when playing a video (state=1),
+      //    the player should play for six seconds and then stop.
+      var done = false;
+      function onPlayerStateChange(event) {
+        if (event.data == YT.PlayerState.ENDED) {
+          nextVideo();
+
+        }
+      }
+      function nextVideo() {
+        current_song += 1;
+        if (current_song >= tanda.length){
+            skipTanda();
+              
+
+
+        } else {
+        player.loadVideoById(tanda[current_song], 0, "large");
+      }
+      }
+      function playSong(youtubeId){
+        console.log('hello');
+		player.loadVideoById(youtubeId, 0, "large");
+      }
+    </script>
+  </div>
+{% endblock feed %}
+
+
+{% block post_jquery_load %}
+<script type="text/javascript" src="/media/js/jquery.tablesorter.js"></script> 
+<script type="text/javascript">
+$(document).ready(function() 
+    { 
+        $( "#filter-form" ).submit(function( event ) {
+ 
+           // Stop form from submitting normally
+          event.preventDefault();
+ 
+          // Get some values from elements on the page:
+          var $form = $( this ),
+          term = $form.find( "input[name='s']" ).val(),
+          url = $form.attr( "action" );
+ 
+          // Send the data using post
+          var posting = $.post( url, { s: term } );
+ 
+          // Put the results in a div
+          posting.done(function( data ) {
+          var content = $( data ).find( "#content" );
+          $( "#recording-table" ).empty().append( content );
+  });
+});
+        console.log('tablesorter');
+        $("#disco-table").tablesorter(); 
+        $("#disco-song").autocomplete({
+          appendTo: "#disco-song-ac-container",    
+          source: "/api/get_songs/",
+          minLength: 2,
+        });
+    } 
+); 
+</script>
+{% endblock post_jquery_load %}
+
