@@ -6,7 +6,7 @@ from tango_disco import views
 urlpatterns = patterns('',
     url(r'^radio/$', views.radio, name='radio'),
     url(r'^api/update_youtube$', views.radio, name='radio'),
-    url(r'^discography$', views.index, name='discography')
+    url(r'^discography$', views.index, name='discography'),
     url(r'^api/get_recordings$', views.get_recordings, name='get_recordings')
    # url(r'^', views.index, name='index')
 )
