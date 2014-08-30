@@ -160,6 +160,7 @@
 <script type="text/javascript">
 $(document).ready(function() 
     { 
+        $("#player").hide();
         $( "#filter-form" ).submit(function( event ) {
  
            // Stop form from submitting normally
@@ -184,10 +185,12 @@ $(document).ready(function()
           var content = $( data ).find( "#content" );
           console.log(content);
           $( "#rt" ).empty().html( data );
+          $("#disco-table").tablesorter(); 
+          $("#player").show();
   });
 });
         console.log('tablesorter');
-        $("#disco-table").tablesorter(); 
+        
         $("#disco-song").autocomplete({
           appendTo: "#disco-song-ac-container",    
           source: "/api/get_songs/",
