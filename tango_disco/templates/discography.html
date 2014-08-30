@@ -65,7 +65,7 @@
           <div class="large-4 columns">
            <div class="ui-widget ui-front">
               <label for="song">Beginning Year: </label>
-            <input name="starting-year" id="starting-year">
+            <input name="starting_year" id="starting_year">
             <div id='disco-starting-year' class='ac-container'></div>
         </div>
       </div>
@@ -171,12 +171,12 @@ $(document).ready(function()
           genre_term = $form.find( "input[name='genre']" ).val(),
           song_term = $form.find( "input[name='song']" ).val(),
           singer_term = $form.find( "input[name='singer']" ).val(),
-          starting_term = $form.find( "input[name='starting-year']" ).val(),
-          ending_term = $form.find( "input[name='ending-year']" ).val(),
+          starting_term = $form.find( "input[name='starting_year']" ).val(),
+          ending_term = $form.find( "input[name='ending_year']" ).val(),
           url = $form.attr( "action" );
           console.log(term);
           // Send the data using post
-          var posting = $.post( url, { orc: orc_term, genre: genre_term, song: song_term, starting-year:starting_term, ending-year: ending_term } );
+          var posting = $.post( url, { orc: orc_term, genre: genre_term, song: song_term, starting_year:starting_term, ending_year: ending_term } );
  
           // Put the results in a div
           posting.done(function( data ) {

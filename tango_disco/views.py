@@ -53,8 +53,8 @@ def get_recordings(request):
 	orchestra_leaders = [request.POST.get('orc')] if isinstance(request.POST.get('orc'), basestring) else request.POST.get('orc')
 	songs = [request.POST.get('song')] if isinstance(request.POST.get('song'), basestring) else request.POST.get('song')
 	singer = [request.POST.get('singer')] if isinstance(request.POST.get('singer'), basestring) else request.POST.get('singer')
-	start_year = [request.POST.get('starting-year')] if isinstance(request.POST.get('starting-year'), basestring) else request.POST.get('starting-year')
-	end_year = [request.POST.get('ending-year')] if isinstance(request.POST.get('ending-year'), basestring) else request.POST.get('ending-year')
+	start_year = [request.POST.get('starting_year')] if isinstance(request.POST.get('starting_year'), basestring) else request.POST.get('starting-year')
+	end_year = [request.POST.get('ending_year')] if isinstance(request.POST.get('ending_year'), basestring) else request.POST.get('ending-year')
 
 	recordings = Recording.objects.select_related('genre__name').order_by('recorded')
 	if (start_year and start_year[0]):
