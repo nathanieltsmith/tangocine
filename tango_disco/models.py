@@ -74,6 +74,7 @@ class Recording(models.Model):
 	itunesId = models.CharField(max_length=100, null=True, blank=True)
 	youtubeId = models.CharField(max_length=20, null=True, blank=True)
 	singer = models.CharField(max_length=300, unique=False, default='Instrumental')
+	
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		try:
@@ -81,6 +82,14 @@ class Recording(models.Model):
 		except Exception, e:
 			return self.song.title + ' (' + self.orchestra.name + ')'
 		
+class ErrorReport(models.Model):
+	recording = models.ForeignKey(Recording)
+	wrongYoutube = models.BooleanField(default=False)
+	wrongInfo = models.BooleanField(default=False)
+	wrongItunes = models.BooleanField(default=False)
+	youtubeId = models.CharField(max_length=20, null=True, blank=True)
+	note = models.CharField(max_length=300, null=True, blank=True)
+
 
 class PlayedOn(models.Model):
 	musician = models.ForeignKey(Musician)
