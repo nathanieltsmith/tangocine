@@ -87,7 +87,7 @@
 
       </form>
 </div>
-<div id='recording-table'></div>
+<div id='rt'></div>
      <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
    <div id="player"></div>
   <div class="large-2 columns">
@@ -175,13 +175,13 @@ $(document).ready(function()
           ending_term = $form.find( "input[name='ending_year']" ).val(),
           url = $form.attr( "action" );
           // Send the data using post
-          var posting = $.post( url, { orc: orc_term, genre: genre_term, singer: singer_term, song: song_term, starting_year: starting_term, ending_year: ending_term } );
+          var posting = $.post( url, {singer: singer_term, song: song_term, starting_year: starting_term, ending_year: ending_term, orc: orc_term, genre: genre_term } );
  
           // Put the results in a div
           posting.done(function( data ) {
           var content = $( data ).find( "#content" );
           console.log(content);
-          $( "#recording-table" ).empty().html( content );
+          $( "#rt" ).empty().html( data );
   });
 });
         console.log('tablesorter');
