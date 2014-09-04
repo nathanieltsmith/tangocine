@@ -86,8 +86,9 @@
 </div>
 <div id="report-error-modal" class="reveal-modal" data-reveal>
 <form method="post" id='filter-form' action="/api/report_error" accept-charset="UTF-8">
-          <input id="error_report_song" type="text" hidden="true" value="" name="er_song"/>
-          <label for="wrongYoutube">The video isn't correct</label>
+  <h2>What seems to be the problem?</h2>
+          <input id="error_report_song" type="hidden" hidden="true" value="" name="er_song"/>
+          <label for="wrongYoutube">The video isn't playing the right song or is of a performance</label>
           <input type="checkbox" name="wrongYoutube" value="True" />
           <label for="wrongInfo">There's an error in the discography information</label>
           <input type="checkbox" name="wrongInfo" value="True" />
