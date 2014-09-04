@@ -77,6 +77,15 @@
 </div>
 <div class="large-12 columns">
 <div class="row">
+          <input id='filter-button' type="submit" class='radius button filter-button' value="Filter" >
+</div>
+</div>
+ 
+
+      </form>
+</div>
+<div id="report-error-modal" class="reveal-modal" data-reveal>
+<form method="post" id='filter-form' action="/api/report_error" accept-charset="UTF-8">
           <input id="error_report_song" type="text" hidden="true" value="" name="er_song"/>
           <label for="wrongYoutube">The video isn't correct</label>
           <input type="checkbox" name="wrongYoutube" value="True" />
@@ -88,15 +97,7 @@
           <input type='text' name="additional"/>
           <label for="youtubeUrl">If you have it, please paste the correct Youtube URL here</label>
           <input type="text" name="youtubeUrl"/>
-          <input id='filter-button' type="submit" class='radius button filter-button' value="Filter" >
-</div>
-</div>
- 
-
-      </form>
-</div>
-<div id="report-error-modal" class="reveal-modal" data-reveal>
-<form method="post" id='filter-form' action="/api/report_error" accept-charset="UTF-8">
+          <input id='submit-error-button' type="submit" class='radius button filter-button' value="Submit" >
 </form>
   <a class="close-reveal-modal">&#215;</a>
 </div>
