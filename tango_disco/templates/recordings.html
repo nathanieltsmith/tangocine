@@ -18,7 +18,7 @@
   <td>{{recording.genre.name}}</td>
   <td>{{recording.singer}}</td>
   <td> {{recording.recorded}}</td>
-  <td><input type="submit" value="Play Song" class='radius button skip-button'  onClick='playSong("{{recording.youtubeId}}");'></td>
+  <td><input type="submit" value="Play Song" class='radius tiny button skip-button'  onClick='playSong("{{recording.youtubeId}}");'><input type="submit" data-reveal-id="report-error-modal" value="Report Issue" class='radius tiny button skip-button' onClick='reportIssue("{{recording.youtubeId}}");'></td>
 </tr>
 {% endfor %}
 </tbody>

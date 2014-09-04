@@ -77,12 +77,28 @@
 </div>
 <div class="large-12 columns">
 <div class="row">
+          <input id="error_report_song" type="text" hidden="true" value="" name="er_song"/>
+          <label for="wrongYoutube">The video isn't correct</label>
+          <input type="checkbox" name="wrongYoutube" value="True" />
+          <label for="wrongInfo">There's an error in the discography information</label>
+          <input type="checkbox" name="wrongInfo" value="True" />
+          <label for="wrongItunes">The song linked in iTunes isn't correct</label>
+          <input type="checkbox" name="wrongItunes" value="True" />
+          <label for="additional">Please provide a description of the problem here:</label>
+          <input type='text' name="additional"/>
+          <label for="youtubeUrl">If you have it, please paste the correct Youtube URL here</label>
+          <input type="text" name="youtubeUrl"/>
           <input id='filter-button' type="submit" class='radius button filter-button' value="Filter" >
 </div>
 </div>
  
 
       </form>
+</div>
+<div id="report-error-modal" class="reveal-modal" data-reveal>
+<form method="post" id='filter-form' action="/api/report_error" accept-charset="UTF-8">
+</form>
+  <a class="close-reveal-modal">&#215;</a>
 </div>
    <div id="player"></div>
   <div class="large-2 columns">
