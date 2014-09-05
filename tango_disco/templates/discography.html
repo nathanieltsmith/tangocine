@@ -174,7 +174,7 @@
       }
       
       function playSong(youtubeId){
-        
+          $("#player").show();
 		      player.loadVideoById(youtubeId, 0, "large");
       }
       function reportIssueModal(recording){
@@ -214,7 +214,7 @@ $(document).ready(function()
         });
 
         $( "#filter-form" ).submit(function( event ) {
-          console.log('test')
+          console.log('test');
            // Stop form from submitting normally
           event.preventDefault();
           // Get some values from elements on the page:
@@ -237,7 +237,6 @@ $(document).ready(function()
             console.log(content);
             $( "#rt" ).empty().html( data );
             $("#disco-table").tablesorter(); 
-            $("#player").show();
           });
         });
         
