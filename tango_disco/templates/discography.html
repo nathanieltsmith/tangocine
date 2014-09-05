@@ -1,8 +1,8 @@
 {% extends "base_feed.html" %}
 {% block title %}Discography{% endblock %}
 
-{% block right_sidebar %}
-<div class="large-3 medium-2 columns">
+{% block left_sidebar %}
+<div class="large-3 medium-12 columns">
     <div class="row">    
               <form method="post" id='filter-form' action="/api/get_recordings" accept-charset="UTF-8">
 
@@ -107,9 +107,9 @@
   <div class="large-2 columns">
   </div>
 </div>
-{% endblock right_sidebar %}
+{% endblock left_sidebar %}
 
-{% block left_sidebar %}
+{% block right_sidebar %}
 {% endblock left_sidebar %}
 
  {% block feed %}
