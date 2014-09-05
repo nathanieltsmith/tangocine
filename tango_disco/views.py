@@ -114,7 +114,7 @@ def report_error(request):
 		error_rpt.save()
 		return HttpResponse(json.dumps(['success']), mimetype)
 	except Exception, e:
-		return HttpResponse(json.dumps(['failure']), mimetype)
+		return HttpResponse(json.dumps(['failure', e]), mimetype)
 
 
 
