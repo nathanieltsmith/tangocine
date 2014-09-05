@@ -448,12 +448,12 @@ th.headerSortUp {
     {% block foundation_js_init %}
     <script>
         $(document).foundation();
+        $(document).foundationAlerts();
     </script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" />
 </script> <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js" type="text/javascript"></script>
     <script>
       $(document).ready(function(){
-        $(document).foundationAlerts();
         $( "#search-button" ).click(function(event) {
           event.preventDefault();
           if ($( "#search-button" ).hasClass('active')){
