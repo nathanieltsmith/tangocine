@@ -89,6 +89,8 @@ class ErrorReport(models.Model):
 	wrongItunes = models.BooleanField(default=False)
 	youtubeId = models.CharField(max_length=20, null=True, blank=True)
 	note = models.CharField(max_length=300, null=True, blank=True)
+	def __unicode__(self):
+		return self.recording.__unicode__()
 
 
 class PlayedOn(models.Model):
