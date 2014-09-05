@@ -207,7 +207,7 @@ $(document).ready(function()
             $('#report-error-modal').foundation('reveal', 'close');
               var success = '<div data-alert class="alert-box success radius">Thank you. The error has been reported.<a href="#" class="close">&times;</a></div>';
             $('#disco-alerts').append(success);
-            $(".alert-box a.close").trigger("click.fndtn.alert");
+            $('.alert-box > a.close').click(function() { $(this).closest('[data-alert]').fadeOut(); });
           });
         });
 
