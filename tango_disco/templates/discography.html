@@ -114,7 +114,8 @@
 
  {% block feed %}
   <div class="large-6 medium-6 columns">
-  
+  <div id='disco-alerts'></div>
+
 <div id='rt'>Type in some search terms to get started.</div>
      <!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
 
@@ -191,11 +192,30 @@
 $(document).ready(function() 
     { 
         $("#player").hide();
-      //  $( "#error-form").submit(function( event ) {
+        $( "#error-form").submit(function( event ) { 
+          var $form = $( this )
+        });
         $( "#filter-form" ).submit(function( event ) {
  
            // Stop form from submitting normally
           event.preventDefault();
+          additional_term = $form.find( "input[name='additional']" ).val(),
+          youtube_term = $form.find( "input[name='youtubeUrl']" ).val(),
+          url = $form.attr( "action" );
+          // Send the data using post
+          var posting = $.post( url, {wrongYoutube: $("#wrongYoutube").attr('checked') , wrongItunes: $("#wrongItunes").attr('checked') , wrongInfo: $("#wrongInfo").attr('checked') , additional: additional_term, youtubeUrl: youtube_term} );
+ 
+          // Put the results in a div
+          posting.done(function( data ) {
+            $('#report-error-modal').foundation('reveal', 'close');
+              success = '<div data-alert class="alert-box success radius">
+                    Thank you. The error has been reported.
+                  <a href="#" class="close">&times;</a>
+              </div>'
+            $('#disco-alerts').append(success);
+
+          });
+        });
  
           // Get some values from elements on the page:
           var $form = $( this ),
@@ -213,14 +233,13 @@ $(document).ready(function()
  
           // Put the results in a div
           posting.done(function( data ) {
-          var content = $( data ).find( "#content" );
-          console.log(content);
-          $( "#rt" ).empty().html( data );
-          $("#disco-table").tablesorter(); 
-          $("#player").show();
-  });
-});
-        console.log('tablesorter');
+            var content = $( data ).find( "#content" );
+            console.log(content);
+            $( "#rt" ).empty().html( data );
+            $("#disco-table").tablesorter(); 
+            $("#player").show();
+          });
+        });
         
         $("#disco-song").autocomplete({
           appendTo: "#disco-song-ac-container",    
