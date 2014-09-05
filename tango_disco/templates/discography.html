@@ -204,10 +204,7 @@ $(document).ready(function()
           // Put the results in a div
           posting.done(function( data ) {
             $('#report-error-modal').foundation('reveal', 'close');
-              var success = '<div data-alert class="alert-box success radius">
-                    Thank you. The error has been reported.
-                  <a href="#" class="close">&times;</a>
-              </div>';
+              var success = '<div data-alert class="alert-box success radius">Thank you. The error has been reported.<a href="#" class="close">&times;</a></div>';
             $('#disco-alerts').append(success);
 
           });
