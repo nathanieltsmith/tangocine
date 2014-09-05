@@ -101,20 +101,20 @@ def get_recordings(request):
 	return HttpResponse(template.render(context))
 def report_error(request):
 	mimetype = 'application/json'
-	try:
-		rec = Recording.objects.get(pk=request.POST.get('error_report_song'), recording=rec)
-		error_rpt = ErrorReport(note=request.POST.get('additional'))
-		youtubeId=request.POST.get('youtubeUrl')[:20]
-		if(request.POST.get('wrongYoutube')):
-			error_rpt.wrongYoutube= True
-		if(request.POST.get('wrongInfo')):
-			error_rpt.wrongInfo= True
-		if(request.POST.get('wrongItunes')):
-			error_rpt.wrongItunes = True
-		error_rpt.save()
-		return HttpResponse(json.dumps(['success']), mimetype)
-	except Exception, e:
-		return HttpResponse(json.dumps(['failure', e]), mimetype)
+	#try:
+	rec = Recording.objects.get(pk=request.POST.get('error_report_song'))
+	error_rpt = ErrorReport(note=request.POST.get('additional'), recording=rec)
+	youtubeId=request.POST.get('youtubeUrl')[:20]
+	if(request.POST.get('wrongYoutube')):
+		error_rpt.wrongYoutube= True
+	if(request.POST.get('wrongInfo')):
+		error_rpt.wrongInfo= True
+	if(request.POST.get('wrongItunes')):
+		error_rpt.wrongItunes = True
+	error_rpt.save()
+	return HttpResponse(json.dumps(['success']), mimetype)
+	# except Exception, e:
+	# 	return HttpResponse(json.dumps(['failure', e]), mimetype)
 
 
 
