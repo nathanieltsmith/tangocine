@@ -193,12 +193,8 @@ $(document).ready(function()
     { 
         $("#player").hide();
         $( "#error-form").submit(function( event ) { 
-          var $form = $( this )
-        });
-        $( "#filter-form" ).submit(function( event ) {
- 
-           // Stop form from submitting normally
           event.preventDefault();
+          var $form = $( this )
           additional_term = $form.find( "input[name='additional']" ).val(),
           youtube_term = $form.find( "input[name='youtubeUrl']" ).val(),
           url = $form.attr( "action" );
@@ -216,7 +212,10 @@ $(document).ready(function()
 
           });
         });
- 
+
+        $( "#filter-form" ).submit(function( event ) {
+           // Stop form from submitting normally
+          event.preventDefault();
           // Get some values from elements on the page:
           var $form = $( this ),
           orc_term = $form.find( "select[name='filter_orc']" ).val(),
