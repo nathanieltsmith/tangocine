@@ -89,11 +89,11 @@
   <h2>What seems to be the problem?</h2>
           <input id="error_report_song" type="hidden" hidden="true" value="" name="error_report_song"/>
          
-          <input type="checkbox" name="wrongYoutube" value="True" />
+          <input type="checkbox" name="wrongYoutube" id='wrongYoutube' value="True" />
           <label for="wrongYoutube">The video is wrong, low quality or contains ads</label><br>
-          <input type="checkbox" name="wrongInfo" value="True" />
+          <input type="checkbox" name="wrongInfo" id='wrongInfo' value="True" />
           <label for="wrongInfo">There's an error in the discography information</label>
-          <input type="checkbox" name="wrongItunes" value="True" />
+          <input type="checkbox" name="wrongItunes" id='wrongItunes' value="True" />
           <label for="wrongItunes">The song linked in iTunes isn't correct</label>
           <label for="additional">Please provide a description of the problem here:</label>
           <input type='text' name="additional"/>
@@ -197,9 +197,10 @@ $(document).ready(function()
           var $form = $( this )
           additional_term = $form.find( "input[name='additional']" ).val(),
           youtube_term = $form.find( "input[name='youtubeUrl']" ).val(),
+          rec_term = $form.find( "input[name='error_report_song']" ).val(),
           url = $form.attr( "action" );
           // Send the data using post
-          var posting = $.post( url, {wrongYoutube: $("#wrongYoutube").attr('checked') , wrongItunes: $("#wrongItunes").attr('checked') , wrongInfo: $("#wrongInfo").attr('checked') , additional: additional_term, youtubeUrl: youtube_term} );
+          var posting = $.post( url, {wrongYoutube: $("#wrongYoutube").attr('checked') , wrongItunes: $("#wrongItunes").attr('checked') , wrongInfo: $("#wrongInfo").attr('checked') , additional: additional_term, youtubeUrl: youtube_term, error_report_song: rec_term} );
  
           // Put the results in a div
           posting.done(function( data ) {
