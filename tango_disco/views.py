@@ -102,6 +102,7 @@ def get_recordings(request):
 def report_error(request):
 	mimetype = 'application/json'
 	try:
+		rec = Recording.objects.get(pk=request.POST.get('error_report_song'), recording=rec)
 		error_rpt = ErrorReport(note=request.POST.get('additional'))
 		youtubeId=request.POST.get('youtubeUrl')[:20]
 		if(request.POST.get('wrongYoutube')):
