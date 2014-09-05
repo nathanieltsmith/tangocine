@@ -1,7 +1,7 @@
 from __future__ import absolute_import
 from django.contrib.auth.models import User
 
-from tango_disco.models import Recording, Song, PlayedOn, Orchestra
+from tango_disco.models import Recording, Song, PlayedOn, Orchestra, ErrorReport
 
 from django.template import RequestContext, loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -99,6 +99,23 @@ def get_recordings(request):
 		'firstVideo' : firstVideo
 	})
 	return HttpResponse(template.render(context))
+def report_error(request):
+	mimetype = 'application/json'
+	try:
+		error_rpt = ErrorReport(note=request.POST.get('additional'))
+		youtubeId=request.POST.get('youtubeUrl')[:20]
+		if(request.POST.get('wrongYoutube')):
+			error_rpt.wrongYoutube= True
+		if(request.POST.get('wrongInfo')):
+			error_rpt.wrongInfo= True
+		if(request.POST.get('wrongItunes')):
+			error_rpt.wrongItunes = True
+		error_rpt.save()
+		return HttpResponse(json.dumps(['success']), mimetype)
+	except Exception, e:
+		return HttpResponse(json.dumps(['failure']), mimetype)
+
+
 
 def index(request):
 	# page_template = 'tango_perfs/base_feed_page.html'

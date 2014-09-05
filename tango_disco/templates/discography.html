@@ -85,7 +85,7 @@
       </form>
 </div>
 <div id="report-error-modal" class="reveal-modal" data-reveal>
-<form method="post" id='filter-form' action="/api/report_error" accept-charset="UTF-8">
+<form method="post" id='error-form' action="/api/report_error" accept-charset="UTF-8">
   <h2>What seems to be the problem?</h2>
           <input id="error_report_song" type="hidden" hidden="true" value="" name="er_song"/>
          
@@ -171,9 +171,13 @@
         player.loadVideoById(tanda[current_song], 0, "large");
       }
       }
+      
       function playSong(youtubeId){
-        console.log('hello');
-		player.loadVideoById(youtubeId, 0, "large");
+        
+		      player.loadVideoById(youtubeId, 0, "large");
+      }
+      function reportIssueModal(recording){
+        $('.error_report_song').val(recording);
       }
     </script>
   </div>
@@ -186,7 +190,8 @@
 $(document).ready(function() 
     { 
         $("#player").hide();
-        $( "#filter-form" ).submit(function( event ) {
+        $( "#error-form").submit(function( event ) {
+      //  $( "#filter-form" ).submit(function( event ) {
  
            // Stop form from submitting normally
           event.preventDefault();
