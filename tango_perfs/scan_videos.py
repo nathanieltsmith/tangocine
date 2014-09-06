@@ -21,7 +21,7 @@ def itunesLookup(begin=0):
 				if (len(Recording.objects.filter(song=recording.song, orchestra=recording.orchestra)) == 1):
 					searchTerm = recording.orchestra.leader.lastName + ' ' + ascii_lower(recording.song.title)
 					searchTerm = searchTerm.replace(' ', '+')
-					#print searchTerm
+					print searchTerm
 					url = "https://itunes.apple.com/search?term=" + unidecode(searchTerm)
 					response = urllib2.urlopen(url)
 					jsonResp = json.loads(response.read())
@@ -33,6 +33,7 @@ def itunesLookup(begin=0):
 									(ascii_lower(recording.orchestra.leader.firstName) in ascii_lower(result['artistName']))):
 									if (ascii_lower(result['trackName']) in recording.song.simplifiedTitle and
 										recording.song.simplifiedTitle in (ascii_lower(result['trackName']))):
+										recording.itunesLink = result['trackViewUrl']
 										recording.itunesId = result['trackId']
 										recording.save()
 										print 'adding: '+ result['artistName'] + ' - ' + result['trackName']
@@ -46,21 +47,23 @@ def itunesLookup(begin=0):
 								try:
 									if (recording.itunesId):
 										if recording.itunesId == result['trackId']:
+											print 'adding: '+ result['artistName'] + ' - ' + result['trackName']
+											print 'for: ' + recording.orchestra.leader.lastName + ' - ' + recording.song.simplifiedTitle
 											recording.itunesLink = result['trackViewUrl']
 											recording.save()
 											break
-									else:
-									 	if ((ascii_lower(recording.orchestra.leader.lastName) in ascii_lower(result['artistName'])) and 
-											(ascii_lower(recording.orchestra.leader.firstName) in ascii_lower(result['artistName']))):
-												if (not Song.objects.filter(simplifiedTitle=ascii_lower(result['trackName']))):
-													print 'found: '+ result['artistName'] + ' - ' + result['trackName']
-													print 'for: '+ recording.orchestra.leader.lastName + ' - ' + recording.song.simplifiedTitle
-													answer = raw_input('Approve?: ')
-													if (answer != 'n'):
-														recording.itunesId =  result['trackId']
-														recording.itunesLink = result['trackViewUrl']
-														recording.save()
-														break
+									# else:
+									#  	if ((ascii_lower(recording.orchestra.leader.lastName) in ascii_lower(result['artistName'])) and 
+									# 		(ascii_lower(recording.orchestra.leader.firstName) in ascii_lower(result['artistName']))):
+									# 			if (not Song.objects.filter(simplifiedTitle=ascii_lower(result['trackName']))):
+									# 				print 'found: '+ result['artistName'] + ' - ' + result['trackName']
+									# 				print 'for: '+ recording.orchestra.leader.lastName + ' - ' + recording.song.simplifiedTitle
+									# 				answer = raw_input('Approve?: ')
+									# 				if (answer != 'n'):
+									# 					recording.itunesId =  result['trackId']
+									# 					recording.itunesLink = result['trackViewUrl']
+									# 					recording.save()
+									# 					break
 								except Exception as e:
 									print e
 				# else:
