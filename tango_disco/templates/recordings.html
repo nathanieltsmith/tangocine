@@ -9,7 +9,7 @@
       <th width="150">Recorded</th>
       <th class="header" style="
     padding-left: 0px;
-    padding-right: 220px;
+    padding-right: 330px;
 "></th>
     </tr>
   </thead>
@@ -24,7 +24,7 @@
   <td><ul class="button-group round">
           <li><a href="#"  class='tiny button' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}");'>Play Song</a></li>
           {% if recording.itunesLink%}
-          <li><a href="{{recoding.itunesLink}}"  class='tiny button'>Buy on Itunes</a></li>
+          <li><a href="{{recording.itunesLink}}"  class='tiny button'>Buy on Itunes</a></li>
           {% endif %}
           <li><a href="#" data-reveal-id="report-error-modal" class='tiny button' onClick='reportIssueModal("{{recording.pk}}");'>Report Issue</a></li>
       </ul>
