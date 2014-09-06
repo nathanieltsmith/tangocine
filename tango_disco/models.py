@@ -72,6 +72,7 @@ class Recording(models.Model):
 	discNo = models.CharField(max_length=20, null=True, blank=True)
 	matrixNo = models.CharField(max_length=20, null=True, blank=True)
 	itunesId = models.CharField(max_length=100, null=True, blank=True)
+	itunesLink = models.CharField(max_length=200, null=True, blank=True, default="")
 	youtubeId = models.CharField(max_length=20, null=True, blank=True)
 	singer = models.CharField(max_length=300, unique=False, default='Instrumental')
 	
