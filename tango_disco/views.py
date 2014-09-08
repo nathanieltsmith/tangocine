@@ -129,7 +129,7 @@ def update_recording(request, field):
 				rec.youtubeId = request.POST.get('update-youtube-id')
 			rec.save()
 			return HttpResponse(json.dumps(['success']), mimetype)
-		except Exception e:
+		except Exception as e:
 			return HttpResponse(json.dumps(['failure']), mimetype)
 	return HttpResponse(json.dumps(['access denied']), mimetype)
 
