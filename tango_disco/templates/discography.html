@@ -54,7 +54,7 @@
 <div class="row">
       <div class="large-12 columns">
            <div class="ui-widget ui-front">
-              <label for="singer">Singer: </label>
+              <label for="singer">Singer (or "Instrumental" for instrumentals): </label>
             <input name="filter_singer" id="singer">
             <div id='disco-singer-ac-container' class='ac-container'></div>
         </div>
@@ -162,15 +162,17 @@
         }
       }
       function nextVideo() {
-        current_song += 1;
-        if (current_song >= tanda.length){
-            skipTanda();
-              
+        console.log('nextVideo');
+        var songs = $(".tr[youtubeId]");
+        for (i = 0; i < songs.length - 1; i++) {
+          console.log(songs[i].attr('yourtubeId'));
+          console.log($("#player").videoId);
+          if (songs[i].attr('youtubeId') == $("#player").videoId){
+            playSong(songs[i+1].attr('youtubeId'));
+          }
 
-
-        } else {
-        player.loadVideoById(tanda[current_song], 0, "large");
-      }
+        }
+        
       }
       
       function playSong(youtubeId){

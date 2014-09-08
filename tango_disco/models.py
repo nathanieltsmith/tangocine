@@ -75,7 +75,11 @@ class Recording(models.Model):
 	itunesLink = models.CharField(max_length=200, null=True, blank=True, default="")
 	youtubeId = models.CharField(max_length=20, null=True, blank=True)
 	singer = models.CharField(max_length=300, unique=False, default='Instrumental')
+	singerNoAccent = models.CharField(max_length=300, unique=False, default='Instrumental')
 	
+	def save(self, *args, **kwargs):
+		self.singerNoAccent = unidecode(self.singer).lower()
+		super(Recording, self).save(*args, **kwargs) 
 
 	def __unicode__(self):              # __unicode__ on Python 2
 		try:

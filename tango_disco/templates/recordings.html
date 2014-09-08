@@ -15,7 +15,7 @@
   </thead>
   <tbody>
 {% for recording in recordings %}
-<tr>
+<tr {% if recording.youtubeId %} youtubeId="{{recording.youtubeId}}"{% endif %}>
   <td>{{recording.orchestra.leader}}</td>
   <td>{{recording.song.title}}</td>
   <td>{{recording.genre.name}}</td>
