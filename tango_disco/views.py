@@ -61,7 +61,7 @@ def get_recordings(request):
 	if (end_year and end_year[0]):
 		recordings = recordings.filter(recorded__lt=end_year[0]+'-12-31')
 	if (singer and singer[0]):
-		for singerTerm in singer[0].split[' ']:
+		for singerTerm in singer[0].split(' '):
 			recordings = recordings.filter(singerNoAccent__icontains=unidecode(singeTerm[0]))
 	if (genres):
 		for genre in genres:
