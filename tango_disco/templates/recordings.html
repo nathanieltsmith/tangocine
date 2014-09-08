@@ -20,15 +20,30 @@
   <td>{{recording.song.title}}</td>
   <td>{{recording.genre.name}}</td>
   <td>{{recording.singer}}</td>
-  <td> {{recording.recorded}}</td>
+  <td>{{recording.recorded}}</td>
   <td><ul class="button-group round">
-          <li><a href="#"  class='tiny button' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}");'>Play Song</a></li>
-          {% if recording.itunesLink%}
-          <li><a href="{{recording.itunesLink}}&at=10lKn6"  class='tiny button'>Buy on Itunes</a></li>
-          {% endif %}
+
+          <li><a href="#"  class='tiny button{% if not recording.youtubeId %} disabled {% endif %}' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}");'>Play Song</a></li>
+          <li><a href="{{recording.itunesLink}}&at=10lKn6"  class='tiny button {% if not recording.itunesLink%} disabled {% endif %}'>Buy on Itunes</a></li>
+          
           <li><a href="#" data-reveal-id="report-error-modal" class='tiny button' onClick='reportIssueModal("{{recording.pk}}");'>Report Issue</a></li>
       </ul>
   </td>
+</tr>
+
+<tr>
+  <form method="post" id='youtube-id-form' action="/api/update-recording/youtubeId" accept-charset="UTF-8">
+   <label for="update-youtube-id">Youtube ID: </label>
+    <input type='hidden' name="recording" value="{{recording.pk}}">
+    <input type="text" name="update-youtube-id" id="update-youtube-id">
+    <input id='filter-button' type="submit" class='radius button filter-button' value="update" >
+  </form>
+   <form method="post" id='itunes-link-form' action="/api/update-recording/itunesLink" accept-charset="UTF-8">
+    <label for="update-itunes-link">Itunes Link: </label>
+    <input type='hidden' name="recording" value="{{recording.pk}}">
+    <input type="text" name="update-itunes-link" id="update-recording-itunes">
+   <input id='filter-button' type="submit" class='radius button filter-button' value="update" >
+  </form>
 </tr>
 {% endfor %}
 </tbody>

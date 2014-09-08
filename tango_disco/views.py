@@ -96,7 +96,8 @@ def get_recordings(request):
 
 	context = RequestContext(request, {
 		'recordings' : recordings[:300],
-		'firstVideo' : firstVideo
+		'firstVideo' : firstVideo,
+		'superUser' : request.user.is_superuser
 	})
 	return HttpResponse(template.render(context))
 def report_error(request):
@@ -116,7 +117,21 @@ def report_error(request):
 	# except Exception, e:
 	# 	return HttpResponse(json.dumps(['failure', e]), mimetype)
 
-
+def update_recording(request, field):
+	mimetype = 'application/json'
+	#try:
+	if request.user.is_superuser:
+		try: 
+			rec = Recording.objects.get(pk=request.POST.get('recording'))
+			if field == 'itunesLink':
+				rec.itunesLink = request.POST.get('update-itunes-link')
+			if field == 'youtubeId':
+				rec.youtubeId = request.POST.get('update-youtube-id')
+			rec.save()
+			return HttpResponse(json.dumps(['success']), mimetype)
+		except Exception e:
+			return HttpResponse(json.dumps(['failure']), mimetype)
+	return HttpResponse(json.dumps(['access denied']), mimetype)
 
 def index(request):
 	# page_template = 'tango_perfs/base_feed_page.html'
