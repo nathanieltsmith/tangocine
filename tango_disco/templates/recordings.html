@@ -1,6 +1,5 @@
 
  <div id='content'><table id="disco-table" class="tablesorter">
-  SU: {{superUser}}
   <thead>
     <tr>
       <th width="200">Orchestra</th>
@@ -33,18 +32,18 @@
 </tr>
 {% if superUser %}
 <tr><td>
-  <form method="post" id='youtube-id-form' action="/api/update_recording/youtubeId" accept-charset="UTF-8">
+  <form method="post" id='youtube-id-form' action="/api/update_recording/youtubeId/" accept-charset="UTF-8">
    <label for="update-youtube-id">Youtube ID: </label>
     <input type='hidden' name="recording" value="{{recording.pk}}">
     <input type="text" name="update-youtube-id" id="update-youtube-id">
-    <input id='filter-button' type="submit" class='radius button filter-button' value="update" >
+    <input id='filter-button' type="submit" class='tiny radius button filter-button' value="update" >
   </form>
 </td><td>
-   <form method="post" id='itunes-link-form' action="/api/update_recording/itunesLink" accept-charset="UTF-8">
+   <form method="post" id='itunes-link-form' action="/api/update_recording/itunesLink/" accept-charset="UTF-8">
     <label for="update-itunes-link">Itunes Link: </label>
     <input type='hidden' name="recording" value="{{recording.pk}}">
     <input type="text" name="update-itunes-link" id="update-recording-itunes">
-   <input id='filter-button' type="submit" class='radius button filter-button' value="update" >
+   <input id='filter-button' type="submit" class='tiny radius button filter-button' value="update" >
   </form>
 </td>
 </tr>
