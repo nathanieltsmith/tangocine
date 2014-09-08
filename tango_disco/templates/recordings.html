@@ -30,7 +30,7 @@
           {% if recording.itunesLink %}
           <li><a href="{{recording.itunesLink}}&at=10lKn6"  class='tiny button {% if not recording.itunesLink%} disabled {% endif %}'>Buy on Itunes</a></li>
           {% else %}
-           <li><a href="{{recording.itunesLink}}&at=10lKn6"  onClick='event.preventDefault();' class='tiny button  disabled '></a>Not on iTunes</li>
+           <li><a href="{{recording.itunesLink}}&at=10lKn6"  onClick='event.preventDefault();' class='tiny button  disabled '>Not on iTunes</a></li>
           {% endif %}
           
           <li><a href="#" data-reveal-id="report-error-modal" class='tiny button' onClick='reportIssueModal("{{recording.pk}}");'>Report Issue</a></li>
