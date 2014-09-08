@@ -23,7 +23,21 @@ import json
 
 from django.contrib import messages
 
+from django.db.backends.postgresql_psycopg2.base import DatabaseOperations, DatabaseWrapper
 
+def lookup_cast(self, lookup_type):
+    if lookup_type in('icontains', 'istartswith'):
+        return "UPPER(unaccent(%s::text))"
+    else:
+        return super(DatabaseOperations, self).lookup_cast(lookup_type)
+
+def patch_unaccent():
+    DatabaseOperations.lookup_cast = lookup_cast
+    DatabaseWrapper.operators['icontains'] = 'LIKE UPPER(unaccent(%s))'
+    DatabaseWrapper.operators['istartswith'] = 'LIKE UPPER(unaccent(%s))'
+    print 'Unaccent patch'
+
+patch_unaccent()
 # Create your views here.
 def radio(request):
 	template = loader.get_template('radio.html')
@@ -134,6 +148,7 @@ def update_recording(request, field):
 	return HttpResponse(json.dumps(['access denied']), mimetype)
 
 def index(request):
+	patch_unaccent()
 	# page_template = 'tango_perfs/base_feed_page.html'
 	# genres = [request.POST.get('genre')] if isinstance(request.POST.get('genre'), basestring) else request.POST.get('genre')
 	# orchestra_leaders = [request.POST.get('orc')] if isinstance(request.POST.get('orc'), basestring) else request.POST.get('orc')
