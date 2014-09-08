@@ -22,7 +22,7 @@
   <td>{{recording.singer}}</td>
   <td>{{recording.recorded}}</td>
   <td><ul class="button-group round">
-          {% if not recording.youtubeId %}
+          {% if recording.youtubeId %}
           <li><a href="#"  class='tiny button' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}");'>Play Song</a></li>
           {% else %}
           <li><a href="#"  class='tiny button disabled' onClick='event.preventDefault();'>Play Song</a></li>
@@ -30,7 +30,7 @@
           {% if recording.itunesLink %}
           <li><a href="{{recording.itunesLink}}&at=10lKn6"  class='tiny button {% if not recording.itunesLink%} disabled {% endif %}'>Buy on Itunes</a></li>
           {% else %}
-           <li><a href="{{recording.itunesLink}}&at=10lKn6"  onClick='event.preventDefault();' class='tiny button  disabled '></a></li>
+           <li><a href="{{recording.itunesLink}}&at=10lKn6"  onClick='event.preventDefault();' class='tiny button  disabled '></a>Not on iTunes</li>
           {% endif %}
           
           <li><a href="#" data-reveal-id="report-error-modal" class='tiny button' onClick='reportIssueModal("{{recording.pk}}");'>Report Issue</a></li>
