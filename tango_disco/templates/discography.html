@@ -163,10 +163,9 @@
       }
       function nextVideo() {
         console.log('nextVideo');
-        var songs = $("tr[youtubeId]");
+        var songs = $("tr[youtubeId]").attr('youtubeId');
         for (i = 0; i < songs.length - 1; i++) {
-          console.log(songs[i]);
-          console.log(songs[i].attr('youtubeId'));
+          console.log(songs);
           console.log($("#player").videoId);
           if (songs[i].attr('youtubeId') == $("#player").videoId){
             playSong(songs[i+1].attr('youtubeId'), songs[i+1].attr('youtubeOffset'));
