@@ -186,14 +186,14 @@ def addOffsets(start=0):
 				#recording.save()
 
 			#print entry
-			print recording.song.title +": " + str(entry.author[0].name.text)
+			print recording.song.title # +": " + str(entry.author[0].name.text)
 			if str(entry.author[0].name.text) == "Cantando Tangos":
 				print "CT"
-				recording.youtubeOffSet = 6
+				recording.youtubeOffset = 4
 				recording.save()
 			if str(entry.author[0].name.text) == "Overjazz Records":
 				print "OJ"
-				recording.youtubeOffSet = 5
+				recording.youtubeOffset = 4
 				recording.save()
 
 
