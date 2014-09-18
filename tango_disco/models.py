@@ -74,6 +74,7 @@ class Recording(models.Model):
 	itunesId = models.CharField(max_length=100, null=True, blank=True)
 	itunesLink = models.CharField(max_length=200, null=True, blank=True, default="")
 	youtubeId = models.CharField(max_length=20, null=True, blank=True)
+	youtubeOffset = models.IntegerField(default=0)
 	singer = models.CharField(max_length=300, unique=False, default='Instrumental')
 	singerNoAccent = models.CharField(max_length=300, unique=False, default='Instrumental')
 	

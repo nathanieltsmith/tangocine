@@ -74,7 +74,7 @@ def get_recordings(request):
 	if (songs):
 		for song in songs:
 			if (song):
-				recordings = recordings.filter(song__title__icontains=song)
+				recordings = recordings.filter(song__simplifiedTitle__icontains=song)
 
 
 

@@ -104,7 +104,7 @@ def ascii_lower(text):
 	#print text 
 	return unidecode(text).lower()
 
-itunesLookup()
+
 #itunesLookup()
 
 # get the couple object for the performers in question
@@ -152,7 +152,52 @@ def youtube_search(query, pageToken=None):
 		time.sleep(30)
 		return youtube_search(query, pageToken)
 
+def scanDiscoVideosForLength(start=0):
+	client = service.YouTubeService()
+	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
+	for recording in Recording.objects.all()[start:]:
+		if recording.youtubeId:
+			time.sleep(.5)
+			try:
+				entry = client.GetYouTubeVideoEntry(video_id=recording.youtubeId)
+			except Exception as e:
+				print "recording not found removing"
+				recording.youtubeId = ""
+				recording.save()
 
+			#print entry
+			print recording.song.title +": " + entry.media.duration.seconds
+			if int(entry.media.duration.seconds) > (5 *60) or int(entry.media.duration.seconds) < (2 *60):
+				print "removing"
+				recording.youtubeId = ""
+				recording.save()
+
+def addOffsets(start=0):
+	client = service.YouTubeService()
+	client.ClientLogin(settings.GOOGLE_USERNAME, settings.GOOGLE_PASSWORD)
+	for recording in Recording.objects.all()[start:]:
+		if recording.youtubeId:
+			time.sleep(.5)
+			try:
+				entry = client.GetYouTubeVideoEntry(video_id=recording.youtubeId)
+			except Exception as e:
+				print "recording not found:"
+				#recording.youtubeId = ""
+				#recording.save()
+
+			#print entry
+			print recording.song.title +": " + str(entry.author[0].name.text)
+			if str(entry.author[0].name.text) == "Cantando Tangos":
+				print "CT"
+				recording.youtubeOffSet = 6
+				recording.save()
+			if str(entry.author[0].name.text) == "Overjazz Records":
+				print "OJ"
+				recording.youtubeOffSet = 5
+				recording.save()
+
+
+addOffsets()
 
 def scanAllCouples(num):
 	client = service.YouTubeService()

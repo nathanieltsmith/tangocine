@@ -15,7 +15,7 @@
   </thead>
   <tbody>
 {% for recording in recordings %}
-<tr {% if recording.youtubeId %} youtubeId="{{recording.youtubeId}}"{% endif %}>
+<tr {% if recording.youtubeId %} youtubeId="{{recording.youtubeId}}"{% endif %} youtubeOffset="{{recording.youtubeOffset}}">
   <td>{{recording.orchestra.leader}}</td>
   <td>{{recording.song.title}}</td>
   <td>{{recording.genre.name}}</td>
@@ -23,9 +23,9 @@
   <td>{{recording.recorded}}</td>
   <td><ul class="button-group round">
           {% if recording.youtubeId %}
-          <li><a href="#"  class='tiny button' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}");'>Play Song</a></li>
+          <li><a href="#"  class='tiny button' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}, {{recording.youtubeOffset}}");'>Play Song</a></li>
           {% else %}
-          <li><a href="#"  class='tiny button disabled' onClick='event.preventDefault();'>Play Song</a></li>
+          <li><a href="#"  class='tiny button disabled' onClick='event.preventDefault();'>No Video </a></li>
           {% endif %}
           {% if recording.itunesLink %}
           <li><a href="{{recording.itunesLink}}&at=10lKn6"  class='tiny button {% if not recording.itunesLink%} disabled {% endif %}'>Buy on Itunes</a></li>
