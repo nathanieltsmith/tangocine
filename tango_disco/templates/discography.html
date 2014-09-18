@@ -165,6 +165,7 @@
         console.log('nextVideo');
         var songs = $("tr[youtubeId]");
         for (i = 0; i < songs.length - 1; i++) {
+          console.log(songs[i]);
           console.log(songs[i].youtubeId);
           console.log($("#player").videoId);
           if (songs[i].attr('youtubeId') == $("#player").videoId){
