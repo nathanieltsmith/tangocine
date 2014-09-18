@@ -166,7 +166,7 @@
         var songs = $("tr[youtubeId]");
         for (i = 0; i < songs.length - 1; i++) {
           console.log(songs[i]);
-          console.log(songs[i].youtubeId);
+          console.log(songs[i].attr('youtubeId');
           console.log($("#player").videoId);
           if (songs[i].attr('youtubeId') == $("#player").videoId){
             playSong(songs[i+1].attr('youtubeId'), songs[i+1].attr('youtubeOffset'));
