@@ -23,7 +23,7 @@
   <td>{{recording.recorded}}</td>
   <td><ul class="button-group round">
           {% if recording.youtubeId %}
-          <li><a href="#"  class='tiny button' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}, {{recording.youtubeOffset}}");'>Play Song</a></li>
+          <li><a href="#"  class='tiny button' onClick='event.preventDefault(); playSong("{{recording.youtubeId}}", {{recording.youtubeOffset}});'>Play Song</a></li>
           {% else %}
           <li><a href="#"  class='tiny button disabled' onClick='event.preventDefault();'>No Video </a></li>
           {% endif %}
