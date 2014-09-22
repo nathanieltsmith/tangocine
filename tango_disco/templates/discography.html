@@ -168,7 +168,7 @@
           console.log(songs);
           
           if (songs.eq(i).attr('youtubeId') == player.videoId){
-            playSong(songs.eq(i+1).attr('youtubeId'), songs[i+1].attr('youtubeOffset'));
+            playSong(songs.eq(i+1).attr('youtubeId'), songs.eq(i+1).attr('youtubeOffset'));
           }
 
         }
