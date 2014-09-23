@@ -176,6 +176,7 @@
       }
       
       function playSong(youtubeId, offset){
+          player.videoId = youtubeId;
           $("#player").show();
 		      player.loadVideoById(youtubeId, offset, "large");
       }
