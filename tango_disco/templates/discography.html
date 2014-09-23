@@ -163,10 +163,10 @@
       }
       function nextVideo() {
         console.log('nextVideo');
-        var songs = $("tr[youtubeId]").attr('youtubeId');
+        var songs = $("tr[youtubeId]");
         for (i = 0; i < songs.length - 1; i++) {
           console.log(songs);
-          
+          console.log(songs.eq(i).attr('youtubeId'));
           if (songs.eq(i).attr('youtubeId') == player.videoId){
             playSong(songs.eq(i+1).attr('youtubeId'), songs.eq(i+1).attr('youtubeOffset'));
           }
