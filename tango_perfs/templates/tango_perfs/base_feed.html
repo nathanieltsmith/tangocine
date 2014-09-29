@@ -443,7 +443,7 @@ font-size: 40px;
     <script>
       $(document).ready(function(){
 
-        $( "#search-button" ).click(function(event) {
+        $('body').on('click', "#search-button", function(event) {
           event.preventDefault();
           if ($( "#search-button" ).hasClass('active')){
              $(".search-panel").slideUp();
@@ -455,7 +455,7 @@ font-size: 40px;
          
 
       });  
-        $( ".banish-button" ).click(function() {
+        $('body').on('click', ".banish-button",function() {
             url = '/deactivate/' + $( this ).attr('id');
             $( this ).toggleClass( 'alert' )
             if ($( this ).val() === 'Banish'){
