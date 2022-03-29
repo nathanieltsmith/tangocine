@@ -20,7 +20,7 @@ gdata==2.0.18
 google-api-python-client==1.2
 gunicorn==18.0
 httplib2==0.8
-paramiko==1.12.3
+paramiko==2.10.1
 psycopg2==2.5.2
 pystache==0.5.3
 six==1.6.1
